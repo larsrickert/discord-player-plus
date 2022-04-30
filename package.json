@@ -24,6 +24,10 @@
 			"prettier --write --ignore-path .gitignore"
 		]
 	},
+	"peerDependencies": {
+		"@discordjs/voice": "0.9.0",
+		"discord.js": "^13.6.0"
+	},
 	"devDependencies": {
 		"@semantic-release/changelog": "^6.0.1",
 		"@semantic-release/git": "^10.0.1",
