@@ -1,7 +1,10 @@
 import { Client } from "discord.js";
 
 export class DiscordPlayerPlus {
-  constructor(private client: Client, private options: PlayerOptions = {}) {}
+  constructor(
+    private readonly client: Client,
+    private readonly options: PlayerOptions = {}
+  ) {}
 
   /**
    * Immediate plays the given track, skips current track if playing.
