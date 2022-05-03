@@ -3,6 +3,9 @@ export interface Track {
   /** Track url. If using local file url/path, set `source` to `file`. */
   url: string;
   thumbnailUrl?: string;
+  /** Duration in seconds. */
+  duration: number;
+  artist?: string;
   source: TrackSource | "file";
 }
 

@@ -282,6 +282,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
         title: video.title ?? "",
         url: video.url,
         thumbnailUrl: video.thumbnails[0].url ?? "",
+        duration: video.durationInSec,
+        artist: video.channel?.name,
         source: "youtube",
       };
     });
