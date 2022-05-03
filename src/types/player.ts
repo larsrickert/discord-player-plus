@@ -67,3 +67,8 @@ export interface PlayerOptions {
     options?: StreamOptions
   ) => Promise<TrackStream | null>;
 }
+
+export interface AudioPlayerMetadata {
+  channel: VoiceBasedChannel;
+  track: Track;
+}

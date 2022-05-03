@@ -1,5 +1,4 @@
 import {
-  AudioPlayerState,
   AudioPlayerStatus,
   AudioResource,
   createAudioPlayer,
@@ -14,6 +13,7 @@ import { VoiceBasedChannel } from "discord.js";
 import { search, stream } from "play-dl";
 import { TypedEmitter } from "tiny-typed-emitter";
 import {
+  AudioPlayerMetadata,
   PlayerEvents,
   PlayerOptions,
   PlayOptions,
@@ -29,9 +29,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   private readonly audioPlayer = createAudioPlayer();
   private queue: Track[] = [];
   private volume = 100;
-  private audioResource:
-    | AudioResource<{ channel: VoiceBasedChannel; track: Track }>
-    | undefined;
+  private audioResource: AudioResource<AudioPlayerMetadata> | undefined;
 
   constructor(
     public readonly guildId: string,
@@ -43,9 +41,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
       this.volume = options.initialVolume;
     }
 
-    this.audioPlayer.on(
-      "stateChange" as any,
-      async (oldState: AudioPlayerState, newState: AudioPlayerState) => {
+    this.audioPlayer.on<"stateChange">(
+      "stateChange",
+      async (oldState, newState) => {
         if (
           newState.status === AudioPlayerStatus.Playing &&
           oldState.status !== AudioPlayerStatus.AutoPaused
@@ -125,15 +123,16 @@ export class Player extends TypedEmitter<PlayerEvents> {
     if (!track) return;
 
     const inlineVolume = this.options.inlineVolume ?? true;
+    const metadata: AudioPlayerMetadata = {
+      channel: options.channel,
+      track: track,
+    };
 
     if (track.source === "file") {
       // play local file
       this.audioResource = createAudioResource(track.url, {
         inlineVolume,
-        metadata: {
-          channel: options.channel,
-          track: track,
-        },
+        metadata,
       });
     } else {
       // play remote file
@@ -142,10 +141,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
       this.audioResource = createAudioResource(trackStream.stream, {
         inputType: trackStream.type,
         inlineVolume,
-        metadata: {
-          channel: options.channel,
-          track: track,
-        },
+        metadata,
       });
     }
 
