@@ -71,7 +71,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
             });
           }
 
+          // trackEnd should be emitted before queueEnd
           this.emit("trackEnd");
+          if (!nextTrack) this.emit("queueEnd");
         }
       }
     );

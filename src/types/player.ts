@@ -7,6 +7,7 @@ export interface PlayerEvents {
   trackStart: (track: Track) => void;
   trackEnd: () => void;
   disconnect: () => void;
+  queueEnd: () => void;
 }
 
 export interface TrackStream {
