@@ -1,78 +1,85 @@
 {
-	"name": "discord-player-plus",
-	"version": "1.0.0",
-	"main": "lib/index.js",
-	"types": "lib/index.d.ts",
-	"private": true,
-	"author": "larsrickert",
-	"license": "MIT",
-	"files": [
-		"lib",
-		"CHANGELOG.md"
-	],
-	"scripts": {
-		"dev": "tsc -w",
-		"build": "tsc",
-		"lint": "tsc --noEmit && eslint --fix src --ignore-path .gitignore",
-		"format": "prettier --write src --ignore-path .gitignore",
-		"update": "npx npm-check-updates -i",
-		"prepare": "husky install"
-	},
-	"lint-staged": {
-		"*.{js,ts}": [
-			"eslint --cache --fix",
-			"prettier --write --ignore-path .gitignore"
-		]
-	},
-	"peerDependencies": {
-		"@discordjs/voice": "0.9.0",
-		"discord.js": "^13.6.0"
-	},
-	"devDependencies": {
-		"@semantic-release/changelog": "^6.0.1",
-		"@semantic-release/git": "^10.0.1",
-		"@types/node": "^17.0.30",
-		"@typescript-eslint/eslint-plugin": "^5.21.0",
-		"@typescript-eslint/parser": "^5.21.0",
-		"eslint": "^8.14.0",
-		"eslint-config-prettier": "^8.5.0",
-		"eslint-plugin-prettier": "^4.0.0",
-		"husky": "^7.0.4",
-		"lint-staged": "^12.4.1",
-		"prettier": "^2.6.2",
-		"typescript": "^4.6.4"
-	},
-	"release": {
-		"branches": [
-			"main",
-			"next",
-			{
-				"name": "beta",
-				"prerelease": true
-			},
-			{
-				"name": "alpha",
-				"prerelease": true
-			}
-		],
-		"plugins": [
-			"@semantic-release/commit-analyzer",
-			"@semantic-release/release-notes-generator",
-			"@semantic-release/changelog",
-			"@semantic-release/npm",
-			"@semantic-release/github",
-			"@semantic-release/git"
-		]
-	},
-	"keywords": [
-		"music",
-		"player",
-		"bot",
-		"discord",
-		"discord.js",
-		"musicbot",
-		"discord-music-player",
-		"discord-music",
-		"music-player"
-	]
+  "name": "discord-player-plus",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "private": true,
+  "author": "larsrickert",
+  "license": "MIT",
+  "files": [
+    "lib",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc",
+    "lint": "tsc --noEmit && eslint --fix src --ignore-path .gitignore",
+    "format": "prettier --write src --ignore-path .gitignore",
+    "update": "npx npm-check-updates -i",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --cache --fix",
+      "prettier --write --ignore-path .gitignore"
+    ]
+  },
+  "peerDependencies": {
+    "@discordjs/opus": "^0.7.0",
+    "@discordjs/voice": "0.8.0",
+    "discord.js": "^13.6.0",
+    "ffmpeg-static": "^5.0.0"
+  },
+  "dependencies": {
+    "libsodium-wrappers": "^0.7.10",
+    "play-dl": "^1.9.4"
+  },
+  "devDependencies": {
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@types/node": "^17.0.30",
+    "@typescript-eslint/eslint-plugin": "^5.21.0",
+    "@typescript-eslint/parser": "^5.21.0",
+    "eslint": "^8.14.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.4.1",
+    "prettier": "^2.6.2",
+    "tiny-typed-emitter": "^2.1.0",
+    "typescript": "^4.6.4"
+  },
+  "release": {
+    "branches": [
+      "main",
+      "next",
+      {
+        "name": "beta",
+        "prerelease": true
+      },
+      {
+        "name": "alpha",
+        "prerelease": true
+      }
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github",
+      "@semantic-release/git"
+    ]
+  },
+  "keywords": [
+    "music",
+    "player",
+    "bot",
+    "discord",
+    "discord.js",
+    "musicbot",
+    "discord-music-player",
+    "discord-music",
+    "music-player"
+  ]
 }

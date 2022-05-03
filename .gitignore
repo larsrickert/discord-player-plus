@@ -4,6 +4,7 @@ node_modules
 /lib
 /logs
 .eslintcache
+/example
 
 # local env files
 .env
