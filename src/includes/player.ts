@@ -322,4 +322,25 @@ export class Player extends TypedEmitter<PlayerEvents> {
     });
     return true;
   }
+
+  /**
+   * Inserts a track at a specific index. Will move track and current index and following after the inserted track.
+   * If index is smaller or grater than queue size, will insert at the start/end at the queue accordingly.
+   * Will not play the track if queue is empty and currently not playing.
+   */
+  insert(track: Track, index: number): void {
+    if (index < 0) this.queue.unshift(track);
+    else if (index >= this.queue.length) this.queue.push(track);
+    else this.queue.splice(index, 0, track);
+  }
+
+  /**
+   * Removes the queued track at the specific index, if any.
+   *
+   * @returns Removed track or `undefined` if index is invalid.
+   */
+  remove(index: number): Track | undefined {
+    if (index < 0 || index >= this.queue.length) return;
+    this.queue.splice(index, 1);
+  }
 }
