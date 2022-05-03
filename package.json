@@ -1,15 +1,23 @@
 {
-  "name": "discord-player-plus",
+  "name": "@larsrickert/discord-player-plus",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "private": true,
-  "author": "larsrickert",
   "license": "MIT",
   "files": [
     "lib",
     "CHANGELOG.md"
   ],
+  "author": {
+    "name": "Lars Rickert",
+    "url": "https://lars-rickert.de",
+    "email": "dev@lars-rickert.de"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/larsrickert/discord-player-plus"
+  },
   "scripts": {
     "dev": "tsc -w",
     "build": "tsc",
