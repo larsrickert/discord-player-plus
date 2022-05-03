@@ -90,7 +90,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     connection.removeAllListeners();
 
-    const disconnect = () => {
+    const closePlayer = () => {
       this.audioPlayer.stop();
       subscription?.unsubscribe();
       this.audioResource = undefined;
@@ -107,10 +107,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
           // Seems to be reconnecting to a new channel - ignore disconnect
         } catch (error) {
           // Seems to be a real disconnect which SHOULDN'T be recovered from
-          disconnect();
+          closePlayer();
         }
       })
-      .on(VoiceConnectionStatus.Destroyed, () => disconnect());
+      .on(VoiceConnectionStatus.Destroyed, () => closePlayer());
 
     return connection;
   }
