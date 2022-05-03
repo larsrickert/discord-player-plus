@@ -23,11 +23,7 @@ import {
   TrackStream,
 } from "../types/player";
 import { Track } from "../types/tracks";
-import { shuffle } from "../utils/player";
-
-export function validateVolume(volume: number): boolean {
-  return volume >= 0 && volume <= 200;
-}
+import { shuffle, validateVolume } from "../utils/player";
 
 export class Player extends TypedEmitter<PlayerEvents> {
   private readonly audioPlayer = createAudioPlayer();

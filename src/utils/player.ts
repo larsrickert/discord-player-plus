@@ -8,3 +8,10 @@ export function shuffle<T = unknown>(arr: T[]): T[] {
   }
   return arr;
 }
+
+/**
+ * Checks whether the volume is between 0 and 200.
+ */
+export function validateVolume(volume: number): boolean {
+  return volume >= 0 && volume <= 200;
+}
