@@ -303,4 +303,23 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     return result;
   }
+
+  /**
+   * Seeks the current track to the given time in milliseconds.
+   *
+   * @returns `true` if successfully seeked, `false` otherwise.
+   */
+  async seek(time: number): Promise<boolean> {
+    const currentTrack = this.getCurrentTrack();
+    if (!currentTrack || time < 0 || !this.audioResource) return false;
+
+    if (time / 1000 >= currentTrack.duration) return !!this.skip();
+
+    await this.play({
+      channel: this.audioResource.metadata.channel,
+      tracks: [currentTrack],
+      stream: { seek: time },
+    });
+    return true;
+  }
 }
