@@ -1,7 +1,7 @@
 import { StreamType } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
 import { Readable } from "stream";
-import { Track, TrackSource } from "./tracks";
+import { Track } from "./tracks";
 
 export interface PlayerEvents {
   trackStart: (track: Track) => void;
@@ -27,13 +27,8 @@ export interface StreamOptions {
   seek?: number;
 }
 
-export interface SearchOptions {
-  /**
-   * Source to search tracks in.
-   * @default "youtube"
-   */
-  source?: TrackSource;
-}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface SearchOptions {}
 
 export interface SearchResult {
   tracks: Track[];

@@ -91,6 +91,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
     const disconnect = () => {
       this.audioPlayer.stop();
       subscription?.unsubscribe();
+      this.audioResource = undefined;
       this.emit("disconnect");
     };
 
@@ -113,8 +114,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
   }
 
   /**
-   * Immediate plays the given track, skips current track if playing.
-   * If not tracks provided, will play first queued track if available.
+   * Immediate plays the first of the given tracks, skips current track if playing.
+   * The remaining tracks will be added to the front of the queue.
+   * If no tracks provided, will play first queued track if available.
    */
   async play(options: PlayOptions): Promise<void> {
     const track: Track | undefined = options.tracks.length
@@ -171,7 +173,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   }
 
   /**
-   * Adds the given track to the end of the queue. Immediately plays first track in queue if currently not playing.
+   * Adds the given tracks to the end of the queue. Immediately plays first track in queue if currently not playing.
    */
   async add(options: PlayOptions): Promise<void> {
     this.queue.push(...options.tracks);
@@ -183,6 +185,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   /**
    * Clears queue. Does not stop current track.
+   *
    * @returns Number of cleared tracks.
    */
   clear(): number {
@@ -193,16 +196,19 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   /**
    * Skips the current track if playing.
+   *
    * @returns Skipped track, if any.
    */
   skip(): Track | undefined {
     const currentTrack = this.getCurrentTrack();
-    this.audioPlayer.stop();
-    return currentTrack;
+    const stopped = this.audioPlayer.stop();
+    return stopped ? currentTrack : undefined;
   }
 
   /**
-   * Pauses or resumes current track.
+   * Pauses or resumes the current track.
+   *
+   * @returns `true` if paused/resumed, `false` otherwise.
    */
   setPause(shouldPause: boolean): boolean {
     return shouldPause
@@ -233,6 +239,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   /**
    * Gets a list of queued tracks.
+   *
    * @returns Copy of the current queue.
    */
   getQueue(): Track[] {
@@ -241,7 +248,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   /**
    * Sets the player volume for all tracks.
+   *
    * @param volume Volume between 0 and 200.
+   * @returns `true` if the volume was set, `false` otherwise.
    */
   setVolume(volume: number): boolean {
     if (!validateVolume(volume) || !this.audioResource?.volume) return false;
@@ -255,6 +264,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
    */
   stop(): void {
     const connection = getVoiceConnection(this.guildId);
+    this.clear();
     connection?.destroy();
   }
 
@@ -266,7 +276,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
   }
 
   /**
-   * Searches tracks for the given query.
+   * Searches tracks for the given query on YouTube. Supports search of Spotify, Deezer and Soundcloud tracks.
+   *
+   * @returns Search result.
    */
   async search(query: string, options?: SearchOptions): Promise<SearchResult> {
     if (this.options.customSearch) {
@@ -276,7 +288,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     const result: SearchResult = { tracks: [] };
 
-    const videos = await search(query, { source: { youtube: "video" } });
+    // TODO: enable support for playlists
+    const videos = await search(query);
     result.tracks = videos.map((video) => {
       return {
         title: video.title ?? "",
