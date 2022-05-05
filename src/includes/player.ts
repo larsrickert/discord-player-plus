@@ -10,7 +10,7 @@ import {
   VoiceConnectionStatus,
 } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
-import { search, stream } from "play-dl";
+import { stream } from "play-dl";
 import { TypedEmitter } from "tiny-typed-emitter";
 import {
   AudioPlayerMetadata,
@@ -22,8 +22,9 @@ import {
   StreamOptions,
   TrackStream,
 } from "../types/player";
-import { Track } from "../types/tracks";
+import { SearchType, Track } from "../types/tracks";
 import { shuffle, validateVolume } from "../utils/player";
+import { search } from "../utils/search";
 
 export class Player extends TypedEmitter<PlayerEvents> {
   private readonly audioPlayer = createAudioPlayer();
@@ -288,22 +289,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
       if (customResult) return customResult;
     }
 
-    const result: SearchResult = { tracks: [] };
-
-    // TODO: enable support for playlists
-    const videos = await search(query);
-    result.tracks = videos.map((video) => {
-      return {
-        title: video.title ?? "",
-        url: video.url,
-        thumbnailUrl: video.thumbnails[0].url ?? "",
-        duration: video.durationInSec,
-        artist: video.channel?.name,
-        source: "youtube",
-      };
-    });
-
-    return result;
+    return await search(query, options?.type ?? SearchType.AUTO);
   }
 
   /**

@@ -6,7 +6,8 @@ export interface Track {
   /** Duration in seconds. */
   duration: number;
   artist?: string;
-  source: TrackSource | "file";
+  source: TrackSource;
+  playlist?: Playlist;
 }
 
 export interface Playlist {
@@ -15,4 +16,10 @@ export interface Playlist {
   thumbnailUrl?: string;
 }
 
-export type TrackSource = "youtube";
+export type TrackSource = "youtube" | "file";
+
+export enum SearchType {
+  AUTO,
+  YOUTUBE_TRACKS,
+  YOUTUBE_PLAYLIST,
+}
