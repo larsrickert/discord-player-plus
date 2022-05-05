@@ -6,7 +6,7 @@ import { SearchType, Track } from "./tracks";
 export interface PlayerEvents {
   trackStart: (track: Track) => void;
   trackEnd: () => void;
-  disconnect: () => void;
+  destroyed: () => void;
   queueEnd: () => void;
 }
 

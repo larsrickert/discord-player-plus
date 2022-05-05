@@ -87,16 +87,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
       adapterCreator: channel.guild.voiceAdapterCreator,
     });
 
+    // subscribing to audioPlayer allows playing music
     const subscription = connection.subscribe(this.audioPlayer);
-
     connection.removeAllListeners();
-
-    const closePlayer = () => {
-      this.audioPlayer.stop();
-      subscription?.unsubscribe();
-      this.audioResource = undefined;
-      this.emit("disconnect");
-    };
 
     connection
       .on(VoiceConnectionStatus.Disconnected, async () => {
@@ -105,13 +98,18 @@ export class Player extends TypedEmitter<PlayerEvents> {
             entersState(connection, VoiceConnectionStatus.Signalling, 5_000),
             entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
           ]);
-          // Seems to be reconnecting to a new channel - ignore disconnect
+          // seems to be reconnecting to a new channel - ignore disconnect
         } catch (error) {
-          // Seems to be a real disconnect which SHOULDN'T be recovered from
-          closePlayer();
+          // seems to be a real disconnect
+          connection.destroy();
         }
       })
-      .on(VoiceConnectionStatus.Destroyed, () => closePlayer());
+      .on(VoiceConnectionStatus.Destroyed, () => {
+        this.audioPlayer.stop();
+        subscription?.unsubscribe();
+        this.audioResource = undefined;
+        this.emit("destroyed");
+      });
 
     return connection;
   }
