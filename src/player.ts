@@ -80,6 +80,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
     );
   }
 
+  /**
+   * Joins the given voice channel (reusing existing connection), subscribes to the audioPlayer and
+   * registers events when disconnected and destroyed.
+   */
   private join(channel: VoiceBasedChannel): VoiceConnection {
     const connection = joinVoiceChannel({
       channelId: channel.id,
@@ -156,6 +160,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
     this.queue.unshift(...options.tracks.slice(1));
   }
 
+  /**
+   * Gets the actual playable stream for the given track that is then being played in the voice channel.
+   */
   private async getTrackStream(
     track: Track,
     options?: StreamOptions
@@ -165,10 +172,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
       if (stream) return stream;
     }
 
-    const qualityOption = this.options.quality;
+    const { quality } = this.options;
 
     return await stream(track.url, {
-      quality: qualityOption === "low" ? 0 : qualityOption === "medium" ? 1 : 2,
+      quality: quality === "low" ? 0 : quality === "medium" ? 1 : 2,
       seek: options?.seek ? options?.seek / 1000 : undefined,
     });
   }
