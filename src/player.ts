@@ -21,10 +21,10 @@ import {
   SearchResult,
   StreamOptions,
   TrackStream,
-} from "../types/player";
-import { SearchType, Track } from "../types/tracks";
-import { shuffle, validateVolume } from "../utils/player";
-import { search } from "../utils/search";
+} from "./types/player";
+import { SearchType, Track } from "./types/tracks";
+import { shuffle, validateVolume } from "./utils/player";
+import { search } from "./utils/search";
 
 export class Player extends TypedEmitter<PlayerEvents> {
   private readonly audioPlayer = createAudioPlayer();

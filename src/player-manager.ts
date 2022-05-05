@@ -1,5 +1,5 @@
-import { PlayerOptions } from "../types/player";
 import { Player } from "./player";
+import { PlayerOptions } from "./types/player";
 
 export class PlayerManager {
   private players: Player[] = [];
