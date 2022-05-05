@@ -128,7 +128,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
     const inlineVolume = this.options.inlineVolume ?? true;
     const metadata: AudioPlayerMetadata = {
       channel: options.channel,
-      track: track,
+      track,
     };
 
     if (track.source === "file") {
