@@ -329,6 +329,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
    */
   remove(index: number): Track | undefined {
     if (index < 0 || index >= this.queue.length) return;
-    this.queue.splice(index, 1);
+    const removedTracks = this.queue.splice(index, 1);
+    if (removedTracks.length) return removedTracks[0];
   }
 }
