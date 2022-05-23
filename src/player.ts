@@ -10,21 +10,17 @@ import {
   VoiceConnectionStatus,
 } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
-import { stream } from "play-dl";
 import { TypedEmitter } from "tiny-typed-emitter";
+import { getSearchTypeInfo, playerEngines } from "./engines";
+import { SearchOptions, SearchResult, Track } from "./types/engines";
 import {
   AudioPlayerMetadata,
   PlayerEvents,
   PlayerOptions,
   PlayOptions,
-  SearchOptions,
-  SearchResult,
-  StreamOptions,
   TrackStream,
 } from "./types/player";
-import { SearchType, Track } from "./types/tracks";
 import { shuffle, validateVolume } from "./utils/player";
-import { search } from "./utils/search";
 
 export class Player extends TypedEmitter<PlayerEvents> {
   private readonly audioPlayer = createAudioPlayer();
@@ -135,22 +131,33 @@ export class Player extends TypedEmitter<PlayerEvents> {
       track,
     };
 
-    if (track.source === "file") {
-      // play local file
-      this.audioResource = createAudioResource(track.url, {
-        inlineVolume,
-        metadata,
-      });
-    } else {
-      // play remote file
-      const trackStream = await this.getTrackStream(track, options.stream);
+    // get playable stream for track
+    // check if custom stream engine is provided
+    let trackStream: TrackStream | null = null;
+    const playerEngine = playerEngines[track.source];
 
-      this.audioResource = createAudioResource(trackStream.stream, {
-        inputType: trackStream.type,
-        inlineVolume,
-        metadata,
-      });
+    if (this.options.customStream) {
+      trackStream = await this.options.customStream(track, options.stream);
     }
+
+    // use default stream engine if no custom engine provided
+    if (!trackStream) {
+      trackStream = await playerEngine.getStream(
+        track,
+        this.options,
+        options.stream
+      );
+    }
+
+    if (!trackStream) {
+      throw new Error("Unable to create stream for track");
+    }
+
+    this.audioResource = createAudioResource(trackStream.stream, {
+      inputType: trackStream.type,
+      inlineVolume,
+      metadata,
+    });
 
     this.audioResource.volume?.setVolume(this.volume / 100);
     this.join(options.channel);
@@ -158,26 +165,6 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     // add the rest of the tracks to the start of the queue
     this.queue.unshift(...options.tracks.slice(1));
-  }
-
-  /**
-   * Gets the actual playable stream for the given track that is then being played in the voice channel.
-   */
-  private async getTrackStream(
-    track: Track,
-    options?: StreamOptions
-  ): Promise<TrackStream> {
-    if (this.options.customStream) {
-      const stream = await this.options.customStream(track, options);
-      if (stream) return stream;
-    }
-
-    const { quality } = this.options;
-
-    return await stream(track.url, {
-      quality: quality === "low" ? 0 : quality === "medium" ? 1 : 2,
-      seek: options?.seek ? options?.seek / 1000 : undefined,
-    });
   }
 
   /**
@@ -284,17 +271,22 @@ export class Player extends TypedEmitter<PlayerEvents> {
   }
 
   /**
-   * Searches tracks for the given query on YouTube. Supports search of Spotify, Deezer and Soundcloud tracks.
+   * Searches tracks for the given query.
    *
    * @returns Search result.
    */
-  async search(query: string, options?: SearchOptions): Promise<SearchResult> {
+  async search(
+    query: string,
+    options?: SearchOptions
+  ): Promise<SearchResult[]> {
     if (this.options.customSearch) {
       const customResult = await this.options.customSearch(query, options);
       if (customResult) return customResult;
     }
 
-    return await search(query, options?.type ?? SearchType.AUTO);
+    const searchTypeInfo = getSearchTypeInfo(query, options?.type);
+    const playerEngine = playerEngines[searchTypeInfo.source];
+    return await playerEngine.search(query, searchTypeInfo.isPlaylist);
   }
 
   /**

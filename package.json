@@ -40,7 +40,8 @@
   },
   "dependencies": {
     "libsodium-wrappers": "^0.7.10",
-    "play-dl": "^1.9.4"
+    "play-dl": "^1.9.4",
+    "spotify-url-info": "^2.2.9"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",

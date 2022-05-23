@@ -48,15 +48,20 @@ export async function playSongController(
 
   const player = playerManager.getPlayer(interaction.guildId);
 
-  const { tracks } = await player.search(song);
+  const searchResults = await player.search(song);
+  const tracks = searchResults.length ? searchResults[0].tracks : [];
 
   if (!tracks.length) {
     return await interaction.followUp({
-      content: `❌ No songs found for your search "${song}"!`,
+      content: `❌ No songs found for your search ${song}`,
     });
   }
 
-  await interaction.followUp({ content: `⏱️ Loading song...` });
+  await interaction.followUp({
+    content: `⏱️ Loading ${
+      searchResults.length && searchResults[0].playlist ? "Playlist" : "Song"
+    }...`,
+  });
 
   const playOptions: PlayOptions = {
     channel: interaction.member.voice.channel,

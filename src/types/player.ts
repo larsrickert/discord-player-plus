@@ -1,7 +1,7 @@
 import { StreamType } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
 import { Readable } from "stream";
-import { SearchType, Track } from "./tracks";
+import { SearchOptions, SearchResult, Track } from "./engines";
 
 export interface PlayerEvents {
   trackStart: (track: Track) => void;
@@ -11,7 +11,10 @@ export interface PlayerEvents {
 }
 
 export interface TrackStream {
-  stream: Readable;
+  /**
+   * If the input is given as a string, then the inputType option will be overridden and FFmpeg will be used.
+   */
+  stream: Readable | string;
   type?: StreamType;
 }
 
@@ -26,19 +29,6 @@ export interface PlayOptions {
 export interface StreamOptions {
   /** Number of milliseconds to seek/skip. */
   seek?: number;
-}
-
-export interface SearchOptions {
-  /**
-   * The search mode to be used for searching tracks.
-   *
-   * @default `SearchType.AUTO`
-   */
-  type?: SearchType;
-}
-
-export interface SearchResult {
-  tracks: Track[];
 }
 
 /* eslint-disable @typescript-eslint/no-empty-interface */
@@ -62,7 +52,7 @@ export interface PlayerOptions {
   customSearch?: (
     query: string,
     options?: SearchOptions
-  ) => Promise<SearchResult | null>;
+  ) => Promise<SearchResult[] | null>;
   /** Custom function for stream/play tracks. To use default stream, return null. */
   customStream?: (
     track: Track,
