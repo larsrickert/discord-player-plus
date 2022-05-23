@@ -1,3 +1,10 @@
+# [1.0.0-alpha.3](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-05-23)
+
+
+### Features
+
+* add `fileRoot` player option ([ba5d6a2](https://github.com/larsrickert/discord-player-plus/commit/ba5d6a2bf7a57f20f199b1e4819e42e4a0e48ff1))
+
 # [1.0.0-alpha.2](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-05-23)
 
 
