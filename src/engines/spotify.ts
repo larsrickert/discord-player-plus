@@ -1,25 +1,27 @@
 import { getTracks, Tracks } from "spotify-url-info";
-import { PlayerEngine, SearchResult, Track } from "../types/engines";
+import { PlayerEngine, Track } from "../types/engines";
 import { youtubeEngine } from "./youtube";
 
+/**
+ * Player engine to search/stream tracks from Spotify.
+ * Spotify does not provide a web api to stream tracks so the track will be streamed from YouTube instead.
+ */
 export const spotifyEngine: PlayerEngine = {
-  search: async (query, isPlaylist) => {
-    const results: SearchResult[] = [];
-
+  search: async (query, options) => {
     // TODO: check how to get playlist info
     const tracks = await getTracks(query);
 
-    results.push({
-      tracks: tracks.map((track) => mapSpotifyTrack(track)),
-      source: "spotify",
-    });
-
-    return results;
+    return [
+      {
+        tracks: tracks.map((track) => mapSpotifyTrack(track)),
+        source: "spotify",
+      },
+    ];
   },
   getStream: async (track, playerOptions, streamOptions) => {
-    // TODO: add limit 1
     const searchResults = await youtubeEngine.search(
-      `${track.title} ${track.artist}`
+      `${track.title} ${track.artist}`,
+      { limit: 1 }
     );
 
     if (!searchResults.length || !searchResults[0].tracks.length) return null;

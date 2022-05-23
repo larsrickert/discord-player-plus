@@ -1,7 +1,7 @@
 import { PlayerOptions, StreamOptions, TrackStream } from "./player";
 
 export interface PlayerEngine {
-  search(query: string, isPlaylist?: boolean): Promise<SearchResult[]>;
+  search(query: string, options?: SearchOptions): Promise<SearchResult[]>;
   getStream(
     track: Track,
     playerOptions: PlayerOptions,
@@ -11,11 +11,11 @@ export interface PlayerEngine {
 
 export interface SearchOptions {
   /**
-   * The search mode to be used for searching tracks.
-   *
-   * @default `SearchType.AUTO`
+   * The source where tracks should be searched. If not provided, will automatically detect the source or fall back to YouTube.
    */
-  type?: SearchType;
+  source?: TrackSource;
+  /** Limit number of tracks to search. */
+  limit?: number;
 }
 
 export interface SearchResult {
@@ -43,17 +43,3 @@ export interface Playlist {
 }
 
 export type TrackSource = "file" | "youtube" | "spotify";
-
-export enum SearchType {
-  AUTO,
-  YOUTUBE_TRACKS,
-  YOUTUBE_PLAYLIST,
-  SPOTIFY_TRACKS,
-  SPOTIFY_PLAYLIST,
-}
-
-export interface SearchTypeInfo {
-  type: Exclude<SearchType, SearchType.AUTO>;
-  isPlaylist: boolean;
-  source: TrackSource;
-}

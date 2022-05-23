@@ -11,7 +11,7 @@ import {
 } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
 import { TypedEmitter } from "tiny-typed-emitter";
-import { getSearchTypeInfo, playerEngines } from "./engines";
+import { detectTrackSource, playerEngines } from "./engines";
 import { SearchOptions, SearchResult, Track } from "./types/engines";
 import {
   AudioPlayerMetadata,
@@ -284,9 +284,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
       if (customResult) return customResult;
     }
 
-    const searchTypeInfo = getSearchTypeInfo(query, options?.type);
-    const playerEngine = playerEngines[searchTypeInfo.source];
-    return await playerEngine.search(query, searchTypeInfo.isPlaylist);
+    const trackSource = detectTrackSource(query);
+    const playerEngine = playerEngines[trackSource];
+    return await playerEngine.search(query, options);
   }
 
   /**

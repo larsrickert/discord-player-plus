@@ -1,23 +1,30 @@
 import playdl, { YouTubeVideo } from "play-dl";
 import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
 
+/**
+ * Player engine to search/stream tracks from YouTube.
+ */
 export const youtubeEngine: PlayerEngine = {
-  search: async (query, isPlaylist) => {
-    const results: SearchResult[] = [];
+  search: async (query, options) => {
+    const isPlaylist =
+      query.startsWith("https://www.youtube.com/watch") &&
+      query.includes("list=");
 
     if (isPlaylist) {
       return await searchPlaylist(query);
-    } else {
-      const videos = await playdl.search(query, {
-        source: { youtube: "video" },
-      });
-      results.push({
-        tracks: videos.map((video) => mapYouTubeVideo(video)),
-        source: "youtube",
-      });
     }
 
-    return results;
+    const videos = await playdl.search(query, {
+      source: { youtube: "video" },
+      limit: options?.limit,
+    });
+
+    return [
+      {
+        tracks: videos.map((video) => mapYouTubeVideo(video)),
+        source: "youtube",
+      },
+    ];
   },
   getStream: async (track, playerOptions, streamOptions) => {
     return await playdl.stream(track.url, {
