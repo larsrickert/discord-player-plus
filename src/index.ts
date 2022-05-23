@@ -1,3 +1,4 @@
+export { detectTrackSource } from "./engines";
 export * from "./player";
 export * from "./player-manager";
 export * from "./types/engines";

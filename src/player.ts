@@ -284,7 +284,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
       if (customResult) return customResult;
     }
 
-    const trackSource = detectTrackSource(query);
+    const trackSource = await detectTrackSource(query);
     const playerEngine = playerEngines[trackSource];
     return await playerEngine.search(query, options);
   }

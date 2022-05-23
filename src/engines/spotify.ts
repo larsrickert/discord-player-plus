@@ -1,5 +1,5 @@
-import { getTracks, Tracks } from "spotify-url-info";
-import { PlayerEngine, Track } from "../types/engines";
+import { getData, getTracks, Tracks } from "spotify-url-info";
+import { PlayerEngine, SearchResult, Track } from "../types/engines";
 import { youtubeEngine } from "./youtube";
 
 /**
@@ -8,7 +8,9 @@ import { youtubeEngine } from "./youtube";
  */
 export const spotifyEngine: PlayerEngine = {
   search: async (query, options) => {
-    // TODO: check how to get playlist info
+    const isPlaylist = query.startsWith("https://open.spotify.com/playlist");
+    if (isPlaylist) return await searchPlaylist(query);
+
     const tracks = await getTracks(query);
 
     return [
@@ -30,6 +32,27 @@ export const spotifyEngine: PlayerEngine = {
     return youtubeEngine.getStream(mappedTrack, playerOptions, streamOptions);
   },
 };
+
+async function searchPlaylist(query: string): Promise<SearchResult[]> {
+  const data = await getData(query);
+  if (data?.type !== "playlist") return [];
+
+  console.log(data.tracks.items);
+
+  return [
+    {
+      tracks: data.tracks.items.map((i: { track: Tracks }) =>
+        mapSpotifyTrack(i.track)
+      ),
+      playlist: {
+        title: data.name,
+        url: data.external_urls.spotify,
+        thumbnailUrl: data.images.length ? data.images[0].url : undefined,
+      },
+      source: "spotify",
+    },
+  ];
+}
 
 function mapSpotifyTrack(track: Tracks): Track {
   return {
