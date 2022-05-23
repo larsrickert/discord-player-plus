@@ -164,7 +164,6 @@ export class Player extends TypedEmitter<PlayerEvents> {
     this.audioPlayer.play(this.audioResource);
 
     // add the rest of the tracks to the start of the queue
-
     this.queue.unshift(...options.tracks.slice(1));
   }
 
