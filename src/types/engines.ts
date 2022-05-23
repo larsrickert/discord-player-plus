@@ -1,7 +1,11 @@
 import { PlayerOptions, StreamOptions, TrackStream } from "./player";
 
 export interface PlayerEngine {
-  search(query: string, options?: SearchOptions): Promise<SearchResult[]>;
+  search(
+    query: string,
+    playerOptions: PlayerOptions,
+    options?: SearchOptions
+  ): Promise<SearchResult[]>;
   getStream(
     track: Track,
     playerOptions: PlayerOptions,

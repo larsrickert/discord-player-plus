@@ -48,6 +48,11 @@ export interface PlayerOptions {
   inlineVolume?: boolean;
   /** Initial player volume for alls tracks between 0 and 200. */
   initialVolume?: number;
+  /**
+   * Path to the folder where local files should be playable from. If set, files outside this directory are refused to play.
+   * For security reasons, its recommended to set this option when playing local files with the player.
+   */
+  fileRoot?: string;
   /** Custom function for searching tracks. To use default search, return null. */
   customSearch?: (
     query: string,

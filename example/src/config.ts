@@ -1,4 +1,5 @@
 import "dotenv/config";
+import path from "path";
 import { Config } from "./types/config";
 
 export const isProduction = process.env.NODE_ENV === "production";
@@ -9,5 +10,6 @@ export const config: Config = {
   },
   player: {
     initialVolume: 20,
+    fileRoot: path.join(__dirname, "../public"),
   },
 };
