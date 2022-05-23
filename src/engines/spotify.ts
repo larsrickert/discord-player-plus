@@ -37,8 +37,6 @@ async function searchPlaylist(query: string): Promise<SearchResult[]> {
   const data = await getData(query);
   if (data?.type !== "playlist") return [];
 
-  console.log(data.tracks.items);
-
   return [
     {
       tracks: data.tracks.items.map((i: { track: Tracks }) =>

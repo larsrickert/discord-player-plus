@@ -10,7 +10,9 @@ export function trackToMarkdown(
     track.url,
     options?.escapeLinks
   );
-  const formattedTrack = `${title} (${track.duration}) von ${track.artist}`;
+  const formattedTrack = `${title} (${formatDuration(track.duration)}) von ${
+    track.artist
+  }`;
   return formattedTrack;
 }
 
@@ -20,4 +22,12 @@ export function trackUrlToMarkdown(
   escape = false
 ): string {
   return escape ? `[${title}](<${url}>)` : `[${title}](${url})`;
+}
+
+export function formatDuration(durationInSecs: number): string {
+  const minutes = Math.floor(durationInSecs / 60);
+  const seconds = durationInSecs % 60;
+  return `${minutes.toString().padStart(2, "0")}:${seconds
+    .toString()
+    .padStart(2, "0")}`;
 }

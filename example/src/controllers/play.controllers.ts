@@ -65,7 +65,7 @@ export async function playSongController(
 
   const playOptions: PlayOptions = {
     channel: interaction.member.voice.channel,
-    tracks: tracks.slice(0, 1),
+    tracks: searchResults[0].playlist ? tracks : tracks.slice(0, 1),
   };
 
   if (immediate) await player.play(playOptions);
