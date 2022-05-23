@@ -1,3 +1,21 @@
+# [1.0.0-alpha.2](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-05-23)
+
+
+### Code Refactoring
+
+* remove `SearchType` in favor of `TrackSource` ([32cb323](https://github.com/larsrickert/discord-player-plus/commit/32cb32320bf77ca168ab030ee867f1cac7cbde5f))
+
+
+### Features
+
+* add spotify player engine ([159477d](https://github.com/larsrickert/discord-player-plus/commit/159477dcc2593e254d4feae0254c605f7996bcc8))
+* support spotify playlists ([744fabd](https://github.com/larsrickert/discord-player-plus/commit/744fabdb6f0105dda4991d8fb5f327b835db5371))
+
+
+### BREAKING CHANGES
+
+* remove `SearchType` in favor of `TrackSource`
+
 # 1.0.0-alpha.1 (2022-05-06)
 
 
