@@ -122,7 +122,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   async play(options: PlayOptions): Promise<void> {
     const track: Track | undefined = options.tracks.length
       ? options.tracks[0]
-      : this.queue[0];
+      : this.queue.shift();
     if (!track) return;
 
     const inlineVolume = this.options.inlineVolume ?? true;
@@ -173,7 +173,11 @@ export class Player extends TypedEmitter<PlayerEvents> {
   async add(options: PlayOptions): Promise<void> {
     this.queue.push(...options.tracks);
 
-    if (this.audioPlayer.state.status === AudioPlayerStatus.Idle) {
+    if (
+      ![AudioPlayerStatus.Buffering, AudioPlayerStatus.Playing].includes(
+        this.audioPlayer.state.status
+      )
+    ) {
       await this.play({ ...options, tracks: [] });
     }
   }
@@ -204,8 +208,12 @@ export class Player extends TypedEmitter<PlayerEvents> {
    * Pauses or resumes the current track.
    *
    * @returns `true` if paused/resumed, `false` otherwise.
+   * Will be `true` if you try to pause/resume but player is already paused/resumed.
    */
   setPause(shouldPause: boolean): boolean {
+    if (shouldPause && this.isPaused()) return true;
+    if (!shouldPause && this.isPlaying()) return true;
+
     return shouldPause
       ? this.audioPlayer.pause(true)
       : this.audioPlayer.unpause();
@@ -216,6 +224,13 @@ export class Player extends TypedEmitter<PlayerEvents> {
    */
   isPaused(): boolean {
     return this.audioPlayer.state.status === AudioPlayerStatus.Paused;
+  }
+
+  /**
+   * Whether the player is currently actively playing an audio resource.
+   */
+  isPlaying(): boolean {
+    return this.audioPlayer.state.status === AudioPlayerStatus.Playing;
   }
 
   /**
