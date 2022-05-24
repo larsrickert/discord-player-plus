@@ -1,3 +1,4 @@
+import { deepmerge } from "deepmerge-ts";
 import { Player } from "./player";
 import { PlayerOptions } from "./types/player";
 
@@ -14,16 +15,19 @@ export class PlayerManager {
   /**
    * Gets an existing player for the given guildId or creates one if it does not exist.
    *
-   * @param optionOverrides Option overrides for the guild player. Will be merged with options passed to the PlayerManager.
+   * @param optionOverrides Option overrides for the guild player. Will be deep merged with options passed to the PlayerManager.
    */
   getPlayer(guildId: string, optionOverrides?: Partial<PlayerOptions>): Player {
     const player = this.players.find((p) => p.guildId === guildId);
     if (player) return player;
 
-    const newPlayer = new Player(guildId, {
-      ...this.options,
-      ...optionOverrides,
-    });
+    let options = this.options;
+    if (options && optionOverrides) {
+      options = deepmerge(options, optionOverrides);
+    }
+    if (!options && optionOverrides) options = optionOverrides;
+
+    const newPlayer = new Player(guildId, options);
     this.players.push(newPlayer);
     return newPlayer;
   }
