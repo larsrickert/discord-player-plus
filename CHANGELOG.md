@@ -1,3 +1,10 @@
+# [1.0.0-beta.2](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2022-05-24)
+
+
+### Bug Fixes
+
+* add missing export `handleSlashCommand` ([cd88723](https://github.com/larsrickert/discord-player-plus/commit/cd887237d42de5b41eff5203b6bf046f7bc22681))
+
 # 1.0.0-beta.1 (2022-05-24)
 
 
