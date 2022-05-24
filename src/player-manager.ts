@@ -28,8 +28,20 @@ export class PlayerManager {
     return newPlayer;
   }
 
-  /** Checks if a player for the given guildId exists. Does not create a player. */
-  exists(guildId: string): boolean {
-    return !!this.players.find((player) => player.guildId === guildId);
+  /**
+   * Gets the player for the given guildId if it exists. Does not create a player.
+   */
+  find(guildId: string): Player | undefined {
+    return this.players.find((player) => player.guildId === guildId);
+  }
+
+  /**
+   * Removes and destroys the player for the given guildId (if any). Will stop playing audio and leave voice channel if connected.
+   */
+  remove(guildId: string): void {
+    const player = this.find(guildId);
+    if (!player) return;
+    player.stop();
+    this.players = this.players.filter((player) => player.guildId !== guildId);
   }
 }

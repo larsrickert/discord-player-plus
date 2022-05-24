@@ -44,9 +44,9 @@ export const fileEngine: PlayerEngine = {
       return null;
     }
 
-    return Promise.resolve({
+    return {
       stream: track.url,
       type: StreamType.Arbitrary,
-    });
+    };
   },
 };

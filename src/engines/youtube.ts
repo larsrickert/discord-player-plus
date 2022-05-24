@@ -5,7 +5,7 @@ import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
  * Player engine to search/stream tracks from YouTube.
  */
 export const youtubeEngine: PlayerEngine = {
-  search: async (query, playerOptions, searchOptions) => {
+  search: async (query, _, searchOptions) => {
     const isPlaylist =
       query.startsWith("https://www.youtube.com/watch") &&
       query.includes("list=");

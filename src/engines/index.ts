@@ -21,8 +21,6 @@ export async function detectTrackSource(
   if (query.startsWith("https://open.spotify.com/")) return "spotify";
   if (query.startsWith("https://www.youtube.com/")) return "youtube";
 
-  console.log(fileRoot, query);
-
   if (!fileRoot || isSubPath(fileRoot, query)) {
     // check if query is file path
     try {
