@@ -1,0 +1,67 @@
+{
+  "global": {
+    "noGuildPlayer": "🤖 I am currently not playing anything.",
+    "unsupportedCommand": "❌ I don't support the command \"{command}\"!",
+    "unknownGuild": "❌ I can't figure out which server you are on!"
+  },
+  "clear": {
+    "description": "Clears all currently queued tracks.",
+    "success": "✅ Cleared {count} queued songs."
+  },
+  "pause": {
+    "description": "Pauses the current song.",
+    "success": "⏸️ Song paused.",
+    "failure": "❌ Unable to pause current song."
+  },
+  "resume": {
+    "description": "Resumes playback of the currently paused song.",
+    "success": "▶️ Let's go.",
+    "failure": "❌ Unable to resume song."
+  },
+  "shuffle": {
+    "description": "Shuffles the current queue.",
+    "success": "🔀 Queue shuffled."
+  },
+  "skip": {
+    "description": "Skips the current song.",
+    "success": "⏭️ Skipped song {song}",
+    "failure": "❌ No song playing."
+  },
+  "stop": {
+    "description": "Stops the player, clears the queue and disconnects the bot.",
+    "success": "✌️ Ciao!"
+  },
+  "setvolume": {
+    "description": "Sets the bot volume for all tracks for all users.",
+    "optionDescription": "Volume between 0 and 200.",
+    "success": "🔊 Default volume set to {volume}.",
+    "failure": "❌ Unable to set volume."
+  },
+  "play": {
+    "description": "Immediately plays a song/playlist (stops current song if playing).",
+    "optionDescription": "Song/playlist to search, supported services: YouTube and Spotify.",
+    "noTracksFound": "❌ No songs found for your search \"{query}\"",
+    "insufficientVoiceChannelPermissions": "❌ I don't have sufficient permissions to play music in your voice channel \"{channel}\"!",
+    "userNotInVoiceChannel": "❌ You must be in a voice channel to play music!",
+    "successTrack": "▶️ Playing track {track}",
+    "successPlaylist": "▶️ Playing playlist {playlist}"
+  },
+  "add": {
+    "description": "Adds a song/playlist to the end of the queue.",
+    "successTrack": "▶️ Added track {track} to the queue.",
+    "successPlaylist": "▶️ Added playlist {playlist} to the queue."
+  },
+  "queue": {
+    "description": "Lists all songs of the current queue.",
+    "empty": "🐍 Queue is empty.",
+    "queue": "Queue",
+    "currentTrack": "Current track"
+  },
+  "song": {
+    "description": "Outputs information about the current song.",
+    "success": "🎶 Current song: {track}"
+  },
+  "help": {
+    "description": "Get an overview of all my commands."
+  }
+}

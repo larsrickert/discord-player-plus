@@ -1,27 +1,31 @@
 import { deepmerge } from "deepmerge-ts";
+import en from "./languages/en.json";
 import { Player } from "./player";
-import { PlayerOptions } from "./types/player";
+import { Translations } from "./types/commands";
+import { PlayerManagerOptions, PlayerOptions } from "./types/player";
 
 export class PlayerManager {
   private players: Player[] = [];
 
   /**
    * Creates a new PlayerManager for easier managing multiple guilds. Your bot should only have one PlayerManager.
-   *
-   * @param options Options that should be applied for all guilds. Guild specific options can be overridden when calling `getPlayer`.
    */
-  constructor(private readonly options?: PlayerOptions) {}
+  constructor(public readonly options?: PlayerManagerOptions) {}
+
+  get translations(): Translations {
+    return this.options?.translations ?? en;
+  }
 
   /**
    * Gets an existing player for the given guildId or creates one if it does not exist.
    *
    * @param optionOverrides Option overrides for the guild player. Will be deep merged with options passed to the PlayerManager.
    */
-  getPlayer(guildId: string, optionOverrides?: Partial<PlayerOptions>): Player {
+  get(guildId: string, optionOverrides?: Partial<PlayerOptions>): Player {
     const player = this.players.find((p) => p.guildId === guildId);
     if (player) return player;
 
-    let options = this.options;
+    let options = this.options?.playerDefault;
     if (options && optionOverrides) {
       options = deepmerge(options, optionOverrides);
     }

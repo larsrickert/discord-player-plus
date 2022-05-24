@@ -1,20 +1,21 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"esModuleInterop": true,
-		"target": "es6",
-		"noImplicitAny": true,
-		"strict": true,
-		"moduleResolution": "node",
-		"sourceMap": true,
-		"outDir": "lib",
-		"declaration": true,
-		"declarationMap": true,
-		"baseUrl": ".",
-		"skipLibCheck": true,
-		"paths": {
-			"*": ["node_modules/*"]
-		}
-	},
-	"include": ["src/**/*"]
+  "compilerOptions": {
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "lib",
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "lib": ["ES2021.String"],
+    "paths": {
+      "*": ["node_modules/*"]
+    }
+  },
+  "include": ["src/**/*"]
 }

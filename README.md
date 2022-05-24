@@ -1,73 +1,206 @@
-# Lars Rickerts' Node.js Express Template with TypeScript
+# Discord Player Plus
 
-This is a template app for a Node.js application / API using [express](https://expressjs.com/de/) and [TypeScript](https://www.typescriptlang.org/).
+Library for quickly creating discord music and sound bots using discord.js v13.
 
-## Project setup
+**WORK IN PROGRESS! Latest pre-release (non-stable) version can be found in alpha branch**
 
+## Features
+
+- Pre-build slash commands with multiple/custom languages
+- No need to install additional dependencies
+- Written in TypeScript
+- Support for YouTube, Spotify, local files and custom engines
+- Multiple servers / guilds
+
+## Usage
+
+You can find an example bot written in TypeScript inside the [`example`](./example/) folder.
+
+### With pre-build slash commands
+
+```js
+// create your discord client here
+import { Client, Intents } from "discord.js";
+import {
+  createAddCommand,
+  createClearCommand,
+  createHelpCommand,
+  createPauseCommand,
+  createPlayCommand,
+  createQueueCommand,
+  createResumeCommand,
+  createSetVolumeCommand,
+  createShuffleCommand,
+  createSkipCommand,
+  createSongCommand,
+  createStopCommand,
+  PlayerManager,
+  handleSlashCommand,
+} from "discord-player-plus";
+
+const client = new Client({
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_VOICE_STATES,
+  ],
+});
+
+// the player manager is responsible for multiple guilds/discord servers
+const playerManager = new PlayerManager({
+  playerDefault: {
+    initialVolume: 50,
+  },
+});
+
+// use different pre-build slash commands
+// but you can also add your own custom commands here
+export const commands = [
+  createAddCommand(playerManager),
+  createClearCommand(playerManager),
+  createPauseCommand(playerManager),
+  createPlayCommand(playerManager),
+  createQueueCommand(playerManager),
+  createResumeCommand(playerManager),
+  createShuffleCommand(playerManager),
+  createSkipCommand(playerManager),
+  createSongCommand(playerManager),
+  createStopCommand(playerManager),
+  createSetVolumeCommand(playerManager),
+];
+
+// automatically generate a help slash command with details about all commands
+commands.push(
+  createHelpCommand(playerManager, {
+    commands,
+    author: {
+      name: "John Doe",
+      url: "https://example.com",
+      iconUrl: "https://example.com/img/avatar.png",
+    },
+    title: "Example bot for discord-player-plus",
+    url: "https://github.com/larsrickert/discord-player-plus",
+  })
+);
+
+// register the slash commands
+client.on("ready", async (client) => {
+  console.log(`Bot ready and logged in as ${client.user.tag}`);
+  await client.application.commands.set(commands);
+  client.user.setActivity({ name: "I am playing music", type: "LISTENING" });
+});
+
+// run slash command when user executes it
+client.on("interactionCreate", async (interaction) => {
+  await handleSlashCommand(interaction, playerManager, commands);
+});
+
+// thats it, your users can now use a discord music bot with slash commands like /play, /skip, /setvolume etc.
 ```
-npm install
+
+#### Internationalization
+
+When using the pre-build slash commands, you can customize every message that is send to the user. The library ships with Englisch and German defaults but you can also pass in your custom language.
+
+```js
+import { de } from "discord-player-plus";
+
+// ...
+
+// en is used by default, to use e.g. German:
+const playerManager = new PlayerManager({
+  // ...
+  translations: de,
+});
 ```
 
-### Run with hot-reload for development
+If you want to use a custom language you need to translate all messages on your own (see en or de default for required translations):
 
-```
-npm run dev
-```
+```js
+// ...
 
-### Start for production
+const myLanguage = {
+  // ...
+};
 
-```
-npm start
-```
+// use a custom language
+const playerManager = new PlayerManager({
+  // ...
+  translations: myLanguage,
+});
 
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-<br />
-
-# Folder structure inside src
-
-| Folder / File | Description                                                            |
-| ------------- | ---------------------------------------------------------------------- |
-| controllers   | App functionality, used by routes                                      |
-| middleware    | Express middleware for intercepting requests                           |
-| routes        | Handlers for all API routes                                            |
-| types         | Global TypeScript types, interfaces, classes etc                       |
-| utils         | Common helper functions/utilities                                      |
-| app.ts        | Main app entry file. Creates app and registers middleware, routes etc. |
-| config.ts     | Static configuration/environments                                      |
-
-<br />
-
-# Semantic release
-
-This repository uses [semantic release](https://semantic-release.gitbook.io/semantic-release/) for automatically managing changelogs, package versions and GitHub releases. You will find more information in the [pull request template](.github/pull_request_template.md).
-
-If you don't want to use semantic release you can remove the files
-
-- `.github/workflows/release.yml`
-- `.github/pull_request_template.md`
-- `CHANGELOG.md`
-
-Also you need to run
-
-```
-npm uninstall @semantic-release/changelog @semantic-release/git
+// ...
 ```
 
-and remove the `release` option in the `package.json`.
+### Without pre-build slash commands
 
-<br />
+```js
+// create your discord client here
+import { Client, Intents } from "discord.js";
+import { PlayerManager, handleSlashCommand } from "discord-player-plus";
 
-# Code Guidelines
+const client = new Client({
+  intents: [
+    Intents.FLAGS.GUILDS,
+    Intents.FLAGS.GUILD_MESSAGES,
+    Intents.FLAGS.GUILD_VOICE_STATES,
+  ],
+});
 
-It is recommend to follow the below guidelines which contain best practices.
+// the player manager is responsible for multiple guilds/discord servers
+const playerManager = new PlayerManager({
+  playerDefault: {
+    initialVolume: 50,
+  },
+});
 
-## File naming convention
+const myCommand = {
+  name: "pause",
+  description: "Pauses the music bot",
+  run: async (interaction) => {
+    const player = playerManager.find(interaction.guildId);
+    if (!player) {
+      return await interaction.reply({
+        content: "🤖 I am currently not playing anything.",
+        ephemeral: true,
+      });
+    }
 
-- Controllers: `*.controllers.ts`
-- Middleware: `*.middleware.ts`
-- Routes: `*.routes.ts`
+    const paused = player.setPause(true);
+    if (!paused) {
+      return await interaction.reply({
+        content: "❌ Unable to pause current song.",
+        ephemeral: true,
+      });
+    }
+
+    await interaction.reply({
+      content: "⏸️ Song paused.",
+    });
+  },
+};
+
+export const commands = [myCommand];
+
+// register the slash commands
+client.on("ready", async (client) => {
+  console.log(`Bot ready and logged in as ${client.user.tag}`);
+  await client.application.commands.set(commands);
+  client.user.setActivity({ name: "I am playing music", type: "LISTENING" });
+});
+
+// run slash command when user executes it
+client.on("interactionCreate", async (interaction) => {
+  await handleSlashCommand(interaction, playerManager, commands);
+});
+```
+
+## Player engines
+
+Player engines are the hearth of discord-player-plus. They are responsible for searching tracks and streaming them using different streaming providers such as YouTube or Spotify. Following player engines are built-in:
+
+- YouTube
+- Spotify (Spotify does not provide a web API to stream tracks so they are only searched on Spotify but streamed on YouTube)
+- Files (local files on your file system, e.g. `my-music.mp3`)
+
+When you use `player.search()` the engine will be detected automatically but you can also specify which engine you want to use with `player.search("my song to search", { source: "spotify" });`.

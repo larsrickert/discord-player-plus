@@ -1,0 +1,67 @@
+{
+  "global": {
+    "noGuildPlayer": "🤖 Ich spiele gerade nichts ab.",
+    "unsupportedCommand": "❌ Ich unterstütze den Befehl \"{command}\" nicht!",
+    "unknownGuild": "❌ Ich kann nicht herausfinden, auf welchem Server du bist!"
+  },
+  "clear": {
+    "description": "Entfernt alle Songs aus der Warteschlange.",
+    "success": "✅ {count} Songs aus der Warteschlange entfernt."
+  },
+  "pause": {
+    "description": "Pausiert den aktuellen Song.",
+    "success": "⏸️ Song pausiert.",
+    "failure": "❌ Song konnte nicht pausiert werden."
+  },
+  "resume": {
+    "description": "Setzt die Wiedergabe des aktuell pausierten Songs fort.",
+    "success": "▶️ Weiter geht's.",
+    "failure": "❌ Wiedergabe konnte nicht fortgesetzt werden."
+  },
+  "shuffle": {
+    "description": "Mischt die aktuelle Warteschlange.",
+    "success": "🔀 Warteschlange gemischt."
+  },
+  "skip": {
+    "description": "Überspringt den aktuellen Song.",
+    "success": "⏭️ Song {song} übersprungen",
+    "failure": "❌ Es ist kein Song zum Überspringen vorhanden."
+  },
+  "stop": {
+    "description": "Stoppt die Wiedergabe, leert die Warteschlange und trennt die Verbindung zum Bot.",
+    "success": "✌️ Ciao!"
+  },
+  "setvolume": {
+    "description": "Legt die Bot-Lautstärke für alle Songs für alle Benutzer fest.",
+    "optionDescription": "Lautstärke zwischen 0 und 200.",
+    "success": "🔊 Standardlautstärke auf {volume} gesetzt.",
+    "failure": "❌ Die Standardlautstärke konnte nicht gesetzt werden."
+  },
+  "play": {
+    "description": "Spielt sofort eine(n) Song/eine Playlist ab (stoppt den aktuellen Song).",
+    "optionDescription": "Song/playlist, unterstütze Anbieter: YouTube und Spotify.",
+    "noTracksFound": "❌ Keine Songs für deine Suche \"{query}\" gefunden",
+    "insufficientVoiceChannelPermissions": "❌ Ich habe nicht genügend Rechte, um Musik in deinem Voice Channel \"{channel}\" abzuspielen!",
+    "userNotInVoiceChannel": "❌ Du musst dich in einem Voice Channel befinden, um Musik abspielen zu können!",
+    "successTrack": "▶️ Spiele song {track}",
+    "successPlaylist": "▶️ Spiele Playlist {playlist}"
+  },
+  "add": {
+    "description": "Fügt eine(n) Song/Playlist an das Ende der Warteschlange hinzu.",
+    "successTrack": "▶️ Song {track} zur Warteschlange hinzugefügt.",
+    "successPlaylist": "▶️ Playlist {playlist} zur Warteschlange hinzugefügt."
+  },
+  "queue": {
+    "description": "Listet die Songs in der aktuellen Warteschlange auf.",
+    "empty": "🐍 Die Warteschlange ist leer.",
+    "queue": "Warteschlange",
+    "currentTrack": "Aktueller Song"
+  },
+  "song": {
+    "description": "Liefert Informationen über den aktuellen Song.",
+    "success": "🎶 Aktueller Song: {track}"
+  },
+  "help": {
+    "description": "Schaue dir alle meine Befehle an."
+  }
+}

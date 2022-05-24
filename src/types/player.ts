@@ -1,6 +1,7 @@
 import { StreamType } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
 import { Readable } from "stream";
+import { Translations } from "./commands";
 import { SearchOptions, SearchResult, Track } from "./engines";
 
 export interface PlayerEvents {
@@ -74,4 +75,11 @@ export interface PlayerOptions {
 export interface AudioPlayerMetadata {
   channel: VoiceBasedChannel;
   track: Track;
+}
+
+export interface PlayerManagerOptions {
+  /** Player options that should be applied for all guilds. Guild specific options can be overridden when calling `playerManager.get(guildId)`. */
+  playerDefault?: PlayerOptions;
+  /** Translations for the pre-build commands. Default: en */
+  translations?: Translations;
 }
