@@ -1,3 +1,26 @@
+# [1.0.0-alpha.4](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-05-24)
+
+
+### Bug Fixes
+
+* **player:** `add` playing track twice, `setPause` not returning `true` when already paused/resumed ([84a6a37](https://github.com/larsrickert/discord-player-plus/commit/84a6a370e0482aeb565dc195d0f15f5d06beae76))
+
+
+### Code Refactoring
+
+* **player-manager:** Add methods `find` and `remove` ([0458b8f](https://github.com/larsrickert/discord-player-plus/commit/0458b8f9dd7c3effcd332885a83cdf47701bfeb6))
+
+
+### Features
+
+* add pre-build slash commands ([ede5993](https://github.com/larsrickert/discord-player-plus/commit/ede59939bcbd304f3841b465c152810c1bf31346))
+* **player-manager:** add option deep merge ([b42ea27](https://github.com/larsrickert/discord-player-plus/commit/b42ea277955faead8da9382dcfd836e5fb424e46))
+
+
+### BREAKING CHANGES
+
+* **player-manager:** remove method `exists` in favor of `find`
+
 # [1.0.0-alpha.3](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-05-23)
 
 
