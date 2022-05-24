@@ -95,6 +95,8 @@ client.on("interactionCreate", async (interaction) => {
   await handleSlashCommand(interaction, playerManager, commands);
 });
 
+client.login("DISCORD_CLIENT_TOKEN");
+
 // thats it, your users can now use a discord music bot with slash commands like /play, /skip, /setvolume etc.
 ```
 
@@ -193,6 +195,8 @@ client.on("ready", async (client) => {
 client.on("interactionCreate", async (interaction) => {
   await handleSlashCommand(interaction, playerManager, commands);
 });
+
+client.login("DISCORD_CLIENT_TOKEN");
 ```
 
 ## Player engines
