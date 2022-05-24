@@ -1,3 +1,4 @@
+export { handleSlashCommand } from "./commands";
 export { createAddCommand } from "./commands/add";
 export { createClearCommand } from "./commands/clear";
 export { createHelpCommand } from "./commands/help";
