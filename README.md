@@ -2,7 +2,7 @@
 
 Library for quickly creating discord music and sound bots using discord.js v13.
 
-**WORK IN PROGRESS! Latest pre-release (non-stable) version can be found in alpha branch**
+**WORK IN PROGRESS! Latest pre-release (non-stable) version can be found in beta branch**
 
 ## Features
 
