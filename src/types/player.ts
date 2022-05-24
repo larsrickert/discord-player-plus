@@ -40,17 +40,23 @@ export interface PlayerOptions {
    */
   quality?: "low" | "medium" | "high";
   /**
-   * Setting to `true` will enable the player to change the volume of the play tracks.
-   * Set to `false` for better performance.
+   * Setting to `true` will enable the player to change the volume of the played tracks.
+   * Set to `false` for slightly better performance.
    *
    * @default `true`
    */
   inlineVolume?: boolean;
-  /** Initial player volume for alls tracks between 0 and 200. */
+  /** Initial player volume for all tracks between 0 and 200. */
   initialVolume?: number;
   /**
    * Path to the folder where local files should be playable from. If set, files outside this directory are refused to play.
    * For security reasons, its recommended to set this option when playing local files with the player.
+   *
+   * @example
+   * ```ts
+   * // files outside of this public folder wont be playable
+   * fileRoot: path.join(__dirname, "../public")
+   * ```
    */
   fileRoot?: string;
   /** Custom function for searching tracks. To use default search, return null. */

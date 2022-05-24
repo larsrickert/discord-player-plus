@@ -18,7 +18,7 @@ export interface SearchOptions {
    * The source where tracks should be searched. If not provided, will automatically detect the source or fall back to YouTube.
    */
   source?: TrackSource;
-  /** Limit number of tracks to search. */
+  /** Limit number of tracks to search. Does not work for Spotify. */
   limit?: number;
 }
 
