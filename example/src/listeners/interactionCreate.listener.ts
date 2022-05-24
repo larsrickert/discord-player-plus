@@ -1,5 +1,5 @@
+import { handleSlashCommand } from "discord-player-plus";
 import { Client, Interaction } from "discord.js";
-import { handleSlashCommand } from "../../../src/commands";
 import { commands, playerManager } from "../app";
 
 export default function registerInteractionCreateListener(

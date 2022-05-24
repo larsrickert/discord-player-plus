@@ -1,5 +1,5 @@
+import { Command } from "discord-player-plus";
 import { Client } from "discord.js";
-import { Command } from "../../../src/types/commands";
 
 export default function registerReadyListener(
   client: Client,

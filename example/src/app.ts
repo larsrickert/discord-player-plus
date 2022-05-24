@@ -1,4 +1,3 @@
-import { Client, Intents } from "discord.js";
 import {
   Command,
   createAddCommand,
@@ -14,7 +13,8 @@ import {
   createSongCommand,
   createStopCommand,
   PlayerManager,
-} from "../../src";
+} from "discord-player-plus";
+import { Client, Intents } from "discord.js";
 import { config } from "./config";
 import registerInteractionCreateListener from "./listeners/interactionCreate.listener";
 import registerReadyListener from "./listeners/ready.listener";

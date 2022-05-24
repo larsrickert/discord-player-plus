@@ -1,4 +1,4 @@
-import { PlayerOptions } from "../../../src";
+import { PlayerOptions } from "discord-player-plus";
 
 export interface Config {
   app: {
