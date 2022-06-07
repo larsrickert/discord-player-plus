@@ -1,6 +1,7 @@
 import { PlayerOptions, StreamOptions, TrackStream } from "./player";
 
 export interface PlayerEngine {
+  source: string;
   isResponsible(query: string, playerOptions: PlayerOptions): Promise<boolean>;
   search(
     query: string,
@@ -18,7 +19,7 @@ export interface SearchOptions {
   /**
    * The source where tracks should be searched. If not provided, will automatically detect the source or fall back to YouTube.
    */
-  source?: TrackSource;
+  source?: string;
   /** Limit number of tracks to search. Does not work for Spotify. */
   limit?: number;
 }
@@ -26,7 +27,7 @@ export interface SearchOptions {
 export interface SearchResult {
   tracks: Track[];
   playlist?: Playlist;
-  source: TrackSource;
+  source: string;
 }
 
 export interface Track {
@@ -37,7 +38,12 @@ export interface Track {
   /** Duration in seconds. */
   duration: number;
   artist?: string;
-  source: TrackSource;
+  /**
+   * Track source (used player engine)
+   *
+   * @example "youtube"
+   */
+  source: string;
   playlist?: Playlist;
 }
 
@@ -46,5 +52,3 @@ export interface Playlist {
   url: string;
   thumbnailUrl?: string;
 }
-
-export type TrackSource = "file" | "youtube" | "spotify";

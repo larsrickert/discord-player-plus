@@ -4,10 +4,13 @@ import path from "path";
 import { PlayerEngine } from "../types/engines";
 import { isSubPath } from "../utils/fs";
 
+const source = "file";
+
 /**
  * Player engine to search/stream tracks that are stored in the file system.
  */
 export const fileEngine: PlayerEngine = {
+  source,
   async isResponsible(query, { fileRoot }) {
     if (fileRoot && !isSubPath(fileRoot, query)) {
       return false;
@@ -33,10 +36,10 @@ export const fileEngine: PlayerEngine = {
             title: path.basename(query),
             duration: 0,
             url: query,
-            source: "file",
+            source,
           },
         ],
-        source: "file",
+        source,
       },
     ];
   },

@@ -13,17 +13,16 @@ import { VoiceBasedChannel } from "discord.js";
 import { TypedEmitter } from "tiny-typed-emitter";
 import { playerEngines } from "./engines";
 import {
+  PlayerEngine,
   SearchOptions,
   SearchResult,
   Track,
-  TrackSource,
 } from "./types/engines";
 import {
   AudioPlayerMetadata,
   PlayerEvents,
   PlayerOptions,
   PlayOptions,
-  TrackStream,
 } from "./types/player";
 import { shuffle, validateVolume } from "./utils/player";
 
@@ -119,6 +118,13 @@ export class Player extends TypedEmitter<PlayerEvents> {
     return connection;
   }
 
+  private getEngine(source: string): PlayerEngine | undefined {
+    if (this.options.customEngines?.[source]) {
+      return this.options.customEngines[source];
+    }
+    return playerEngines[source];
+  }
+
   /**
    * Immediate plays the first of the given tracks, skips current track if playing.
    * The remaining tracks will be added to the front of the queue.
@@ -138,21 +144,16 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     // get playable stream for track
     // check if custom stream engine is provided
-    let trackStream: TrackStream | null = null;
-    const playerEngine = playerEngines[track.source];
-
-    if (this.options.customStream) {
-      trackStream = await this.options.customStream(track, options.stream);
+    const playerEngine = this.getEngine(track.source);
+    if (!playerEngine) {
+      throw new Error(`Unknown player engine "${track.source}"`);
     }
 
-    // use default stream engine if no custom engine provided
-    if (!trackStream) {
-      trackStream = await playerEngine.getStream(
-        track,
-        this.options,
-        options.stream
-      );
-    }
+    const trackStream = await playerEngine.getStream(
+      track,
+      this.options,
+      options.stream
+    );
 
     if (!trackStream) {
       throw new Error("Unable to create stream for track");
@@ -290,10 +291,14 @@ export class Player extends TypedEmitter<PlayerEvents> {
     return this.audioResource?.playbackDuration ?? 0;
   }
 
-  private async detectTrackSource(query: string): Promise<TrackSource> {
-    for (const [source, engine] of Object.entries(playerEngines)) {
+  private async detectTrackSource(query: string): Promise<string> {
+    const entries = Object.entries(this.options.customEngines ?? {}).concat(
+      Object.entries(playerEngines)
+    );
+
+    for (const [source, engine] of entries) {
       if (await engine.isResponsible(query, this.options)) {
-        return source as TrackSource;
+        return source;
       }
     }
 
@@ -309,13 +314,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
     query: string,
     options?: SearchOptions
   ): Promise<SearchResult[]> {
-    if (this.options.customSearch) {
-      const customResult = await this.options.customSearch(query, options);
-      if (customResult) return customResult;
-    }
-
-    const trackSource = await this.detectTrackSource(query);
-    const playerEngine = playerEngines[trackSource];
+    const trackSource =
+      options?.source || (await this.detectTrackSource(query));
+    const playerEngine = this.getEngine(trackSource);
+    if (!playerEngine) return [];
     return await playerEngine.search(query, this.options, options);
   }
 

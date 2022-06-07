@@ -2,7 +2,7 @@ import { StreamType } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
 import { Readable } from "stream";
 import { Translations } from "./commands";
-import { SearchOptions, SearchResult, Track } from "./engines";
+import { PlayerEngine, Track } from "./engines";
 
 export interface PlayerEvents {
   trackStart: (track: Track) => void;
@@ -60,16 +60,8 @@ export interface PlayerOptions {
    * ```
    */
   fileRoot?: string;
-  /** Custom function for searching tracks. To use default search, return null. */
-  customSearch?: (
-    query: string,
-    options?: SearchOptions
-  ) => Promise<SearchResult[] | null>;
-  /** Custom function for stream/play tracks. To use default stream, return null. */
-  customStream?: (
-    track: Track,
-    options?: StreamOptions
-  ) => Promise<TrackStream | null>;
+  /** Custom player engines to provide additional streaming services or override existing ones. */
+  customEngines?: Record<string, PlayerEngine>;
 }
 
 export interface AudioPlayerMetadata {
