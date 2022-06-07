@@ -35,15 +35,12 @@ export const commands: Command[] = [
   createAddCommand(playerManager),
   createClearCommand(playerManager),
   createPauseCommand(playerManager),
-  createPlayCommand(playerManager, {
-    ephemeral: false,
-    ephemeralError: true,
-  }),
-  createQueueCommand(playerManager),
+  createPlayCommand(playerManager),
+  createQueueCommand(playerManager, { ephemeral: true }),
   createResumeCommand(playerManager),
   createShuffleCommand(playerManager),
   createSkipCommand(playerManager),
-  createSongCommand(playerManager),
+  createSongCommand(playerManager, { ephemeral: true }),
   createStopCommand(playerManager),
   createSetVolumeCommand(playerManager),
 ];
