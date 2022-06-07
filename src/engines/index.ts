@@ -4,7 +4,7 @@ import { spotifyEngine } from "./spotify";
 import { youtubeEngine } from "./youtube";
 
 export const playerEngines: Record<string, PlayerEngine> = {
-  youtube: youtubeEngine,
-  spotify: spotifyEngine,
-  file: fileEngine,
+  [youtubeEngine.source]: youtubeEngine,
+  [spotifyEngine.source]: spotifyEngine,
+  [fileEngine.source]: fileEngine,
 };
