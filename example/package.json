@@ -17,20 +17,20 @@
     "update": "npx npm-check-updates -i"
   },
   "dependencies": {
-    "@types/node": "^17.0.35",
-    "discord-player-plus": "^1.0.0-beta.2",
+    "@types/node": "^17.0.40",
+    "discord-player-plus": "^1.0.0-beta.3",
     "discord.js": "^13.7.0",
     "dotenv": "^16.0.1",
-    "ts-node": "^10.8.0",
-    "typescript": "^4.6.4"
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.3"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.26.0",
-    "@typescript-eslint/parser": "^5.26.0",
-    "eslint": "^8.16.0",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "eslint": "^8.17.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2",
-    "ts-node-dev": "^1.1.8"
+    "ts-node-dev": "^2.0.0"
   }
 }
