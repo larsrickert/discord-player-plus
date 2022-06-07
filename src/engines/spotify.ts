@@ -28,7 +28,7 @@ export const spotifyEngine: PlayerEngine = {
   },
   async getStream(track, playerOptions, streamOptions) {
     const searchResults = await youtubeEngine.search(
-      `${track.title} ${track.artist}`,
+      track.artist ? `${track.title} ${track.artist}` : track.title,
       playerOptions,
       { limit: 1 }
     );
