@@ -46,7 +46,7 @@ export const createQueueCommand: CreateCommandFunc = (
         break;
       }
 
-      await interaction.reply({ content, ephemeral: true });
+      await interaction.reply({ content, ephemeral: options?.ephemeral });
     },
   };
 };
