@@ -29,7 +29,7 @@ export const createSkipCommand: CreateCommandFunc = (
       await interaction.reply({
         content: playerManager.translations.skip.success.replace(
           "{song}",
-          trackToMarkdown(track)
+          trackToMarkdown(track, true)
         ),
         ephemeral: options?.ephemeral,
       });
