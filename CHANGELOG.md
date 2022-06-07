@@ -1,3 +1,29 @@
+# [1.0.0-beta.3](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2022-06-07)
+
+
+### Bug Fixes
+
+* `trackToMarkdown` printing `undefined` when artist is not set ([e2e1b5a](https://github.com/larsrickert/discord-player-plus/commit/e2e1b5ad3036157e969adaa5b71ed0772b12a11a))
+* **command:** queue command not using ephemeral ([cddd737](https://github.com/larsrickert/discord-player-plus/commit/cddd7378ec2aac669e69e1dad0b9bfcb2b3ca48c))
+* **example:** use more user friendly ephemeral ([cf51239](https://github.com/larsrickert/discord-player-plus/commit/cf5123943d47262342f2d92fc6fef536fa8ff3d7))
+* remove track url preview for `add` and `skip` command message ([a349c3f](https://github.com/larsrickert/discord-player-plus/commit/a349c3fde841387cc5362ab968dade51a3ba3531))
+* **spotify:** playing wrong stream when artist is undefined ([bbb3da4](https://github.com/larsrickert/discord-player-plus/commit/bbb3da4ab4f4d794fb959e75042b103af1f02ff6))
+
+
+### Features
+
+* add player option `customEngines` ([ac411de](https://github.com/larsrickert/discord-player-plus/commit/ac411dee8f62bc2cc29b74c3bd43db7339679009))
+* **engines:** add `isResponsible` method ([dc58e90](https://github.com/larsrickert/discord-player-plus/commit/dc58e90a16f0a9ab456a3f4fb2332d4090044021))
+
+
+### BREAKING CHANGES
+
+* remove player option `customSearch` and `customStream`  in favor of `customEngines`
+* remove type `TrackSource`
+* require engine prop `source`
+* **engines:** remove exported function `detectTrackSource`
+* **engines:** require method  `isResponsible` for engines
+
 # [1.0.0-beta.2](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2022-05-24)
 
 
