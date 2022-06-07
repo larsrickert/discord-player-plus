@@ -20,10 +20,8 @@ export function validateVolume(volume: number): boolean {
 
 export function trackToMarkdown(track: Track, escapeUrl = false): string {
   const title = urlToMarkdown(track.title, track.url, escapeUrl);
-  const formattedTrack = `${title} (${formatDuration(track.duration)}), ${
-    track.artist
-  }`;
-  return formattedTrack;
+  const formattedTrack = `${title} (${formatDuration(track.duration)})`;
+  return track.artist ? `${formattedTrack}, ${track.artist}` : formattedTrack;
 }
 
 export function urlToMarkdown(
