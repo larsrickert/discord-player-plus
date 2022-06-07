@@ -1,6 +1,7 @@
 import { PlayerOptions, StreamOptions, TrackStream } from "./player";
 
 export interface PlayerEngine {
+  isResponsible(query: string, playerOptions: PlayerOptions): Promise<boolean>;
   search(
     query: string,
     playerOptions: PlayerOptions,

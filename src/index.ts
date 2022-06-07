@@ -11,7 +11,6 @@ export { createSkipCommand } from "./commands/skip";
 export { createSongCommand } from "./commands/song";
 export { createStopCommand } from "./commands/stop";
 export { createSetVolumeCommand } from "./commands/volume";
-export { detectTrackSource } from "./engines";
 export * from "./player";
 export * from "./player-manager";
 export * from "./types/commands";

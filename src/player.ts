@@ -11,8 +11,13 @@ import {
 } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
 import { TypedEmitter } from "tiny-typed-emitter";
-import { detectTrackSource, playerEngines } from "./engines";
-import { SearchOptions, SearchResult, Track } from "./types/engines";
+import { playerEngines } from "./engines";
+import {
+  SearchOptions,
+  SearchResult,
+  Track,
+  TrackSource,
+} from "./types/engines";
 import {
   AudioPlayerMetadata,
   PlayerEvents,
@@ -285,6 +290,16 @@ export class Player extends TypedEmitter<PlayerEvents> {
     return this.audioResource?.playbackDuration ?? 0;
   }
 
+  private async detectTrackSource(query: string): Promise<TrackSource> {
+    for (const [source, engine] of Object.entries(playerEngines)) {
+      if (await engine.isResponsible(query, this.options)) {
+        return source as TrackSource;
+      }
+    }
+
+    return "youtube";
+  }
+
   /**
    * Searches tracks for the given query.
    *
@@ -299,7 +314,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
       if (customResult) return customResult;
     }
 
-    const trackSource = await detectTrackSource(query, this.options.fileRoot);
+    const trackSource = await this.detectTrackSource(query);
     const playerEngine = playerEngines[trackSource];
     return await playerEngine.search(query, this.options, options);
   }

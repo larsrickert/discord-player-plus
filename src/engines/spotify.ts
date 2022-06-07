@@ -7,7 +7,10 @@ import { youtubeEngine } from "./youtube";
  * Spotify does not provide a web api to stream tracks so the track will be streamed from YouTube instead.
  */
 export const spotifyEngine: PlayerEngine = {
-  search: async (query) => {
+  async isResponsible(query) {
+    return query.startsWith("https://open.spotify.com");
+  },
+  async search(query) {
     const isPlaylist = query.startsWith("https://open.spotify.com/playlist");
     if (isPlaylist) return await searchPlaylist(query);
 
@@ -20,7 +23,7 @@ export const spotifyEngine: PlayerEngine = {
       },
     ];
   },
-  getStream: async (track, playerOptions, streamOptions) => {
+  async getStream(track, playerOptions, streamOptions) {
     const searchResults = await youtubeEngine.search(
       `${track.title} ${track.artist}`,
       playerOptions,
