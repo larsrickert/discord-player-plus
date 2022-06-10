@@ -1,3 +1,10 @@
+# [1.0.0-beta.4](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2022-06-10)
+
+
+### Bug Fixes
+
+* remove vulnerable dependencies ([40c23c7](https://github.com/larsrickert/discord-player-plus/commit/40c23c720757d4689a8629e4fd690dec9f9ba66c))
+
 # [1.0.0-beta.3](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2022-06-07)
 
 
