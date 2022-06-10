@@ -12,6 +12,7 @@
     "declarationMap": true,
     "baseUrl": ".",
     "resolveJsonModule": true,
+    "skipLibCheck": true,
     "lib": ["ES2021.String"],
     "paths": {
       "*": ["node_modules/*"]
