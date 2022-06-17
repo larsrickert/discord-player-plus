@@ -63,5 +63,14 @@
   },
   "help": {
     "description": "Schaue dir alle meine Befehle an."
+  },
+  "repeat": {
+    "description": "Setzt den Wiederholungsmodus für die Songs.",
+    "modeDescription": "Wie soll die Musik wiederholt werden? Standard: Keine Wiederholung",
+    "modes": {
+      "none": "Keine Wiederholung",
+      "track": "Song"
+    },
+    "success": "✅ Wiederholungsmodus auf \"{mode}\" geändert."
   }
 }

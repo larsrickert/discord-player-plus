@@ -63,5 +63,14 @@
   },
   "help": {
     "description": "Get an overview of all my commands."
+  },
+  "repeat": {
+    "description": "Sets the repeat mode for songs.",
+    "modeDescription": "How should the music be repeated? Default: No repetition",
+    "modes": {
+      "none": "No repetition",
+      "track": "Song"
+    },
+    "success": "✅ Set repeat mode to \"{mode}\"."
   }
 }

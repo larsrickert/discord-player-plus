@@ -22,6 +22,7 @@ import {
   AudioPlayerMetadata,
   PlayerEvents,
   PlayerOptions,
+  PlayerRepeatMode,
   PlayOptions,
 } from "./types/player";
 import { shuffle, validateVolume } from "./utils/player";
@@ -31,6 +32,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   private queue: Track[] = [];
   private volume = 100;
   private audioResource: AudioResource<AudioPlayerMetadata> | undefined;
+  private repeatMode = PlayerRepeatMode.NONE;
 
   constructor(
     public readonly guildId: string,
@@ -60,7 +62,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
           oldState.status !== AudioPlayerStatus.Idle
         ) {
           // current track ended
-          const nextTrack = this.queue.shift();
+          const nextTrack = await this.getNextTrack();
 
           // play next queued track
           if (!nextTrack) {
@@ -78,6 +80,17 @@ export class Player extends TypedEmitter<PlayerEvents> {
         }
       }
     );
+  }
+
+  /** Gets the next track, Considers the current repeat mode. */
+  private async getNextTrack(): Promise<Track | undefined> {
+    // this method is async to support autoplay and queue repeat in the future
+    if (this.repeatMode === PlayerRepeatMode.TRACK) {
+      const currentTrack = this.getCurrentTrack();
+      if (currentTrack) return currentTrack;
+    }
+
+    return this.queue.shift();
   }
 
   /**
@@ -365,5 +378,15 @@ export class Player extends TypedEmitter<PlayerEvents> {
     if (index < 0 || index >= this.queue.length) return;
     const removedTracks = this.queue.splice(index, 1);
     if (removedTracks.length) return removedTracks[0];
+  }
+
+  /** Sets the repeat mode. */
+  setRepeat(mode: PlayerRepeatMode): void {
+    this.repeatMode = mode;
+  }
+
+  /** Gets the current repeat mode. */
+  getRepeat(): PlayerRepeatMode {
+    return this.repeatMode;
   }
 }

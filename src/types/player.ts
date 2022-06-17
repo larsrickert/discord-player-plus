@@ -75,3 +75,8 @@ export interface PlayerManagerOptions {
   /** Translations for the pre-build commands. Default: en */
   translations?: Translations;
 }
+
+export enum PlayerRepeatMode {
+  NONE,
+  TRACK,
+}

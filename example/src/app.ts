@@ -6,6 +6,7 @@ import {
   createPauseCommand,
   createPlayCommand,
   createQueueCommand,
+  createRepeatCommand,
   createResumeCommand,
   createSetVolumeCommand,
   createShuffleCommand,
@@ -43,6 +44,7 @@ export const commands: Command[] = [
   createSongCommand(playerManager, { ephemeral: true }),
   createStopCommand(playerManager),
   createSetVolumeCommand(playerManager),
+  createRepeatCommand(playerManager),
 ];
 commands.push(
   createHelpCommand(playerManager, {

@@ -5,6 +5,7 @@ export { createHelpCommand } from "./commands/help";
 export { createPauseCommand } from "./commands/pause";
 export { createPlayCommand } from "./commands/play";
 export { createQueueCommand } from "./commands/queue";
+export { createRepeatCommand } from "./commands/repeat";
 export { createResumeCommand } from "./commands/resume";
 export { createShuffleCommand } from "./commands/shuffle";
 export { createSkipCommand } from "./commands/skip";
