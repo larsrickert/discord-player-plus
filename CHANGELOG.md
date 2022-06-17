@@ -1,3 +1,17 @@
+# [1.0.0-beta.5](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2022-06-17)
+
+
+### Features
+
+* commands `run` method returning boolean ([3031a21](https://github.com/larsrickert/discord-player-plus/commit/3031a216f4a62a385bedf30ceb9ea5651015bb25))
+* **player:** add method `getVolume` ([4e9ee7c](https://github.com/larsrickert/discord-player-plus/commit/4e9ee7ca284c6dc54058a4c89fe6f5b5083d6100))
+* **player:** add repeat mode `NONE` and `TRACK` ([f97dc90](https://github.com/larsrickert/discord-player-plus/commit/f97dc903922f30ec7ac87de51f276bc2ecf89b98))
+
+
+### BREAKING CHANGES
+
+* commands `run` method returning boolean
+
 # [1.0.0-beta.4](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2022-06-10)
 
 
