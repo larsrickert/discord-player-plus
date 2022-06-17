@@ -38,6 +38,7 @@ export const createHelpCommand = (
         ],
         ephemeral: true,
       });
+      return true;
     },
   };
 };

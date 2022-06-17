@@ -10,24 +10,27 @@ export const createResumeCommand: CreateCommandFunc = (
     run: async (interaction) => {
       const player = playerManager.find(interaction.guildId);
       if (!player) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       const paused = player.setPause(false);
       if (!paused) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.resume.failure,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       await interaction.reply({
         content: playerManager.translations.resume.success,
         ephemeral: options?.ephemeral,
       });
+      return true;
     },
   };
 };

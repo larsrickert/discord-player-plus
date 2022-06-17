@@ -10,10 +10,11 @@ export const createShuffleCommand: CreateCommandFunc = (
     run: async (interaction) => {
       const player = playerManager.find(interaction.guildId);
       if (!player) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       player.shuffle();
@@ -22,6 +23,7 @@ export const createShuffleCommand: CreateCommandFunc = (
         content: playerManager.translations.shuffle.success,
         ephemeral: options?.ephemeral,
       });
+      return true;
     },
   };
 };

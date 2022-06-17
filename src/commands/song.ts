@@ -13,10 +13,11 @@ export const createSongCommand: CreateCommandFunc = (
       const currentTrack = player?.getCurrentTrack();
 
       if (!player || !currentTrack) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       await interaction.reply({
@@ -26,6 +27,7 @@ export const createSongCommand: CreateCommandFunc = (
         ),
         ephemeral: options?.ephemeral,
       });
+      return true;
     },
   };
 };

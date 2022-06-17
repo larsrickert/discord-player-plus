@@ -5,7 +5,7 @@ import {
 import en from "../languages/en.json";
 import { PlayerManager } from "../player-manager";
 
-export interface Command<T = unknown> extends ChatInputApplicationCommandData {
+export interface Command<T = boolean> extends ChatInputApplicationCommandData {
   run: (interaction: CommandInteraction<"cached">) => Promise<T>;
 }
 

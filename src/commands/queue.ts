@@ -11,20 +11,22 @@ export const createQueueCommand: CreateCommandFunc = (
     run: async (interaction) => {
       const player = playerManager.find(interaction.guildId);
       if (!player) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       const currentTrack = player.getCurrentTrack();
       const tracks = player.getQueue();
 
       if (!currentTrack || !tracks.length) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.queue.empty,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       let content = `>>> **Queue (${tracks.length})**`;
@@ -47,6 +49,7 @@ export const createQueueCommand: CreateCommandFunc = (
       }
 
       await interaction.reply({ content, ephemeral: options?.ephemeral });
+      return true;
     },
   };
 };

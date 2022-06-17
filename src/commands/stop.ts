@@ -10,10 +10,11 @@ export const createStopCommand: CreateCommandFunc = (
     run: async (interaction) => {
       const player = playerManager.find(interaction.guildId);
       if (!player) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       player.stop();
@@ -22,6 +23,7 @@ export const createStopCommand: CreateCommandFunc = (
         content: playerManager.translations.stop.success,
         ephemeral: options?.ephemeral,
       });
+      return true;
     },
   };
 };

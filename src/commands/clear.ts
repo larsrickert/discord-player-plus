@@ -10,10 +10,11 @@ export const createClearCommand: CreateCommandFunc = (
     run: async (interaction) => {
       const player = playerManager.find(interaction.guildId);
       if (!player) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       const count = player.clear();
@@ -24,6 +25,7 @@ export const createClearCommand: CreateCommandFunc = (
         ),
         ephemeral: options?.ephemeral,
       });
+      return true;
     },
   };
 };

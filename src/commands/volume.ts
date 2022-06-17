@@ -21,10 +21,11 @@ export const createSetVolumeCommand: CreateCommandFunc = (
     run: async (interaction) => {
       const player = playerManager.find(interaction.guildId);
       if (!player) {
-        return await interaction.reply({
+        await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       const volume = interaction.options.getNumber("volume", true);
@@ -34,6 +35,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (
           content: playerManager.translations.setvolume.failure,
           ephemeral: options?.ephemeralError ?? true,
         });
+        return false;
       }
 
       await interaction.reply({
@@ -43,6 +45,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (
         ),
         ephemeral: options?.ephemeral,
       });
+      return true;
     },
   };
 };

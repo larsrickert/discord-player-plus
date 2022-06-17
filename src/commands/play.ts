@@ -25,10 +25,10 @@ export const createPlayCommand: CreateCommandFunc = (
         true,
         options
       );
-      if (!searchResult) return;
+      if (!searchResult) return false;
 
       if (searchResult.playlist) {
-        return await interaction.followUp({
+        await interaction.followUp({
           content: playerManager.translations.play.successPlaylist.replace(
             "{playlist}",
             urlToMarkdown(
@@ -37,6 +37,7 @@ export const createPlayCommand: CreateCommandFunc = (
             )
           ),
         });
+        return true;
       }
 
       await interaction.followUp({
@@ -45,6 +46,7 @@ export const createPlayCommand: CreateCommandFunc = (
           trackToMarkdown(searchResult.tracks[0])
         ),
       });
+      return true;
     },
   };
 };
