@@ -2,14 +2,12 @@ import { getData, getTracks, Tracks } from "spotify-url-info";
 import { PlayerEngine, SearchResult, Track } from "../types/engines";
 import { youtubeEngine } from "./youtube";
 
-const source = "spotify";
-
 /**
  * Player engine to search/stream tracks from Spotify.
  * Spotify does not provide a web api to stream tracks so the track will be streamed from YouTube instead.
  */
 export const spotifyEngine: PlayerEngine = {
-  source,
+  source: "spotify",
   async isResponsible(query) {
     return query.startsWith("https://open.spotify.com");
   },
@@ -54,7 +52,7 @@ async function searchPlaylist(query: string): Promise<SearchResult[]> {
         url: data.external_urls.spotify,
         thumbnailUrl: data.images.length ? data.images[0].url : undefined,
       },
-      source,
+      source: spotifyEngine.source,
     },
   ];
 }
@@ -65,6 +63,6 @@ function mapSpotifyTrack(track: Tracks): Track {
     url: track.external_urls.spotify,
     duration: Math.round(track.duration_ms / 1000),
     artist: track.artists?.map((a) => a.name).join(", "),
-    source,
+    source: spotifyEngine.source,
   };
 }

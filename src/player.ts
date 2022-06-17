@@ -275,6 +275,11 @@ export class Player extends TypedEmitter<PlayerEvents> {
     return true;
   }
 
+  /** Gets the current player volume. */
+  getVolume(): number {
+    return this.volume;
+  }
+
   /**
    * Stops the player, clears the current queue and disconnects from the voice channel if connected.
    */

@@ -1,13 +1,11 @@
 import playdl, { YouTubeVideo } from "play-dl";
 import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
 
-const source = "youtube";
-
 /**
  * Player engine to search/stream tracks from YouTube.
  */
 export const youtubeEngine: PlayerEngine = {
-  source,
+  source: "youtube",
   async isResponsible(query) {
     return query.startsWith("https://www.youtube.com");
   },
@@ -28,7 +26,7 @@ export const youtubeEngine: PlayerEngine = {
     return [
       {
         tracks: videos.map((video) => mapYouTubeVideo(video)),
-        source,
+        source: this.source,
       },
     ];
   },
@@ -70,7 +68,7 @@ async function searchPlaylist(query: string): Promise<SearchResult[]> {
         };
       }),
       playlist: playlistInfo,
-      source,
+      source: youtubeEngine.source,
     });
   }
 
@@ -84,6 +82,6 @@ function mapYouTubeVideo(video: YouTubeVideo): Track {
     thumbnailUrl: video.thumbnails[0].url ?? "",
     duration: video.durationInSec,
     artist: video.channel?.name,
-    source,
+    source: youtubeEngine.source,
   };
 }
