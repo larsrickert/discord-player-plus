@@ -171,14 +171,20 @@ export class Player extends TypedEmitter<PlayerEvents> {
       throw new Error(`Unknown player engine "${track.source}"`);
     }
 
-    const trackStream = await playerEngine.getStream(
-      track,
-      this.options,
-      options.stream
-    );
+    const trackStream = await playerEngine.getStream(track, this.options);
 
     if (!trackStream) {
       throw new Error("Unable to create stream for track");
+    }
+
+    let skippedTrack: Track | undefined;
+
+    if (options.addSkippedTrackToQueue) {
+      const track = this.getCurrentTrack();
+      if (track) {
+        track.seek = this.getPlaybackDuration();
+        skippedTrack = track;
+      }
     }
 
     this.audioResource = createAudioResource(trackStream.stream, {
@@ -204,6 +210,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     // add the rest of the tracks to the start of the queue
     this.queue.unshift(...options.tracks.slice(1));
+    if (skippedTrack) this.queue.unshift(skippedTrack);
   }
 
   /**
@@ -283,7 +290,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
    * Gets the currently playing track, if any.
    */
   getCurrentTrack(): Track | undefined {
-    return this.audioResource?.metadata.track;
+    if (!this.audioResource) return;
+    return Object.assign({}, this.audioResource.metadata.track);
   }
 
   /**
@@ -367,13 +375,13 @@ export class Player extends TypedEmitter<PlayerEvents> {
   async seek(time: number): Promise<boolean> {
     const currentTrack = this.getCurrentTrack();
     if (!currentTrack || time < 0 || !this.audioResource) return false;
-
     if (time / 1000 >= currentTrack.duration) return !!this.skip();
+
+    currentTrack.seek = time;
 
     await this.play({
       channel: this.audioResource.metadata.channel,
       tracks: [currentTrack],
-      stream: { seek: time },
     });
     return true;
   }

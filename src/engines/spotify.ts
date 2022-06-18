@@ -24,7 +24,7 @@ export const spotifyEngine: PlayerEngine = {
       },
     ];
   },
-  async getStream(track, playerOptions, streamOptions) {
+  async getStream(track, playerOptions) {
     const searchResults = await youtubeEngine.search(
       track.artist ? `${track.title} ${track.artist}` : track.title,
       playerOptions,
@@ -34,7 +34,7 @@ export const spotifyEngine: PlayerEngine = {
     if (!searchResults.length || !searchResults[0].tracks.length) return null;
     const mappedTrack = searchResults[0].tracks[0];
 
-    return youtubeEngine.getStream(mappedTrack, playerOptions, streamOptions);
+    return youtubeEngine.getStream(mappedTrack, playerOptions);
   },
 };
 

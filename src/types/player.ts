@@ -24,12 +24,10 @@ export interface PlayOptions {
   channel: VoiceBasedChannel;
   /** Tracks to play / add to queue. */
   tracks: Track[];
-  stream?: StreamOptions;
-}
-
-export interface StreamOptions {
-  /** Number of milliseconds to seek/skip. */
-  seek?: number;
+  /**
+   * If `true` and player is currently playing a track, it will be added to the front of the queue with the current playback duration.
+   */
+  addSkippedTrackToQueue?: boolean;
 }
 
 /* eslint-disable @typescript-eslint/no-empty-interface */

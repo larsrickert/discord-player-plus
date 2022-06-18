@@ -1,4 +1,4 @@
-import { PlayerOptions, StreamOptions, TrackStream } from "./player";
+import { PlayerOptions, TrackStream } from "./player";
 
 export interface PlayerEngine {
   source: string;
@@ -10,8 +10,7 @@ export interface PlayerEngine {
   ): Promise<SearchResult[]>;
   getStream(
     track: Track,
-    playerOptions: PlayerOptions,
-    streamOptions?: StreamOptions
+    playerOptions: PlayerOptions
   ): Promise<TrackStream | null>;
 }
 
@@ -45,6 +44,8 @@ export interface Track {
    */
   source: string;
   playlist?: Playlist;
+  /** Number of milliseconds to seek/skip. */
+  seek?: number;
 }
 
 export interface Playlist {

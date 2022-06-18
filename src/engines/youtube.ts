@@ -30,7 +30,7 @@ export const youtubeEngine: PlayerEngine = {
       },
     ];
   },
-  async getStream(track, playerOptions, streamOptions) {
+  async getStream(track, playerOptions) {
     return await playdl.stream(track.url, {
       quality:
         playerOptions.quality === "low"
@@ -38,7 +38,7 @@ export const youtubeEngine: PlayerEngine = {
           : playerOptions.quality === "medium"
           ? 1
           : 2,
-      seek: streamOptions?.seek ? streamOptions?.seek / 1000 : undefined,
+      seek: track?.seek ? track.seek / 1000 : undefined,
     });
   },
 };
