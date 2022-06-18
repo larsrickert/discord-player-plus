@@ -30,7 +30,7 @@ import { shuffle, validateVolume } from "./utils/player";
 export class Player extends TypedEmitter<PlayerEvents> {
   private readonly audioPlayer = createAudioPlayer();
   private queue: Track[] = [];
-  private volume = 100;
+  private volume: number | undefined;
   private audioResource: AudioResource<AudioPlayerMetadata> | undefined;
   private repeatMode = PlayerRepeatMode.NONE;
 
@@ -39,10 +39,6 @@ export class Player extends TypedEmitter<PlayerEvents> {
     private readonly options: PlayerOptions = {}
   ) {
     super();
-
-    if (options.initialVolume && validateVolume(options.initialVolume)) {
-      this.volume = options.initialVolume;
-    }
 
     this.audioPlayer.on<"stateChange">(
       "stateChange",
@@ -191,7 +187,18 @@ export class Player extends TypedEmitter<PlayerEvents> {
       metadata,
     });
 
-    this.audioResource.volume?.setVolume(this.volume / 100);
+    // set player volume
+    if (this.volume != null) {
+      this.setVolume(this.volume);
+    } else {
+      const initialVolume =
+        typeof this.options.initialVolume === "function"
+          ? await this.options.initialVolume(options.channel.guildId)
+          : this.options.initialVolume;
+
+      this.setVolume(initialVolume ?? 100);
+    }
+
     this.join(options.channel);
     this.audioPlayer.play(this.audioResource);
 
@@ -303,7 +310,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   /** Gets the current player volume. */
   getVolume(): number {
-    return this.volume;
+    return this.volume ?? 100;
   }
 
   /**

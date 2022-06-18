@@ -47,8 +47,10 @@ export interface PlayerOptions {
    * @default true
    */
   inlineVolume?: boolean;
-  /** Initial player volume for all tracks between 0 and 200. */
-  initialVolume?: number;
+  /**
+   * Initial player volume for all tracks between 0 and 200. Can also be an (async) function that returns the volume.
+   */
+  initialVolume?: number | ((guildId: string) => number | Promise<number>);
   /**
    * Path to the folder where local files should be playable from. Must be set if local files should be playable.
    * For security reasons files outside this directory are refused to play.
