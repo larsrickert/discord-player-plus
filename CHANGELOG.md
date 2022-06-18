@@ -1,3 +1,17 @@
+# [1.0.0-beta.8](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2022-06-18)
+
+
+### Features
+
+* **commands:** add command `seek` ([4fa37e9](https://github.com/larsrickert/discord-player-plus/commit/4fa37e96ecc043bfaa87604552e6097476abb691))
+* **player:** add play option `addSkippedTrackToQueue` ([9c4597e](https://github.com/larsrickert/discord-player-plus/commit/9c4597e107c6206144bb50cb754755360e5b1a1f))
+
+
+### BREAKING CHANGES
+
+* **player:** remove type `StreamOptions`
+* **player:** remove parameter `streamOptions` from engines `getStream` method
+
 # [1.0.0-beta.7](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2022-06-18)
 
 
