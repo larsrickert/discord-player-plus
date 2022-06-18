@@ -44,7 +44,7 @@ export interface PlayerOptions {
    * Setting to `true` will enable the player to change the volume of the played tracks.
    * Set to `false` for slightly better performance.
    *
-   * @default `true`
+   * @default true
    */
   inlineVolume?: boolean;
   /** Initial player volume for all tracks between 0 and 200. */
@@ -62,6 +62,14 @@ export interface PlayerOptions {
   fileRoot?: string;
   /** Custom player engines to provide additional streaming services or override existing ones. */
   customEngines?: Record<string, PlayerEngine>;
+  /**
+   * When `true` and the player is already playing in voice channel A, player will be allowed to switch to
+   * voice channel B. If `false`, player wont connect to another voice channel when he is already playing in a voice channel.
+   *
+   * @default true
+   *
+   */
+  allowSwitchChannels?: boolean;
 }
 
 export interface AudioPlayerMetadata {

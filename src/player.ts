@@ -98,6 +98,19 @@ export class Player extends TypedEmitter<PlayerEvents> {
    * registers events when disconnected and destroyed.
    */
   private join(channel: VoiceBasedChannel): VoiceConnection {
+    // check if player is allowed to switch channels when already playing in another voice channel
+    if (!(this.options.allowSwitchChannels ?? true)) {
+      const currentConnection = getVoiceConnection(channel.guildId);
+      if (
+        currentConnection &&
+        currentConnection.joinConfig.channelId !== channel.id
+      ) {
+        throw new Error(
+          "Refused to join voice channel because player is already connected to another voice channel"
+        );
+      }
+    }
+
     const connection = joinVoiceChannel({
       channelId: channel.id,
       guildId: channel.guild.id,
