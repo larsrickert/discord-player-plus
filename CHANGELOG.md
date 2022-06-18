@@ -1,3 +1,10 @@
+# [1.0.0-beta.9](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2022-06-18)
+
+
+### Bug Fixes
+
+* volume glitch when async function is used for initial volume ([9f802bf](https://github.com/larsrickert/discord-player-plus/commit/9f802bfddf9df9a07dbdca9cd404b621328046aa))
+
 # [1.0.0-beta.8](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2022-06-18)
 
 
