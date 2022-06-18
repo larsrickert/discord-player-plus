@@ -7,6 +7,7 @@ export { createPlayCommand } from "./commands/play";
 export { createQueueCommand } from "./commands/queue";
 export { createRepeatCommand } from "./commands/repeat";
 export { createResumeCommand } from "./commands/resume";
+export { createSeekCommand } from "./commands/seek";
 export { createShuffleCommand } from "./commands/shuffle";
 export { createSkipCommand } from "./commands/skip";
 export { createSongCommand } from "./commands/song";

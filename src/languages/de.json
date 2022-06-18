@@ -72,5 +72,11 @@
       "track": "Song"
     },
     "success": "✅ Wiederholungsmodus auf \"{mode}\" geändert."
+  },
+  "seek": {
+    "description": "Spult den aktuellen Song zur gegebenen Zeit vor/zurück.",
+    "optionDescription": "Zeit, zu der gespult werden soll (in Sekunden).",
+    "success": "✅ Aktueller Song zu {duration} gespult.",
+    "failure": "❌ Aktueller Song konnte nicht vor/zurückgespult werden."
   }
 }

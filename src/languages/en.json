@@ -72,5 +72,11 @@
       "track": "Song"
     },
     "success": "✅ Set repeat mode to \"{mode}\"."
+  },
+  "seek": {
+    "description": "Seeks the current song to the given time.",
+    "optionDescription": "Time to seek to (in seconds).",
+    "success": "✅ Seeked current song to {duration}",
+    "failure": "❌ Current song could not be seeked."
   }
 }

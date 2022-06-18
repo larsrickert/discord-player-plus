@@ -8,6 +8,7 @@ import {
   createQueueCommand,
   createRepeatCommand,
   createResumeCommand,
+  createSeekCommand,
   createSetVolumeCommand,
   createShuffleCommand,
   createSkipCommand,
@@ -45,6 +46,7 @@ export const commands: Command[] = [
   createStopCommand(playerManager),
   createSetVolumeCommand(playerManager),
   createRepeatCommand(playerManager),
+  createSeekCommand(playerManager),
 ];
 commands.push(
   createHelpCommand(playerManager, {
