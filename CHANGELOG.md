@@ -1,3 +1,16 @@
+# [1.0.0-beta.6](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2022-06-18)
+
+
+### Features
+
+* **player:** add option `allowSwitchChannels` ([9bceb75](https://github.com/larsrickert/discord-player-plus/commit/9bceb757e8db3df9878b38cab42e1c705c4b9739))
+* **player:** make `fileRoot` option required for local files ([a0f1994](https://github.com/larsrickert/discord-player-plus/commit/a0f19945a09113456e2e98bbbd7472438010d76c))
+
+
+### BREAKING CHANGES
+
+* **player:** `fileRoot` option is required to play local files
+
 # [1.0.0-beta.5](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2022-06-17)
 
 
