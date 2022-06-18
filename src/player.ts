@@ -187,23 +187,27 @@ export class Player extends TypedEmitter<PlayerEvents> {
       }
     }
 
-    this.audioResource = createAudioResource(trackStream.stream, {
-      inputType: trackStream.type,
-      inlineVolume,
-      metadata,
-    });
+    // get (initial) player volume
+    let volume: number;
 
-    // set player volume
     if (this.volume != null) {
-      this.setVolume(this.volume);
+      volume = this.volume;
     } else {
       const initialVolume =
         typeof this.options.initialVolume === "function"
           ? await this.options.initialVolume(options.channel.guildId)
           : this.options.initialVolume;
 
-      this.setVolume(initialVolume ?? 100);
+      volume = initialVolume ?? 100;
     }
+
+    this.audioResource = createAudioResource(trackStream.stream, {
+      inputType: trackStream.type,
+      inlineVolume,
+      metadata,
+    });
+
+    this.setVolume(volume);
 
     this.join(options.channel);
     this.audioPlayer.play(this.audioResource);
