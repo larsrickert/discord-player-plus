@@ -10,9 +10,7 @@ import { isSubPath } from "../utils/fs";
 export const fileEngine: PlayerEngine = {
   source: "file",
   async isResponsible(query, { fileRoot }) {
-    if (fileRoot && !isSubPath(fileRoot, query)) {
-      return false;
-    }
+    if (!fileRoot || !isSubPath(fileRoot, query)) return false;
 
     // check if query is file path
     try {
