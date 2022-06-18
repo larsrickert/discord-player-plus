@@ -1,3 +1,10 @@
+# [1.0.0-beta.7](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2022-06-18)
+
+
+### Features
+
+* **player:** option `initialVolume` can be function ([2b3b9b2](https://github.com/larsrickert/discord-player-plus/commit/2b3b9b248ff14ddfbe6696958371a2d8b963de12))
+
 # [1.0.0-beta.6](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2022-06-18)
 
 
