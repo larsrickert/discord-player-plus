@@ -33,8 +33,16 @@ export function urlToMarkdown(
 }
 
 export function formatDuration(durationInSecs: number): string {
-  const minutes = Math.floor(durationInSecs / 60);
-  const seconds = durationInSecs % 60;
+  const seconds = Math.floor(durationInSecs % 60);
+  const minutes = Math.floor((durationInSecs / 60) % 60);
+  const hours = Math.floor(durationInSecs / 3600);
+
+  if (hours) {
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  }
+
   return `${minutes.toString().padStart(2, "0")}:${seconds
     .toString()
     .padStart(2, "0")}`;
