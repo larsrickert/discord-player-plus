@@ -1,12 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { Track } from "../../types/engines";
+import { Track } from "../types/engines";
 import {
   formatDuration,
   shuffle,
   trackToMarkdown,
   urlToMarkdown,
   validateVolume,
-} from "../../utils/player";
+} from "../utils/player";
 
 describe("player util", () => {
   it("shuffles array", () => {
