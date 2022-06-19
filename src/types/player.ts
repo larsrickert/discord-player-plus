@@ -16,6 +16,12 @@ export interface PlayerEvents {
   error: (error: PlayerError) => void;
 }
 
+export type PlayerManagerEvents = {
+  [K in keyof PlayerEvents]: PlayerEvents[K] extends (...a: infer U) => infer R
+    ? (guildId: string, ...a: U) => R
+    : never;
+};
+
 export interface PlayOptions {
   /** Voice channel to play in. */
   channel: VoiceBasedChannel;
