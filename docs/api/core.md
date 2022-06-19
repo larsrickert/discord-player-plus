@@ -90,6 +90,16 @@ Removes and destroys the player for the given guildId (if any). Will stop playin
   public readonly options: PlayerManagerOptions | undefined
   ```
 
+### translations
+
+[Translations](#translations-1) used for pre-built slash commands. Using English translations as default.
+
+- **Type**
+
+  ```ts
+  public readonly translations: Translations
+  ```
+
 ## Player
 
 A player is responsible for the audio playback for **one** specific guild/discord server. There should only exist one player per guild in your application.

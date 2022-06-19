@@ -14,12 +14,11 @@ import {
   createSkipCommand,
   createSongCommand,
   createStopCommand,
+  handleSlashCommand,
   PlayerManager,
 } from "discord-player-plus";
 import { Client, Intents } from "discord.js";
 import { config } from "./config";
-import registerInteractionCreateListener from "./listeners/interactionCreate.listener";
-import registerReadyListener from "./listeners/ready.listener";
 
 const client = new Client({
   intents: [
@@ -33,7 +32,7 @@ export const playerManager = new PlayerManager({
   playerDefault: config.player,
 });
 
-export const commands: Command[] = [
+export const slashCommands: Command[] = [
   createAddCommand(playerManager),
   createClearCommand(playerManager),
   createPauseCommand(playerManager),
@@ -48,9 +47,9 @@ export const commands: Command[] = [
   createRepeatCommand(playerManager),
   createSeekCommand(playerManager),
 ];
-commands.push(
+slashCommands.push(
   createHelpCommand(playerManager, {
-    commands,
+    commands: slashCommands,
     title: "Example bot for discord-player-plus",
     url: "https://github.com/larsrickert/discord-player-plus",
     author: {
@@ -58,10 +57,18 @@ commands.push(
       url: "https://lars-rickert.de",
       iconUrl: "https://avatars.githubusercontent.com/u/67898185?v=4",
     },
+    footerText: "Thanks for using discord-player-plus",
   })
 );
 
-registerReadyListener(client, commands);
-registerInteractionCreateListener(client);
+client
+  .on("ready", async (client) => {
+    console.log(`Bot ready and logged in as ${client.user.tag}`);
+    await client.application.commands.set(slashCommands);
+    client.user.setActivity({ name: "/help", type: "LISTENING" });
+  })
+  .on("interactionCreate", async (interaction) => {
+    await handleSlashCommand(interaction, playerManager, slashCommands);
+  });
 
 client.login(config.app.clientToken);

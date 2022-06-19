@@ -4,8 +4,6 @@ outline: deep
 
 # Slash Commands API
 
-`discord-player-plus` provides pre-defined discord slash commands for its core functionality. However, the commands API is not restricted to those commands and can be extended by your own commands. This provides a clean and standardized command development.
-
 ## Command
 
 A command extends the default command type provided by `discord.js` with a `run` method that encapsulates the logic of each slash command.
@@ -101,7 +99,7 @@ A command extends the default command type provided by `discord.js` with a `run`
 
   const playerManager = new PlayerManager();
 
-  // add commands here, e.g. pre-defined commands from discord-player-plus or custom commands
+  // add commands here, e.g. pre-build commands from discord-player-plus or custom commands
   const slashCommands: Command[] = [];
 
   client.on("ready", async (client) => {
@@ -110,11 +108,15 @@ A command extends the default command type provided by `discord.js` with a `run`
   });
 
   client.on("interactionCreate", async (interaction) => {
-    await handleSlashCommand(interaction, playerManager, slashCommands);
+    await handleSlashCommand(
+      interaction,
+      slashCommands,
+      playerManager.translations
+    );
   });
   ```
 
-## Pre-defined commands
+## pre-build commands
 
 ### createAddCommand()
 
@@ -528,7 +530,7 @@ Creates a `/seek` command for seeking the current track to a specific duration.
 
 ## Interfaces
 
-Options for creating pre-defined commands from `discord-player-plus`.
+Options for creating pre-build commands from `discord-player-plus`.
 
 ### CreateCommandOptions
 

@@ -1,6 +1,6 @@
 # Discord Music Bot
 
-Discord music bot example using `@larsrickert/discord-player-plus`
+Discord music bot example using [`discord-player-plus`](https://github.com/larsrickert/discord-player-plus).
 
 ## Project setup
 

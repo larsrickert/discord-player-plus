@@ -1,23 +1,36 @@
-# Pre-build commands
+# Pre-build Slash Commands
 
-`discord-player-plus` provides pre-built slash commands for all of its functionality to speed up your discord bot development.
+`discord-player-plus` provides pre-build discord slash commands for its core functionality. However, the commands API is not restricted to those commands and can be extended by your own commands. This provides a clean and standardized command development.
+
+For more information, a full list of available commands and examples, please visit the [API reference](/api/commands).
+
+## Usage
 
 ```ts
 import {
+  Command,
   createAddCommand,
   createClearCommand,
   createHelpCommand,
   createPauseCommand,
   createPlayCommand,
   createQueueCommand,
+  createRepeatCommand,
   createResumeCommand,
+  createSeekCommand,
   createSetVolumeCommand,
   createShuffleCommand,
   createSkipCommand,
   createSongCommand,
   createStopCommand,
-  Command,
+  PlayerManager,
 } from "discord-player-plus";
+
+const playerManager = new PlayerManager({
+  playerDefault: {
+    initialVolume: 50,
+  },
+});
 
 // pre-built commands for basic player functions
 const slashCommands: Command[] = [
@@ -25,36 +38,35 @@ const slashCommands: Command[] = [
   createClearCommand(playerManager),
   createPauseCommand(playerManager),
   createPlayCommand(playerManager),
-  createQueueCommand(playerManager),
+  createQueueCommand(playerManager, { ephemeral: true }),
   createResumeCommand(playerManager),
   createShuffleCommand(playerManager),
   createSkipCommand(playerManager),
-  createSongCommand(playerManager),
+  createSongCommand(playerManager, { ephemeral: true }),
   createStopCommand(playerManager),
   createSetVolumeCommand(playerManager),
+  createRepeatCommand(playerManager),
+  createSeekCommand(playerManager),
 ];
 
 // automatically generate a help slash command with details about all the commands above
 slashCommands.push(
   createHelpCommand(playerManager, {
-    slashCommands,
-    // your information here
-    author: {
-      name: "John Doe",
-      url: "https://example.com",
-      iconUrl: "https://example.com/img/avatar.png",
-    },
+    commands,
     title: "Example bot for discord-player-plus",
     url: "https://github.com/larsrickert/discord-player-plus",
+    author: {
+      name: "Lars Rickert",
+      url: "https://lars-rickert.de",
+      iconUrl: "https://avatars.githubusercontent.com/u/67898185?v=4",
+    },
   })
 );
 ```
 
 That's it. Your discord bot now features the most commonly used music player commands out of the box.
 
-## Customizing command messages
-
-### Output visibility
+## Output visibility
 
 The pre-built slash commands send messages to inform the user about successful / failed execution of the command. You can set the visibility of those messages for each command, e.g.:
 
@@ -67,7 +79,7 @@ createPlayCommand(playerManager, {
 
 Ephemeral means that only the user that executed the command will see the output. If `false`, everyone on the server will see the command output.
 
-### Internationalization
+## Internationalization
 
 The messages for pre-build commands will use Englisch by default. Supported languages are:
 
@@ -86,7 +98,6 @@ customTranslations.global.unsupportedCommand =
   '❌ I dont know your requested command "{command}"!';
 
 const playerManager = new PlayerManager({
-  // ...
   translations: customTranslations,
 });
 ```

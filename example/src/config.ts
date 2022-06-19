@@ -1,8 +1,6 @@
+import { PlayerOptions } from "discord-player-plus";
 import "dotenv/config";
 import path from "path";
-import { Config } from "./types/config";
-
-export const isProduction = process.env.NODE_ENV === "production";
 
 export const config: Config = {
   app: {
@@ -13,3 +11,10 @@ export const config: Config = {
     fileRoot: path.join(__dirname, "../public"),
   },
 };
+
+interface Config {
+  app: {
+    clientToken: string;
+  };
+  player: PlayerOptions;
+}
