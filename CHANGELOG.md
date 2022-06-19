@@ -1,3 +1,17 @@
+# [1.0.0-beta.10](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2022-06-19)
+
+
+### Features
+
+* **player-manager:** add events ([251b07c](https://github.com/larsrickert/discord-player-plus/commit/251b07cf277c07d8df563cd2cf559d0c89e90ad2))
+* **player:** add `error` event ([fd23641](https://github.com/larsrickert/discord-player-plus/commit/fd23641d1938983a9f77a4004b1eeac2b49e10cd))
+
+
+### BREAKING CHANGES
+
+* **player:** remove player event `queueEnd` in favor of `destroyed`
+* **player:** player event `trackEnd` now emmited before next track started
+
 # [1.0.0-beta.9](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2022-06-18)
 
 
