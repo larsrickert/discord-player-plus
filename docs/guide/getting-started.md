@@ -110,3 +110,28 @@ const myCustomCommand: Command = {
 
 slashCommands.push(myCustomCommand);
 ```
+
+## Usage without commands
+
+`discord-player-plus` can of course be used without commands or pre-build commands. Below is an example for playing tracks.
+
+```ts
+import { PlayerManager } from "discord-player-plus";
+
+// create your discord.js client here
+
+const playerManager = new PlayerManager();
+const player = playerManager.get("my-guild-id");
+
+// get your voice channel here, e.g. from a slash command
+const voiceChannel;
+
+const searchResults = await player.search("Luis Fonsi - Despacito");
+if (searchResults.length && searchResults[0].tracks.length) {
+  await player.play({
+    channel: voiceChannel,
+    // play first matched song for Despacito
+    tracks: searchResults[0].tracks.slice(1),
+  });
+}
+```

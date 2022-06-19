@@ -47,7 +47,7 @@ export interface Track {
   duration: number;
   artist?: string;
   /**
-   * Track source (used player engine)
+   * Track source (used player engine). Build-in engines/sources: `youtube`, `spotify`, `file`.
    *
    * @example "youtube"
    */
