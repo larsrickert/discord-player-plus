@@ -7,13 +7,9 @@
     "strict": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "lib",
-    "declaration": true,
-    "declarationMap": true,
+    "outDir": "dist",
     "baseUrl": ".",
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "lib": ["ES2021.String"],
     "paths": {
       "*": ["node_modules/*"]
     }

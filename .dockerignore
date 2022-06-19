@@ -1,8 +1,0 @@
-.git
-.github
-.husky
-dist
-logs
-node_modules
-.env
-.env.example

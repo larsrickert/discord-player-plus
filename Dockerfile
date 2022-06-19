@@ -1,12 +1,16 @@
-FROM node:16-alpine
+# build stage
+FROM node:17 as build
 
-WORKDIR /usr/src/app
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
 
 COPY . ./
+RUN npm run docs:build
 
-#  remove husky init script (needed because --only=production does not install husky)
-RUN npm set-script prepare ""
-RUN npm ci --only=production
-
-EXPOSE 3000
-CMD ["npm", "start"]
+# production stage
+FROM nginx:stable-alpine
+COPY --from=build /app/docs/.vitepress/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
