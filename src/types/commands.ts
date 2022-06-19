@@ -2,7 +2,7 @@ import {
   ChatInputApplicationCommandData,
   CommandInteraction,
 } from "discord.js";
-import en from "../languages/en.json";
+import type en from "../languages/en.json";
 import { PlayerManager } from "../player-manager";
 
 export interface Command<T = boolean> extends ChatInputApplicationCommandData {

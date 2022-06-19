@@ -18,12 +18,7 @@ export * from "./player-manager";
 export * from "./types/commands";
 export * from "./types/engines";
 export * from "./types/player";
-export {
-  formatDuration,
-  trackToMarkdown,
-  urlToMarkdown,
-  validateVolume,
-} from "./utils/player";
+export * from "./utils/player";
 export { en, de };
 import de from "./languages/de.json";
 import en from "./languages/en.json";

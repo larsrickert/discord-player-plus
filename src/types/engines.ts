@@ -1,4 +1,6 @@
-import { PlayerOptions, TrackStream } from "./player";
+import { StreamType } from "@discordjs/voice";
+import { Readable } from "stream";
+import { PlayerOptions } from "./player";
 
 export interface PlayerEngine {
   source: string;
@@ -52,4 +54,12 @@ export interface Playlist {
   title: string;
   url: string;
   thumbnailUrl?: string;
+}
+
+export interface TrackStream {
+  /**
+   * If the input is given as a string, then the inputType option will be overridden and FFmpeg will be used.
+   */
+  stream: Readable | string;
+  type?: StreamType;
 }
