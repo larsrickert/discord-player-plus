@@ -5,6 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",
+  "homepage": "https://discordplayerplus.lars-rickert.de",
   "files": [
     "lib",
     "CHANGELOG.md"
@@ -94,9 +95,6 @@
     "bot",
     "discord",
     "discord.js",
-    "musicbot",
-    "discord-music-player",
-    "discord-music",
-    "music-player"
+    "music"
   ]
 }
