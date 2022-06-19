@@ -1,3 +1,15 @@
+# [1.0.0-beta.11](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2022-06-19)
+
+
+### Documentation
+
+* add vitepress documentation ([#1](https://github.com/larsrickert/discord-player-plus/issues/1)) ([c99d31c](https://github.com/larsrickert/discord-player-plus/commit/c99d31cfa5f3e088dee6d4ee81db07de1f59d0bc))
+
+
+### BREAKING CHANGES
+
+* change `handleSlashCommand` signature
+
 # [1.0.0-beta.10](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2022-06-19)
 
 
