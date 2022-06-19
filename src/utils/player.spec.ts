@@ -2,23 +2,12 @@ import { describe, expect, it } from "vitest";
 import { Track } from "../types/engines";
 import {
   formatDuration,
-  shuffle,
   trackToMarkdown,
   urlToMarkdown,
   validateVolume,
 } from "../utils/player";
 
 describe("player util", () => {
-  it("shuffles array", () => {
-    const original = [1, 2, 3, 4, 5, 6, 7, 8];
-    const arr = original.slice();
-    const shuffled = shuffle(arr);
-
-    expect(arr).toBe(shuffled);
-    expect(arr.length).toBe(shuffled.length);
-    expect(arr.join(",")).not.toBe(original.join(","));
-  });
-
   it("validates volume", () => {
     const testCases = [
       { input: -1, expected: false },
