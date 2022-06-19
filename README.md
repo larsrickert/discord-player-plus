@@ -1,5 +1,7 @@
 # Discord Player Plus
 
+[![downloadsBadge](https://img.shields.io/npm/dt/discord-player-plus?style=for-the-badge)](https://npmjs.com/discord-player-plus)
+
 Library for quickly creating discord music and sound bots using discord.js v13.
 
 ## Features
