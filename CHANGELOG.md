@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/larsrickert/discord-player-plus/compare/v1.0.0...v1.0.1) (2022-06-19)
+
+
+### Bug Fixes
+
+* formatDuration not formatting hours ([#3](https://github.com/larsrickert/discord-player-plus/issues/3)) ([cc85989](https://github.com/larsrickert/discord-player-plus/commit/cc85989a303be72bd99bd6c0c5a667fa95021fdb))
+
 # 1.0.0 (2022-06-19)
 
 
