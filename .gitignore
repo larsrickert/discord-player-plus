@@ -4,6 +4,7 @@ dist
 /lib
 /logs
 .eslintcache
+/coverage
 
 # local env files
 .env

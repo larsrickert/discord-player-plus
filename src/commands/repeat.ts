@@ -20,6 +20,7 @@ export const createRepeatCommand: CreateCommandFunc = (
         description: playerManager.translations.repeat.modeDescription,
         required: true,
         choices: Object.entries(PlayerRepeatMode)
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           .filter(([_, value]) => typeof value === "number")
           .map<ApplicationCommandOptionChoiceData>(([key, value]) => {
             return {
