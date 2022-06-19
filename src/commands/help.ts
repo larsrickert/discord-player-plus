@@ -1,6 +1,9 @@
 import { PlayerManager } from "../player-manager";
 import { Command, CreateHelpCommandOptions } from "../types/commands";
 
+/**
+ * Creates a `/help` command for showing all available commands and bot metadata.
+ */
 export const createHelpCommand = (
   playerManager: PlayerManager,
   options: CreateHelpCommandOptions

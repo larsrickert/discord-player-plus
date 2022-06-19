@@ -84,7 +84,9 @@ export interface PlayerManagerOptions {
 }
 
 export enum PlayerRepeatMode {
+  /** No tracks are repeated (default) */
   NONE,
+  /** Repeat currently playing track */
   TRACK,
 }
 

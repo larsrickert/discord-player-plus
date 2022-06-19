@@ -8,16 +8,24 @@ export default defineConfig({
   lastUpdated: true,
 
   themeConfig: {
-    repo: pkg.repository.url,
-    docsBranch: "main",
-    editLinks: true,
-    editLinkText: "Edit this page on GitHub",
-    lastUpdated: "Last Updated",
+    socialLinks: [
+      {
+        icon: "github",
+        link: pkg.repository.url,
+      },
+      {
+        icon: "discord",
+        link: "https://discord.com/users/251414332955557889",
+      },
+    ],
+    editLink: {
+      pattern: `${pkg.repository.url}/edit/main/docs/:path`,
+    },
 
     sidebar: [
       {
         text: "Introduction",
-        children: [
+        items: [
           {
             text: "What is discord-player-plus?",
             link: "/",
@@ -29,6 +37,19 @@ export default defineConfig({
           {
             text: "Pre-build commands",
             link: "/guide/pre-build-commands",
+          },
+        ],
+      },
+      {
+        text: "API Reference",
+        items: [
+          {
+            text: "Core API",
+            link: "/api/core",
+          },
+          {
+            text: "Slash Commands",
+            link: "/api/commands",
           },
         ],
       },

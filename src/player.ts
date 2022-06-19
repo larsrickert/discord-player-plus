@@ -341,7 +341,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   }
 
   /**
-   * Sets the player volume for all tracks.
+   * Sets the player volume for all tracks. Requires `inlineVolume` in player options to be `true` (default).
    *
    * @param volume Volume between 0 and 200.
    * @returns `true` if the volume was set, `false` otherwise.
@@ -424,7 +424,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   }
 
   /**
-   * Inserts a track at a specific index. Will move track and current index and following after the inserted track.
+   * Inserts a track at a specific index. Will move current index and following after the inserted track.
    * If index is smaller or grater than queue size, will insert at the start/end at the queue accordingly.
    * Will not play the track if queue is empty and currently not playing.
    */

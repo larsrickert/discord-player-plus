@@ -51,13 +51,13 @@ export const commands: Command[] = [
 commands.push(
   createHelpCommand(playerManager, {
     commands,
+    title: "Example bot for discord-player-plus",
+    url: "https://github.com/larsrickert/discord-player-plus",
     author: {
       name: "Lars Rickert",
       url: "https://lars-rickert.de",
       iconUrl: "https://avatars.githubusercontent.com/u/67898185?v=4",
     },
-    title: "Example bot for discord-player-plus",
-    url: "https://github.com/larsrickert/discord-player-plus",
   })
 );
 
