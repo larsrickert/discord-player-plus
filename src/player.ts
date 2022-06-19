@@ -55,7 +55,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
         ) {
           // new track started
           const resource = newState.resource as typeof this.audioResource;
-          if (resource) this.emit("trackStart", resource.metadata.track);
+          if (resource) {
+            this.emit("trackStart", Object.assign({}, resource.metadata.track));
+          }
           return;
         }
 
