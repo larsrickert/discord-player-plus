@@ -68,7 +68,11 @@ client
     client.user.setActivity({ name: "/help", type: "LISTENING" });
   })
   .on("interactionCreate", async (interaction) => {
-    await handleSlashCommand(interaction, playerManager, slashCommands);
+    await handleSlashCommand(
+      interaction,
+      slashCommands,
+      playerManager.translations
+    );
   });
 
 client.login(config.app.clientToken);
