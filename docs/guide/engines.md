@@ -1,6 +1,6 @@
 # Player engines
 
-Player engines are the hearth of discord-player-plus. They are responsible for searching tracks and streaming them using different streaming providers such as YouTube or Spotify. Following player engines are built-in:
+Player engines are the hearth of `discord-player-plus`. They are responsible for searching tracks and streaming them using different streaming providers such as YouTube or Spotify. Following player engines are built-in:
 
 - YouTube
 - Spotify (Spotify does not provide a web API to stream tracks so they are only searched on Spotify but streamed on YouTube)
@@ -13,6 +13,8 @@ const searchResults = await player.search("my song to search", {
   source: "spotify",
 });
 ```
+
+If no engine is found for your search, YouTube will be used as fallback.
 
 ## Local files
 
@@ -77,3 +79,42 @@ const playerManager = new PlayerManager({
     tracks: [track],
   });
   ```
+
+## Custom engines
+
+You can use custom engines to override existing ones or add additional streaming providers. Custom player engines have higher priority than build-in ones so if you add a custom engine that is responsible for tracks that a build-in engine is responsible for, your engine will be used instead.
+
+::: info
+If you are planning to add a player engine for a new streaming provider, please feel free to contribute to `discord-player-plus` by [creating a pull request](https://github.com/larsrickert/discord-player-plus/pulls) that adds the engine to the library so others can use it too.
+:::
+
+```ts
+import { PlayerEngine, PlayerManager } from "discord-player-plus";
+
+const myCustomEngine: PlayerEngine = {
+  source: "vimeo",
+  async isResponsible(query) {
+    // can also be async
+    return query.startsWith("https://player.vimeo.com/video");
+  },
+  async search(query, playerOptions, searchOptions) {
+    // put your code here that searches the query on vimeo
+    return [];
+  },
+  async getStream(track, playerOptions) {
+    // get stream from vimeo
+    return null;
+  },
+};
+
+// add custom engine to all players via the player manager
+const playerManager = new PlayerManager({
+  playerDefaults: {
+    customEngines: {
+      vimeo: myCustomEngine,
+    },
+  },
+});
+```
+
+You can now search on/stream from vimeo using `player.search()` or by explicitly setting a track's source to `vimeo`.

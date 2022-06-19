@@ -31,6 +31,10 @@ export default defineConfig({
         text: "Changelog",
         link: "https://github.com/larsrickert/discord-player-plus/releases",
       },
+      {
+        text: "Report bug",
+        link: "https://github.com/larsrickert/discord-player-plus/issues/new",
+      },
     ],
     sidebar: [
       {
