@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@types/node": "^18.0.0",
-    "discord-player-plus": "^1.0.0",
+    "discord-player-plus": "^1.0.1",
     "discord.js": "^13.8.0",
     "dotenv": "^16.0.1",
     "ts-node": "^10.8.1",
