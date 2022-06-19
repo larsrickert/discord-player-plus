@@ -26,7 +26,12 @@ export default defineConfig({
       message: `Released under the ${pkg.license} License.`,
       copyright: `Copyright © 2022-present ${pkg.author.name}`,
     },
-
+    nav: [
+      {
+        text: "Changelog",
+        link: "https://github.com/larsrickert/discord-player-plus/releases",
+      },
+    ],
     sidebar: [
       {
         text: "Introduction",
