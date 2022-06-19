@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  docs:
+    build: .
+    image: larsrickert/nginx-proxy-docs
+    restart: always
+    environment:
+      VIRTUAL_HOST: discordplayerplus.lars-rickert.de
+      LETSENCRYPT_HOST: discordplayerplus.lars-rickert.de
+
+networks:
+  default:
+    name: nginx-proxy
+    external: true

@@ -2,6 +2,9 @@ import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
 import { CreateCommandFunc } from "../types/commands";
 import { formatDuration } from "../utils/player";
 
+/**
+ * Creates a `/seek` command for seeking the current track to a specific duration.
+ */
 export const createSeekCommand: CreateCommandFunc = (
   playerManager,
   options

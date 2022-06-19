@@ -1,5 +1,8 @@
 import { CreateCommandFunc } from "../types/commands";
 
+/**
+ * Creates a `/clear` command for clearing queued tracks.
+ */
 export const createClearCommand: CreateCommandFunc = (
   playerManager,
   options

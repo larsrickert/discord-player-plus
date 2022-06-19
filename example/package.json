@@ -3,12 +3,7 @@
   "version": "1.0.0",
   "description": "Discord bot for playing music and sounds written in TypeScript.",
   "main": "src/app.ts",
-  "license": "MIT",
   "private": true,
-  "author": {
-    "name": "Lars Rickert",
-    "url": "https://lars-rickert.de"
-  },
   "scripts": {
     "dev": "ts-node-dev .",
     "start": "ts-node .",

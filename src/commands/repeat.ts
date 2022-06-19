@@ -3,6 +3,9 @@ import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
 import { CreateCommandFunc } from "../types/commands";
 import { PlayerRepeatMode } from "../types/player";
 
+/**
+ * Creates a `/repeat` command for setting the repeat mode.
+ */
 export const createRepeatCommand: CreateCommandFunc = (
   playerManager,
   options

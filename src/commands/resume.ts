@@ -1,5 +1,8 @@
 import { CreateCommandFunc } from "../types/commands";
 
+/**
+ * Creates a `/resume` command for resuming the currently paused track.
+ */
 export const createResumeCommand: CreateCommandFunc = (
   playerManager,
   options

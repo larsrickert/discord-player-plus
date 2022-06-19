@@ -3,6 +3,9 @@ import { playTracks } from ".";
 import { CreateCommandFunc } from "../types/commands";
 import { trackToMarkdown, urlToMarkdown } from "../utils/player";
 
+/**
+ * Creates a `/add` command for adding tracks to the queue.
+ */
 export const createAddCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "add",
