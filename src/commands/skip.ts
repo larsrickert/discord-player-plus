@@ -1,6 +1,9 @@
 import { CreateCommandFunc } from "../types/commands";
 import { trackToMarkdown } from "../utils/player";
 
+/**
+ * Creates a `/skip` command for skipping the current track.
+ */
 export const createSkipCommand: CreateCommandFunc = (
   playerManager,
   options

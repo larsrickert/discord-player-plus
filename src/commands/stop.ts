@@ -1,5 +1,8 @@
 import { CreateCommandFunc } from "../types/commands";
 
+/**
+ * Creates a `/stop` command for stopping the playback and leaving the voice channel.
+ */
 export const createStopCommand: CreateCommandFunc = (
   playerManager,
   options

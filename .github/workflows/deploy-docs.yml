@@ -1,0 +1,32 @@
+name: Deploy docs
+on:
+  push:
+    branches: [main]
+    paths:
+      - "docs/**"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          cache: "npm"
+      - name: Install node modules
+        run: npm ci
+      - name: Build
+        run: npm run docs:build
+      - name: Deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          envs: GITHUB_SERVER_URL,GITHUB_REPOSITORY
+          script: npx nginx-proxy-cli deploy $GITHUB_SERVER_URL/$GITHUB_REPOSITORY --dir=~/nginx-proxy/applications

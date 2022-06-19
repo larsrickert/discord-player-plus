@@ -1,6 +1,9 @@
 import { CreateCommandFunc } from "../types/commands";
 import { trackToMarkdown } from "../utils/player";
 
+/**
+ * Creates a `/queue` command for displaying queued tracks.
+ */
 export const createQueueCommand: CreateCommandFunc = (
   playerManager,
   options

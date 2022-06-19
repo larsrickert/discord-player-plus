@@ -8,27 +8,57 @@ export default defineConfig({
   lastUpdated: true,
 
   themeConfig: {
-    repo: pkg.repository.url,
-    docsBranch: "main",
-    editLinks: true,
-    editLinkText: "Edit this page on GitHub",
-    lastUpdated: "Last Updated",
+    logo: "/logo.png",
+    socialLinks: [
+      {
+        icon: "github",
+        link: pkg.repository.url,
+      },
+      {
+        icon: "discord",
+        link: "https://discord.com/users/251414332955557889",
+      },
+    ],
+    editLink: {
+      pattern: `${pkg.repository.url}/edit/main/docs/:path`,
+    },
+    footer: {
+      message: `Released under the ${pkg.license} License.`,
+      copyright: `Copyright © 2022-present ${pkg.author.name}`,
+    },
 
     sidebar: [
       {
         text: "Introduction",
-        children: [
-          {
-            text: "What is discord-player-plus?",
-            link: "/",
-          },
+        items: [
           {
             text: "Getting Started",
             link: "/guide/getting-started",
           },
           {
-            text: "Pre-build commands",
-            link: "/guide/pre-build-commands",
+            text: "Pre-build Slash Commands",
+            link: "/guide/commands",
+          },
+          {
+            text: "Player engines",
+            link: "/guide/engines",
+          },
+          {
+            text: "Example discord bot",
+            link: "/guide/example-bot",
+          },
+        ],
+      },
+      {
+        text: "API Reference",
+        items: [
+          {
+            text: "Core API",
+            link: "/api/core",
+          },
+          {
+            text: "Slash Commands",
+            link: "/api/commands",
           },
         ],
       },

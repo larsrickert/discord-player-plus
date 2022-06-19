@@ -1,5 +1,8 @@
 import { CreateCommandFunc } from "../types/commands";
 
+/**
+ * Creates a `/pause` command for pausing the current track.
+ */
 export const createPauseCommand: CreateCommandFunc = (
   playerManager,
   options

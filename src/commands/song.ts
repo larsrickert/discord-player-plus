@@ -1,6 +1,9 @@
 import { CreateCommandFunc } from "../types/commands";
 import { trackToMarkdown } from "../utils/player";
 
+/**
+ * Creates a `/song` command for getting information about the currently played track.
+ */
 export const createSongCommand: CreateCommandFunc = (
   playerManager,
   options

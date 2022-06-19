@@ -1,16 +1,24 @@
 import { deepmerge } from "deepmerge-ts";
+import { TypedEmitter } from "tiny-typed-emitter";
+
 import en from "./languages/en.json";
 import { Player } from "./player";
 import { Translations } from "./types/commands";
-import { PlayerManagerOptions, PlayerOptions } from "./types/player";
+import {
+  PlayerManagerEvents,
+  PlayerManagerOptions,
+  PlayerOptions,
+} from "./types/player";
 
-export class PlayerManager {
+export class PlayerManager extends TypedEmitter<PlayerManagerEvents> {
   private players: Player[] = [];
 
   /**
    * Creates a new PlayerManager for easier managing multiple guilds. Your bot should only have one PlayerManager.
    */
-  constructor(public readonly options?: PlayerManagerOptions) {}
+  constructor(public readonly options?: PlayerManagerOptions) {
+    super();
+  }
 
   get translations(): Translations {
     return this.options?.translations ?? en;
@@ -32,6 +40,12 @@ export class PlayerManager {
     if (!options && optionOverrides) options = optionOverrides;
 
     const newPlayer = new Player(guildId, options);
+    newPlayer
+      .on("trackStart", (track) => this.emit("trackStart", guildId, track))
+      .on("trackEnd", () => this.emit("trackEnd", guildId))
+      .on("error", (error) => this.emit("error", guildId, error))
+      .on("destroyed", () => this.emit("destroyed", guildId));
+
     this.players.push(newPlayer);
     return newPlayer;
   }

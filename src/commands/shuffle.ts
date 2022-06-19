@@ -1,5 +1,8 @@
 import { CreateCommandFunc } from "../types/commands";
 
+/**
+ * Creates a `/shuffle` command for shuffling the queue.
+ */
 export const createShuffleCommand: CreateCommandFunc = (
   playerManager,
   options

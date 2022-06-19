@@ -1,23 +1,26 @@
-import { StreamType } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
-import { Readable } from "stream";
 import { Translations } from "./commands";
 import { PlayerEngine, Track } from "./engines";
 
 export interface PlayerEvents {
+  /** Emitted after a new track has started. */
   trackStart: (track: Track) => void;
+  /** Emitted after a track has ended and before a new track has started (if any). */
   trackEnd: () => void;
+  /**
+   * Emitted after the player was destroyed/player left voice channel.
+   * Since the player is being destroyed when the queue is empty, this event can also be seen as `queueEnd` event.
+   */
   destroyed: () => void;
-  queueEnd: () => void;
+  /** Emitted before a player error is thrown. */
+  error: (error: PlayerError) => void;
 }
 
-export interface TrackStream {
-  /**
-   * If the input is given as a string, then the inputType option will be overridden and FFmpeg will be used.
-   */
-  stream: Readable | string;
-  type?: StreamType;
-}
+export type PlayerManagerEvents = {
+  [K in keyof PlayerEvents]: PlayerEvents[K] extends (...a: infer U) => infer R
+    ? (guildId: string, ...a: U) => R
+    : never;
+};
 
 export interface PlayOptions {
   /** Voice channel to play in. */
@@ -26,6 +29,7 @@ export interface PlayOptions {
   tracks: Track[];
   /**
    * If `true` and player is currently playing a track, it will be added to the front of the queue with the current playback duration.
+   * Can be used to temporarily play a (short) track.
    */
   addSkippedTrackToQueue?: boolean;
 }
@@ -72,11 +76,6 @@ export interface PlayerOptions {
   allowSwitchChannels?: boolean;
 }
 
-export interface AudioPlayerMetadata {
-  channel: VoiceBasedChannel;
-  track: Track;
-}
-
 export interface PlayerManagerOptions {
   /** Player options that should be applied for all guilds. Guild specific options can be overridden when calling `playerManager.get(guildId)`. */
   playerDefault?: PlayerOptions;
@@ -85,6 +84,24 @@ export interface PlayerManagerOptions {
 }
 
 export enum PlayerRepeatMode {
+  /** No tracks are repeated (default) */
   NONE,
+  /** Repeat currently playing track */
   TRACK,
+}
+
+export enum PlayerErrorCode {
+  REFUSED_TO_SWITCH_VOICE_CHANNEL,
+  UNKNOWN_PLAYER_ENGINE,
+  UNABLE_TO_CREATE_TRACK_STREAM,
+  INITIAL_VOLUME_FUNCTION_ERROR,
+}
+
+export class PlayerError extends Error {
+  constructor(public readonly code: PlayerErrorCode, msg: string) {
+    super(msg);
+
+    // Set the prototype explicitly.
+    Object.setPrototypeOf(this, PlayerError.prototype);
+  }
 }

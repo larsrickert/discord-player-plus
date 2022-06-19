@@ -4,21 +4,28 @@ import {
   InteractionReplyOptions,
 } from "discord.js";
 import { PlayerManager } from "../player-manager";
-import { Command, CreateCommandOptions } from "../types/commands";
+import { Command, CreateCommandOptions, Translations } from "../types/commands";
 import { SearchResult } from "../types/engines";
 import { PlayOptions } from "../types/player";
 
+/**
+ * Helper function to execute slash commands for a given interaction from discord.js. Will check if command is supported, calls its `run` method and handles unexpected errors.
+ *
+ * @param discord.js interaction received by `client.on("interactionCreate")`.
+ * @param commands All available slash commands that should be executable.
+ * @param translations Translations used for error messages (e.g. unknown command).
+ */
 export async function handleSlashCommand(
   interaction: Interaction,
-  playerManager: PlayerManager,
-  commands: Command[]
+  commands: Command[],
+  translations: Translations
 ): Promise<void> {
   if (!interaction.isCommand()) return;
 
   const slashCommand = commands.find((c) => c.name === interaction.commandName);
   if (!slashCommand) {
     return await interaction.reply({
-      content: playerManager.translations.global.unsupportedCommand.replace(
+      content: translations.global.unsupportedCommand.replace(
         "{command}",
         interaction.commandName
       ),
@@ -28,7 +35,7 @@ export async function handleSlashCommand(
 
   if (!interaction.inCachedGuild()) {
     return await interaction.reply({
-      content: playerManager.translations.global.unknownGuild,
+      content: translations.global.unknownGuild,
       ephemeral: true,
     });
   }

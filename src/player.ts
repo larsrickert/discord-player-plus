@@ -19,13 +19,19 @@ import {
   Track,
 } from "./types/engines";
 import {
-  AudioPlayerMetadata,
+  PlayerError,
+  PlayerErrorCode,
   PlayerEvents,
   PlayerOptions,
   PlayerRepeatMode,
   PlayOptions,
 } from "./types/player";
-import { shuffle, validateVolume } from "./utils/player";
+import { validateVolume } from "./utils/player";
+
+interface AudioPlayerMetadata {
+  channel: VoiceBasedChannel;
+  track: Track;
+}
 
 export class Player extends TypedEmitter<PlayerEvents> {
   private readonly audioPlayer = createAudioPlayer();
@@ -49,7 +55,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
         ) {
           // new track started
           const resource = newState.resource as typeof this.audioResource;
-          if (resource) this.emit("trackStart", resource.metadata.track);
+          if (resource) {
+            this.emit("trackStart", Object.assign({}, resource.metadata.track));
+          }
           return;
         }
 
@@ -57,6 +65,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
           newState.status === AudioPlayerStatus.Idle &&
           oldState.status !== AudioPlayerStatus.Idle
         ) {
+          this.emit("trackEnd");
+
           // current track ended
           const nextTrack = await this.getNextTrack();
 
@@ -69,10 +79,6 @@ export class Player extends TypedEmitter<PlayerEvents> {
               tracks: [nextTrack],
             });
           }
-
-          // trackEnd should be emitted before queueEnd
-          this.emit("trackEnd");
-          if (!nextTrack) this.emit("queueEnd");
         }
       }
     );
@@ -101,9 +107,12 @@ export class Player extends TypedEmitter<PlayerEvents> {
         currentConnection &&
         currentConnection.joinConfig.channelId !== channel.id
       ) {
-        throw new Error(
-          "Refused to join voice channel because player is already connected to another voice channel"
+        const error = new PlayerError(
+          PlayerErrorCode.REFUSED_TO_SWITCH_VOICE_CHANNEL,
+          `Refused to join voice channel ${channel.id} because player is already connected to voice channel ${currentConnection.joinConfig.channelId}`
         );
+        this.emit("error", error);
+        throw error;
       }
     }
 
@@ -168,13 +177,23 @@ export class Player extends TypedEmitter<PlayerEvents> {
     // check if custom stream engine is provided
     const playerEngine = this.getEngine(track.source);
     if (!playerEngine) {
-      throw new Error(`Unknown player engine "${track.source}"`);
+      const error = new PlayerError(
+        PlayerErrorCode.UNKNOWN_PLAYER_ENGINE,
+        `Unknown player engine "${track.source}"`
+      );
+      this.emit("error", error);
+      throw error;
     }
 
     const trackStream = await playerEngine.getStream(track, this.options);
 
     if (!trackStream) {
-      throw new Error("Unable to create stream for track");
+      const error = new PlayerError(
+        PlayerErrorCode.UNKNOWN_PLAYER_ENGINE,
+        `Unable to create stream for track (url: ${track.url})`
+      );
+      this.emit("error", error);
+      throw error;
     }
 
     let skippedTrack: Track | undefined;
@@ -193,12 +212,23 @@ export class Player extends TypedEmitter<PlayerEvents> {
     if (this.volume != null) {
       volume = this.volume;
     } else {
-      const initialVolume =
-        typeof this.options.initialVolume === "function"
-          ? await this.options.initialVolume(options.channel.guildId)
-          : this.options.initialVolume;
+      if (typeof this.options.initialVolume === "function") {
+        try {
+          volume = await this.options.initialVolume(options.channel.guildId);
+        } catch (e) {
+          volume = 100;
 
-      volume = initialVolume ?? 100;
+          const error = new PlayerError(
+            PlayerErrorCode.INITIAL_VOLUME_FUNCTION_ERROR,
+            `Unexpected error for custom initial volume function: ${
+              (e as Error).message
+            }`
+          );
+          this.emit("error", error);
+        }
+      } else {
+        volume = this.options.initialVolume ?? 100;
+      }
     }
 
     this.audioResource = createAudioResource(trackStream.stream, {
@@ -287,7 +317,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
    * Randomly shuffles the current queue.
    */
   shuffle(): void {
-    shuffle(this.queue);
+    for (let i = this.queue.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.queue[i], this.queue[j]] = [this.queue[j], this.queue[i]];
+    }
   }
 
   /**
@@ -308,7 +341,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   }
 
   /**
-   * Sets the player volume for all tracks.
+   * Sets the player volume for all tracks. Requires `inlineVolume` in player options to be `true` (default).
    *
    * @param volume Volume between 0 and 200.
    * @returns `true` if the volume was set, `false` otherwise.
@@ -378,10 +411,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
    */
   async seek(time: number): Promise<boolean> {
     const currentTrack = this.getCurrentTrack();
-    if (!currentTrack || time < 0 || !this.audioResource) return false;
+    if (!currentTrack || !this.audioResource) return false;
     if (time / 1000 >= currentTrack.duration) return !!this.skip();
 
-    currentTrack.seek = time;
+    currentTrack.seek = time > 0 ? time : 0;
 
     await this.play({
       channel: this.audioResource.metadata.channel,
@@ -391,7 +424,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   }
 
   /**
-   * Inserts a track at a specific index. Will move track and current index and following after the inserted track.
+   * Inserts a track at a specific index. Will move current index and following after the inserted track.
    * If index is smaller or grater than queue size, will insert at the start/end at the queue accordingly.
    * Will not play the track if queue is empty and currently not playing.
    */

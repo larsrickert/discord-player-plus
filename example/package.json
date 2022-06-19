@@ -3,12 +3,7 @@
   "version": "1.0.0",
   "description": "Discord bot for playing music and sounds written in TypeScript.",
   "main": "src/app.ts",
-  "license": "MIT",
   "private": true,
-  "author": {
-    "name": "Lars Rickert",
-    "url": "https://lars-rickert.de"
-  },
   "scripts": {
     "dev": "ts-node-dev .",
     "start": "ts-node .",
@@ -17,20 +12,20 @@
     "update": "npx npm-check-updates -i"
   },
   "dependencies": {
-    "@types/node": "^17.0.40",
-    "discord-player-plus": "^1.0.0-beta.3",
-    "discord.js": "^13.7.0",
+    "@types/node": "^18.0.0",
+    "discord-player-plus": "^1.0.0",
+    "discord.js": "^13.8.0",
     "dotenv": "^16.0.1",
     "ts-node": "^10.8.1",
-    "typescript": "^4.7.3"
+    "typescript": "^4.7.4"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.27.1",
-    "@typescript-eslint/parser": "^5.27.1",
-    "eslint": "^8.17.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0",
+    "@typescript-eslint/parser": "^5.28.0",
+    "eslint": "^8.18.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "prettier": "^2.6.2",
+    "prettier": "^2.7.1",
     "ts-node-dev": "^2.0.0"
   }
 }

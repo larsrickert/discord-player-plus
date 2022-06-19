@@ -3,6 +3,10 @@ import { playTracks } from ".";
 import { CreateCommandFunc } from "../types/commands";
 import { trackToMarkdown, urlToMarkdown } from "../utils/player";
 
+/**
+ * Creates a `/play` command for immediately searching and playing a track.
+ * If query is a track, will play first result. If its a playlist, first track will be played and rest will be queued.
+ */
 export const createPlayCommand: CreateCommandFunc = (
   playerManager,
   options
