@@ -1,6 +1,9 @@
-import { getData, getTracks, Tracks } from "spotify-url-info";
+import fetch from "isomorphic-unfetch";
+import spotify, { Tracks } from "spotify-url-info";
 import { PlayerEngine, SearchResult, Track } from "../types/engines";
 import { youtubeEngine } from "./youtube";
+
+const { getTracks, getData } = spotify(fetch);
 
 /**
  * Player engine to search/stream tracks from Spotify.
