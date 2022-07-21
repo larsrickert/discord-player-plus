@@ -1,12 +1,12 @@
 import {
   ChatInputApplicationCommandData,
-  CommandInteraction,
+  ChatInputCommandInteraction,
 } from "discord.js";
 import type en from "../languages/en.json";
 import { PlayerManager } from "../player-manager";
 
 export interface Command<T = boolean> extends ChatInputApplicationCommandData {
-  run: (interaction: CommandInteraction<"cached">) => Promise<T>;
+  run: (interaction: ChatInputCommandInteraction<"cached">) => Promise<T>;
 }
 
 export type CreateCommandFunc = (

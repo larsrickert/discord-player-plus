@@ -1,5 +1,7 @@
-import { ApplicationCommandOptionChoiceData } from "discord.js";
-import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
+import {
+  ApplicationCommandOptionChoiceData,
+  ApplicationCommandOptionType,
+} from "discord.js";
 import { CreateCommandFunc } from "../types/commands";
 import { PlayerRepeatMode } from "../types/player";
 
@@ -16,7 +18,7 @@ export const createRepeatCommand: CreateCommandFunc = (
     options: [
       {
         name: "mode",
-        type: ApplicationCommandOptionTypes.INTEGER,
+        type: ApplicationCommandOptionType.Integer,
         description: playerManager.translations.repeat.modeDescription,
         required: true,
         choices: Object.entries(PlayerRepeatMode)

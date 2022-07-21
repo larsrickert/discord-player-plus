@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
+import { ApplicationCommandOptionType } from "discord.js";
 import { CreateCommandFunc } from "../types/commands";
 import { formatDuration } from "../utils/player";
 
@@ -16,7 +16,7 @@ export const createSeekCommand: CreateCommandFunc = (
       {
         name: "time",
         description: playerManager.translations.seek.optionDescription,
-        type: ApplicationCommandOptionTypes.NUMBER,
+        type: ApplicationCommandOptionType.Number,
         required: true,
         minValue: 0,
       },

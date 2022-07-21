@@ -2,6 +2,10 @@
 
 This section will help you installing `discord-player-plus` to use it as a discord bot.
 
+::: warning Node.js version
+As of `discord.js` v14 you have to install Node 16.9 or higher (see [discord.js documentation](https://discordjs.guide/additional-info/changes-in-v14.html)).
+:::
+
 ## Step 1: Installation
 
 Install `discord-player-plus` and `discord.js`.
@@ -15,15 +19,15 @@ npm i discord.js discord-player-plus
 You need to create a discord client for your bot to interact with the discord API.
 
 ```ts
-import { Client, Intents } from "discord.js";
+import { Client, GatewayIntentBits } from "discord.js";
 import { Command } from "discord-player-plus";
 
 // this is the discord client for your music bot
 const client = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_VOICE_STATES,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildVoiceStates,
   ],
 });
 
@@ -35,9 +39,6 @@ const slashCommands: Command[] = [];
 client.on("ready", async (client) => {
   console.log(`Bot ready and logged in as ${client.user.tag}`);
   await client.application.commands.set(slashCommands);
-
-  // (optional) set bot status that is being displayed below the user in discord on the right
-  client.user.setActivity({ name: "Playing music", type: "LISTENING" });
 });
 
 // actually login the discord bot

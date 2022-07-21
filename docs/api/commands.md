@@ -13,11 +13,11 @@ A command extends the default command type provided by `discord.js` with a `run`
   ```ts
   import {
     ChatInputApplicationCommandData,
-    CommandInteraction,
+    ChatInputCommandInteraction,
   } from "discord.js";
 
   interface Command<T = boolean> extends ChatInputApplicationCommandData {
-    run: (interaction: CommandInteraction<"cached">) => Promise<T>;
+    run: (interaction: ChatInputCommandInteraction<"cached">) => Promise<T>;
   }
   ```
 
@@ -67,8 +67,10 @@ A command extends the default command type provided by `discord.js` with a `run`
 - **Type**
 
   ```ts
+  import { Interaction } from "discord.js";
+
   /**
-   * @param discord.js interaction received by `client.on("interactionCreate")`.
+   * @param interaction discord.js interaction received by `client.on("interactionCreate")`.
    * @param commands All available slash commands that should be executable.
    * @param translations Translations used for error messages (e.g. unknown command).
    */
@@ -87,13 +89,13 @@ A command extends the default command type provided by `discord.js` with a `run`
     handleSlashCommand,
     PlayerManager,
   } from "discord-player-plus";
-  import { Client, Intents } from "discord.js";
+  import { Client, GatewayIntentBits } from "discord.js";
 
   const client = new Client({
     intents: [
-      Intents.FLAGS.GUILDS,
-      Intents.FLAGS.GUILD_MESSAGES,
-      Intents.FLAGS.GUILD_VOICE_STATES,
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.GuildVoiceStates,
     ],
   });
 

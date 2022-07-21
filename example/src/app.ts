@@ -17,14 +17,14 @@ import {
   handleSlashCommand,
   PlayerManager,
 } from "discord-player-plus";
-import { Client, Intents } from "discord.js";
+import { ActivityType, Client, GatewayIntentBits } from "discord.js";
 import { config } from "./config";
 
 const client = new Client({
   intents: [
-    Intents.FLAGS.GUILDS,
-    Intents.FLAGS.GUILD_MESSAGES,
-    Intents.FLAGS.GUILD_VOICE_STATES,
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildVoiceStates,
   ],
 });
 
@@ -65,7 +65,7 @@ client
   .on("ready", async (client) => {
     console.log(`Bot ready and logged in as ${client.user.tag}`);
     await client.application.commands.set(slashCommands);
-    client.user.setActivity({ name: "/help", type: "LISTENING" });
+    client.user.setActivity({ name: "/help", type: ActivityType.Listening });
   })
   .on("interactionCreate", async (interaction) => {
     await handleSlashCommand(

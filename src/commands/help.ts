@@ -34,9 +34,11 @@ export const createHelpCommand = (
                   inline: true,
                 };
               }),
-            footer: {
-              text: options.footerText,
-            },
+            footer: options.footerText
+              ? {
+                  text: options.footerText,
+                }
+              : undefined,
           },
         ],
         ephemeral: true,

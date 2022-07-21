@@ -1,7 +1,9 @@
 import {
-  CommandInteraction,
+  ApplicationCommandType,
+  ChatInputCommandInteraction,
   Interaction,
   InteractionReplyOptions,
+  InteractionType,
 } from "discord.js";
 import { PlayerManager } from "../player-manager";
 import { Command, CreateCommandOptions, Translations } from "../types/commands";
@@ -20,24 +22,29 @@ export async function handleSlashCommand(
   commands: Command[],
   translations: Translations
 ): Promise<void> {
-  if (!interaction.isCommand()) return;
+  if (
+    interaction.type !== InteractionType.ApplicationCommand ||
+    interaction.commandType !== ApplicationCommandType.ChatInput
+  ) {
+    return;
+  }
 
   const slashCommand = commands.find((c) => c.name === interaction.commandName);
   if (!slashCommand) {
-    return await interaction.reply({
+    return void (await interaction.reply({
       content: translations.global.unsupportedCommand.replace(
         "{command}",
         interaction.commandName
       ),
       ephemeral: true,
-    });
+    }));
   }
 
   if (!interaction.inCachedGuild()) {
-    return await interaction.reply({
+    return void (await interaction.reply({
       content: translations.global.unknownGuild,
       ephemeral: true,
-    });
+    }));
   }
 
   try {
@@ -53,7 +60,7 @@ export async function handleSlashCommand(
 }
 
 export async function playTracks(
-  interaction: CommandInteraction<"cached">,
+  interaction: ChatInputCommandInteraction<"cached">,
   playerManager: PlayerManager,
   immediate: boolean,
   options?: CreateCommandOptions
@@ -68,12 +75,12 @@ export async function playTracks(
   }
 
   // check bot voice channel permissions
-  if (interaction.guild.me) {
+  if (interaction.guild.members.me) {
     const permissions = interaction.member.voice.channel.permissionsFor(
-      interaction.guild.me
+      interaction.guild.members.me
     );
 
-    if (!permissions.has(["CONNECT", "SPEAK"])) {
+    if (!permissions.has(["Connect", "Speak"])) {
       await interaction.reply({
         content:
           playerManager.translations.play.insufficientVoiceChannelPermissions.replace(

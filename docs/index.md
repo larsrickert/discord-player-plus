@@ -8,7 +8,7 @@ titleTemplate: Library for creating discord music bots
 hero:
   name: Discord Player Plus
   text: Library for creating discord music bots
-  tagline: Powerful and easy to use. Create highly customizable music bots in minutes.
+  tagline: Powerful and easy to use. Create highly customizable music bots in minutes. Compatible with discord.js v14.
   actions:
     - theme: brand
       text: Get Started

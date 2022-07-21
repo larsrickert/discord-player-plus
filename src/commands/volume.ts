@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
+import { ApplicationCommandOptionType } from "discord.js";
 import { CreateCommandFunc } from "../types/commands";
 
 /**
@@ -15,7 +15,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (
       {
         name: "volume",
         description: playerManager.translations.setvolume.optionDescription,
-        type: ApplicationCommandOptionTypes.NUMBER,
+        type: ApplicationCommandOptionType.Number,
         required: true,
         minValue: 0,
         maxValue: 200,

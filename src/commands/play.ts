@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionTypes } from "discord.js/typings/enums";
+import { ApplicationCommandOptionType } from "discord.js";
 import { playTracks } from ".";
 import { CreateCommandFunc } from "../types/commands";
 import { trackToMarkdown, urlToMarkdown } from "../utils/player";
@@ -18,7 +18,7 @@ export const createPlayCommand: CreateCommandFunc = (
       {
         name: "query",
         description: playerManager.translations.play.optionDescription,
-        type: ApplicationCommandOptionTypes.STRING,
+        type: ApplicationCommandOptionType.String,
         required: true,
       },
     ],

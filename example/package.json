@@ -14,7 +14,7 @@
   "dependencies": {
     "@types/node": "^18.0.6",
     "discord-player-plus": "^1.0.3",
-    "discord.js": "^13.8.1",
+    "discord.js": "^14.0.3",
     "dotenv": "^16.0.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
