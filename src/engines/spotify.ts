@@ -36,6 +36,7 @@ export const spotifyEngine: PlayerEngine = {
 
     if (!searchResults.length || !searchResults[0].tracks.length) return null;
     const mappedTrack = searchResults[0].tracks[0];
+    mappedTrack.seek = track.seek;
 
     return youtubeEngine.getStream(mappedTrack, playerOptions);
   },
