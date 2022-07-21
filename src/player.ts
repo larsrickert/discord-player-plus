@@ -46,42 +46,39 @@ export class Player extends TypedEmitter<PlayerEvents> {
   ) {
     super();
 
-    this.audioPlayer.on<"stateChange">(
-      "stateChange",
-      async (oldState, newState) => {
-        if (
-          newState.status === AudioPlayerStatus.Playing &&
-          oldState.status !== AudioPlayerStatus.AutoPaused
-        ) {
-          // new track started
-          const resource = newState.resource as typeof this.audioResource;
-          if (resource) {
-            this.emit("trackStart", Object.assign({}, resource.metadata.track));
-          }
-          return;
+    this.audioPlayer.on("stateChange", async (oldState, newState) => {
+      if (
+        newState.status === AudioPlayerStatus.Playing &&
+        oldState.status !== AudioPlayerStatus.AutoPaused
+      ) {
+        // new track started
+        const resource = newState.resource as typeof this.audioResource;
+        if (resource) {
+          this.emit("trackStart", Object.assign({}, resource.metadata.track));
         }
+        return;
+      }
 
-        if (
-          newState.status === AudioPlayerStatus.Idle &&
-          oldState.status !== AudioPlayerStatus.Idle
-        ) {
-          this.emit("trackEnd");
+      if (
+        newState.status === AudioPlayerStatus.Idle &&
+        oldState.status !== AudioPlayerStatus.Idle
+      ) {
+        this.emit("trackEnd");
 
-          // current track ended
-          const nextTrack = await this.getNextTrack();
+        // current track ended
+        const nextTrack = await this.getNextTrack();
 
-          // play next queued track
-          if (!nextTrack) {
-            this.stop();
-          } else if (this.audioResource) {
-            await this.play({
-              channel: this.audioResource.metadata.channel,
-              tracks: [nextTrack],
-            });
-          }
+        // play next queued track
+        if (!nextTrack) {
+          this.stop();
+        } else if (this.audioResource) {
+          await this.play({
+            channel: this.audioResource.metadata.channel,
+            tracks: [nextTrack],
+          });
         }
       }
-    );
+    });
   }
 
   /** Gets the next track, Considers the current repeat mode. */
