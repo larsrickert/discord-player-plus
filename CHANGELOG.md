@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/larsrickert/discord-player-plus/compare/v1.0.3...v1.1.0) (2022-07-21)
+
+
+### Bug Fixes
+
+* **spotify:** track seek not working ([9ad030e](https://github.com/larsrickert/discord-player-plus/commit/9ad030ed92e3943ce77421ec7a3566fb4efbc71b))
+
+
+### Features
+
+* update to `discord.js` v14 ([b5ca665](https://github.com/larsrickert/discord-player-plus/commit/b5ca665321aa6be4dbc643f29de687652ec528db))
+
 ## [1.0.3](https://github.com/larsrickert/discord-player-plus/compare/v1.0.2...v1.0.3) (2022-07-21)
 
 
