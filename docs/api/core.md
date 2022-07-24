@@ -527,7 +527,7 @@ The guild/discord server id passed on player creation.
 
 ## PlayerEngine
 
-Player engines are the hearth of `discord-player-plus`. They are responsible for searching and streaming tracks from streaming providers like YouTube or Spotify.
+Player engines are the heart of `discord-player-plus`. They are responsible for searching and streaming tracks from streaming providers like YouTube or Spotify.
 
 `discord-player-plus` provides some default engines but they can be overridden or extended.
 

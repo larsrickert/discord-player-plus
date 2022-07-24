@@ -1,6 +1,6 @@
 # Player engines
 
-Player engines are the hearth of `discord-player-plus`. They are responsible for searching tracks and streaming them using different streaming providers such as YouTube or Spotify. Following player engines are built-in:
+Player engines are the heart of `discord-player-plus`. They are responsible for searching tracks and streaming them using different streaming providers such as YouTube or Spotify. Following player engines are built-in:
 
 - YouTube
 - Spotify (Spotify does not provide a web API to stream tracks so they are only searched on Spotify but streamed on YouTube)
