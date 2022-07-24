@@ -18,7 +18,7 @@ If no engine is found for your search, YouTube will be used as fallback.
 
 ## Local files
 
-You can also play local files from your filesystem by setting the file path as the track url or search query. The üre-build `/play` and `/add` command allow you to search local songs by using the file path as query.
+You can also play local files from your filesystem by setting the file path as the track url or search query. The pre-build `/play` and `/add` command allow you to search local songs by using the file path as query.
 
 ### Set file root
 
