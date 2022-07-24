@@ -422,7 +422,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   /**
    * Inserts a track at a specific index. Will move current index and following after the inserted track.
-   * If index is smaller or grater than queue size, will insert at the start/end at the queue accordingly.
+   * If index is negative or grater than queue size, will insert at the start/end at the queue accordingly.
    * Will not play the track if queue is empty and currently not playing.
    */
   insert(track: Track, index: number): void {
