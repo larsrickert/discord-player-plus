@@ -52,7 +52,7 @@ client.login("DISCORD_CLIENT_TOKEN");
 
 The `PlayerManager` should only exist once in your application and is responsible for managing the different music players for multiple guilds/discord servers so you don't have to manage them on your own.
 
-Extend the code from [step 2](#step-2-create-discord-client) by adding the following code above `client.login()`:
+Extend the code from [step 2](#step-2-create-discord-client) by adding the following code above `const slashCommands`:
 
 ```ts
 import { handleSlashCommand, PlayerManager } from "discord-player-plus";
