@@ -19,7 +19,7 @@ body:
     attributes:
       label: Reproduction
       description: Describe all steps needed to reproduce the bug.
-      placeholder: "Step 1: Call method XYZ"
+      placeholder: "Step 1: Call method XYZ..."
     validations:
       required: true
   - type: textarea
