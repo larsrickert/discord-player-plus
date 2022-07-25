@@ -1,0 +1,41 @@
+name: 🐞 Bug report
+description: Report an issue with discord-player-plus
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for making discord-player-plus better by reporting a bug!
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Describe the bug
+      description: Please add a precise description of what the bug is. If you intend to submit a PR for this issue, please tell me here. Thanks!
+      placeholder: Bug description
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Describe all steps needed to reproduce the bug.
+      placeholder: "Step 1: Call method XYZ"
+    validations:
+      required: true
+  - type: textarea
+    id: system-info
+    attributes:
+      label: System Info
+      description: Output of `npx envinfo --binaries --npmPackages 'discord.js,discord-player-plus'`
+      render: shell
+      placeholder: Node and dependency information
+    validations:
+      required: true
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options:
+        - label: Check that there isn't [already an issue](https://github.com/larsrickert/discord-player-plus/issues) that reports the same bug to avoid creating a duplicate.
+          required: true

@@ -1,0 +1,33 @@
+name: 🚀 New feature request
+description: Propose a new feature to be added to discord-player-plus
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest in discord-player-plus and taking your time to propose a new feature!
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Clear and concise description of the problem
+      description: "As a developer using discord-player-plus I want [goal / wish] so that [benefit]. If you intend to submit a PR for this issue, tell me here. Thanks!"
+    validations:
+      required: true
+  - type: textarea
+    id: suggested-solution
+    attributes:
+      label: Suggested solution
+      description: If you already have an idea for an implementation, please tell me.
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Any other context or screenshots about the feature request here.
+  - type: checkboxes
+    id: checkboxes
+    attributes:
+      label: Validations
+      description: Before submitting the issue, please make sure you do the following
+      options:
+        - label: Check that there isn't [already an issue](https://github.com/larsrickert/discord-player-plus/issues) that requests the same feature to avoid creating a duplicate.
+          required: true
