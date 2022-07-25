@@ -33,7 +33,7 @@ export default defineConfig({
       },
       {
         text: "Report bug",
-        link: "https://github.com/larsrickert/discord-player-plus/issues/new",
+        link: "https://github.com/larsrickert/discord-player-plus/issues/new/choose",
       },
     ],
     sidebar: [
