@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/larsrickert/discord-player-plus/compare/v1.1.0...v1.1.1) (2022-07-25)
+
+
+### Bug Fixes
+
+* remove vulnerable dependency ([54ac14a](https://github.com/larsrickert/discord-player-plus/commit/54ac14aeaf9152621086aa8120940c0484061423))
+
 # [1.1.0](https://github.com/larsrickert/discord-player-plus/compare/v1.0.3...v1.1.0) (2022-07-21)
 
 
