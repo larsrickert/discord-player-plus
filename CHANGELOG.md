@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/larsrickert/discord-player-plus/compare/v1.1.1...v1.1.2) (2022-07-29)
+
+
+### Bug Fixes
+
+* **youtube:** unable to search playlist that starts with `https://www.youtube.com/playlist` ([2378c4d](https://github.com/larsrickert/discord-player-plus/commit/2378c4d9019eeb5174c647ddd5226883ef4c77bd)), closes [#5](https://github.com/larsrickert/discord-player-plus/issues/5)
+
 ## [1.1.1](https://github.com/larsrickert/discord-player-plus/compare/v1.1.0...v1.1.1) (2022-07-25)
 
 
