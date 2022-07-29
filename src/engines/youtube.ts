@@ -11,8 +11,9 @@ export const youtubeEngine: PlayerEngine = {
   },
   async search(query, _, searchOptions) {
     const isPlaylist =
-      query.startsWith("https://www.youtube.com/watch") &&
-      query.includes("list=");
+      query.startsWith("https://www.youtube.com/playlist") ||
+      (query.startsWith("https://www.youtube.com/watch") &&
+        query.includes("list="));
 
     if (isPlaylist) {
       return await searchPlaylist(query);
@@ -44,23 +45,19 @@ export const youtubeEngine: PlayerEngine = {
 };
 
 async function searchPlaylist(query: string): Promise<SearchResult[]> {
-  const results: SearchResult[] = [];
+  const playlist = await playdl.playlist_info(query);
+  const playlistVideos = await playlist.all_videos();
 
-  const playlists = await playdl.search(query, {
-    source: { youtube: "playlist" },
-  });
+  const playlistInfo: Playlist | undefined = playlist.url
+    ? {
+        title: playlist.title ?? "",
+        url: playlist.url ?? "",
+        thumbnailUrl: playlist.thumbnail?.url,
+      }
+    : undefined;
 
-  for (const playlist of playlists) {
-    const playlistVideos = await playlist.all_videos();
-    const playlistInfo: Playlist | undefined = playlist.url
-      ? {
-          title: playlist.title ?? "",
-          url: playlist.url ?? "",
-          thumbnailUrl: playlist.thumbnail?.url,
-        }
-      : undefined;
-
-    results.push({
+  return [
+    {
       tracks: playlistVideos.map((video) => {
         return {
           ...mapYouTubeVideo(video),
@@ -69,10 +66,8 @@ async function searchPlaylist(query: string): Promise<SearchResult[]> {
       }),
       playlist: playlistInfo,
       source: youtubeEngine.source,
-    });
-  }
-
-  return results;
+    },
+  ];
 }
 
 function mapYouTubeVideo(video: YouTubeVideo): Track {
