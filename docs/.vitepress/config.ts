@@ -69,6 +69,10 @@ export default defineConfig({
             text: "Slash Commands",
             link: "/api/commands",
           },
+          {
+            text: "Events",
+            link: "/api/events",
+          },
         ],
       },
     ],

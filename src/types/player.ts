@@ -2,6 +2,7 @@ import { VoiceBasedChannel } from "discord.js";
 import { Translations } from "./commands";
 import { PlayerEngine, Track } from "./engines";
 
+// #region PlayerEvents
 export interface PlayerEvents {
   /** Emitted after a new track has started. */
   trackStart: (track: Track) => void;
@@ -15,6 +16,7 @@ export interface PlayerEvents {
   /** Emitted before a player error is thrown. */
   error: (error: PlayerError) => void;
 }
+// #endregion PlayerEvents
 
 export type PlayerManagerEvents = {
   [K in keyof PlayerEvents]: PlayerEvents[K] extends (...a: infer U) => infer R
