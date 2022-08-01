@@ -93,7 +93,7 @@ import { PlayerEngine, PlayerManager } from "discord-player-plus";
 
 const myCustomEngine: PlayerEngine = {
   source: "vimeo",
-  async isResponsible(query) {
+  isResponsible(query) {
     // can also be async
     return query.startsWith("https://player.vimeo.com/video");
   },

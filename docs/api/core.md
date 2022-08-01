@@ -564,7 +564,7 @@ Player engines are the heart of `discord-player-plus`. They are responsible for 
     isResponsible(
       query: string,
       playerOptions: PlayerOptions
-    ): Promise<boolean>;
+    ): boolean | Promise<boolean>;
     /** Gets information about the given query. */
     search(
       query: string,
@@ -586,7 +586,7 @@ Player engines are the heart of `discord-player-plus`. They are responsible for 
 
   const youtubeEngine: PlayerEngine = {
     source: "youtube",
-    async isResponsible(query) {
+    isResponsible(query) {
       return query.startsWith("https://www.youtube.com");
     },
     async search(query, playerOptions, searchOptions) {

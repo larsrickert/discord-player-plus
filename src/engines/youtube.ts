@@ -1,23 +1,20 @@
 import playdl, { YouTubeVideo } from "play-dl";
 import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
 
+const responsibleRegex =
+  /^https?:\/\/((www\.|music\.)?youtube\.com|youtu\.be)\//;
+
 /**
  * Player engine to search/stream tracks from YouTube.
  */
 export const youtubeEngine: PlayerEngine = {
   source: "youtube",
-  async isResponsible(query) {
-    return query.startsWith("https://www.youtube.com");
+  isResponsible(query) {
+    return responsibleRegex.test(query);
   },
   async search(query, _, searchOptions) {
-    const isPlaylist =
-      query.startsWith("https://www.youtube.com/playlist") ||
-      (query.startsWith("https://www.youtube.com/watch") &&
-        query.includes("list="));
-
-    if (isPlaylist) {
-      return await searchPlaylist(query);
-    }
+    if (isPlaylist(query))
+      return await searchPlaylist(query, searchOptions?.limit);
 
     const videos = await playdl.search(query, {
       source: { youtube: "video" },
@@ -44,9 +41,29 @@ export const youtubeEngine: PlayerEngine = {
   },
 };
 
-async function searchPlaylist(query: string): Promise<SearchResult[]> {
+function isPlaylist(query: string) {
+  return (
+    youtubeEngine.isResponsible(query, {}) &&
+    (query.includes("/playlist") || query.includes("&list="))
+  );
+}
+
+async function searchPlaylist(
+  query: string,
+  limit?: number
+): Promise<SearchResult[]> {
   const playlist = await playdl.playlist_info(query);
-  const playlistVideos = await playlist.all_videos();
+  let playlistVideos: YouTubeVideo[] = playlist.page(1);
+
+  // limit/fetch more videos (playlist will only include first 100 songs by default)
+  if (!limit || limit < 0) {
+    playlistVideos = await playlist.all_videos();
+  } else if (limit <= 100) {
+    playlistVideos = playlistVideos.slice(0, limit);
+  } else {
+    const remainingVideos = await playlist.next(limit - 100);
+    playlistVideos = playlistVideos.concat(remainingVideos);
+  }
 
   const playlistInfo: Playlist | undefined = playlist.url
     ? {

@@ -11,7 +11,7 @@ const { getTracks, getData } = spotify(fetch);
  */
 export const spotifyEngine: PlayerEngine = {
   source: "spotify",
-  async isResponsible(query) {
+  isResponsible(query) {
     return query.startsWith("https://open.spotify.com");
   },
   async search(query) {

@@ -9,7 +9,10 @@ export interface PlayerEngine {
    * Whether this engine is responsible for searching/streaming the given query.
    * If not available engines are responsible for a user query, YouTube will be automatically selected.
    */
-  isResponsible(query: string, playerOptions: PlayerOptions): Promise<boolean>;
+  isResponsible(
+    query: string,
+    playerOptions: PlayerOptions
+  ): boolean | Promise<boolean>;
   /** Gets information about the given query. */
   search(
     query: string,
