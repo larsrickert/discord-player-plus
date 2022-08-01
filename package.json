@@ -1,7 +1,7 @@
 {
   "name": "discord-player-plus",
   "description": "Library for quickly creating discord music and sound bots using discord.js v14.",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "license": "MIT",

@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/larsrickert/discord-player-plus/compare/v1.1.2...v1.2.0) (2022-08-01)
+
+
+### Bug Fixes
+
+* **youtube:** `limit` not working when searching playlist ([ead4449](https://github.com/larsrickert/discord-player-plus/commit/ead4449a301774754051d772978f38c5b2cb866d))
+
+
+### Features
+
+* **player:** add method `getVoiceChannel` ([26b5d54](https://github.com/larsrickert/discord-player-plus/commit/26b5d54eedd3a582401ffa406316d732fca6639f))
+
 ## [1.1.2](https://github.com/larsrickert/discord-player-plus/compare/v1.1.1...v1.1.2) (2022-07-29)
 
 
