@@ -515,6 +515,26 @@ Gets the current repeat mode.
   console.log("Current repeat mode:", mode);
   ```
 
+### getVoiceChannel()
+
+Gets the voice channel that the player is currently connected to (if any).
+
+- **Type**
+
+  ```ts
+  import { VoiceBasedChannel } from "discord.js";
+  getVoiceChannel(): VoiceBasedChannel | undefined
+  ```
+
+- **Example**
+
+  ```ts
+  const channel = player.getVoiceChannel();
+  if (channel) {
+    console.log(`Currently playing in channel ${channel.name}`);
+  }
+  ```
+
 ### guildId
 
 The guild/discord server id passed on player creation.

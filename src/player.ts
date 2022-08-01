@@ -451,4 +451,9 @@ export class Player extends TypedEmitter<PlayerEvents> {
   getRepeat(): PlayerRepeatMode {
     return this.repeatMode;
   }
+
+  /** Gets the voice channel that the player is currently connected to (if any). */
+  getVoiceChannel(): VoiceBasedChannel | undefined {
+    return this.audioResource?.metadata.channel;
+  }
 }
