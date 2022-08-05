@@ -1,6 +1,8 @@
-import { describe, expect, it } from "vitest";
+import { Readable } from "stream";
+import { describe, expect, it, vi } from "vitest";
 import { Playlist, Track } from "../types/engines";
 import { spotifyEngine } from "./spotify";
+import { youtubeEngine } from "./youtube";
 
 describe("spotify engine", () => {
   const expectedTrack: Track = {
@@ -90,5 +92,21 @@ describe("spotify engine", () => {
     const result = searchResults[0];
     expect(result).toBeDefined();
     expect(result.tracks.length).toBe(limit);
+  });
+
+  it("gets stream", async () => {
+    const youtubeSearchSpy = vi.spyOn(youtubeEngine, "search");
+    const youtubeStreamSpy = vi.spyOn(youtubeEngine, "getStream");
+
+    const stream = await spotifyEngine.getStream(expectedTrack, {});
+    expect(stream).not.toBeNull();
+    expect(stream?.stream).toBeInstanceOf(Readable);
+    expect(youtubeSearchSpy).toHaveBeenCalledOnce();
+    expect(youtubeSearchSpy).toHaveBeenCalledWith(
+      "Despacito Luis Fonsi, Daddy Yankee",
+      {},
+      { limit: 1 }
+    );
+    expect(youtubeStreamSpy).toHaveBeenCalledOnce();
   });
 });
