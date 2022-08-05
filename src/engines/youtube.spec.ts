@@ -84,6 +84,7 @@ describe("youtube engine", () => {
         expect({ ...track.playlist, thumbnailUrl: undefined }).toEqual(
           expected
         );
+        expect(track.playlist).toBe(result.playlist);
       });
     });
 

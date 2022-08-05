@@ -1,9 +1,11 @@
 import fetch from "isomorphic-unfetch";
 import spotify, { Tracks } from "spotify-url-info";
-import { PlayerEngine, SearchResult, Track } from "../types/engines";
+import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
 import { youtubeEngine } from "./youtube";
 
 const { getTracks, getData } = spotify(fetch);
+
+const responsibleRegex = /^https?:\/\/open.spotify.com\//;
 
 /**
  * Player engine to search/stream tracks from Spotify.
@@ -12,10 +14,10 @@ const { getTracks, getData } = spotify(fetch);
 export const spotifyEngine: PlayerEngine = {
   source: "spotify",
   isResponsible(query) {
-    return query.startsWith("https://open.spotify.com");
+    return responsibleRegex.test(query);
   },
   async search(query) {
-    const isPlaylist = query.startsWith("https://open.spotify.com/playlist");
+    const isPlaylist = query.includes("open.spotify.com/playlist");
     if (isPlaylist) return await searchPlaylist(query);
 
     const tracks = await getTracks(query);
@@ -46,16 +48,20 @@ async function searchPlaylist(query: string): Promise<SearchResult[]> {
   const data = await getData(query);
   if (data?.type !== "playlist") return [];
 
+  const playlist: Playlist = {
+    title: data.name,
+    url: data.external_urls.spotify,
+    thumbnailUrl: data.images.length ? data.images[0].url : undefined,
+  };
+
   return [
     {
-      tracks: data.tracks.items.map((i: { track: Tracks }) =>
-        mapSpotifyTrack(i.track)
-      ),
-      playlist: {
-        title: data.name,
-        url: data.external_urls.spotify,
-        thumbnailUrl: data.images.length ? data.images[0].url : undefined,
-      },
+      tracks: data.tracks.items.map((i: { track: Tracks }) => {
+        const mapped = mapSpotifyTrack(i.track);
+        mapped.playlist = playlist;
+        return mapped;
+      }),
+      playlist,
       source: spotifyEngine.source,
     },
   ];
