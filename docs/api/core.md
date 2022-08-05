@@ -723,7 +723,7 @@ interface SearchOptions {
   source?: string;
   /**
    * Limit number of tracks to search.
-   * Not supported when searching Spotify track. Due to Spotify limitations, only first 100 playlist tracks are searched.
+   * Not supported when searching single Spotify track. Due to Spotify limitations, only first 100 playlist tracks are searched.
    */
   limit?: number;
 }
