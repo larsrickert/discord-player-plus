@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/larsrickert/discord-player-plus/compare/v1.2.0...v1.3.0) (2022-08-05)
+
+
+### Bug Fixes
+
+* **spotify:** `limit` not working when searching spotify playlist ([6bbb151](https://github.com/larsrickert/discord-player-plus/commit/6bbb1514ca76283c93d654ac9319b8e00dcd0510))
+* **spotify:** playlist tracks not including `playlist` property ([7d6b15a](https://github.com/larsrickert/discord-player-plus/commit/7d6b15a6163e177f71afee38469fd5822e3f52dc))
+
+
+### Features
+
+* **player:** make `options` property public ([b39853b](https://github.com/larsrickert/discord-player-plus/commit/b39853b6b7da20af969a90987d2cf03997b37f42))
+
 # [1.2.0](https://github.com/larsrickert/discord-player-plus/compare/v1.1.2...v1.2.0) (2022-08-01)
 
 
