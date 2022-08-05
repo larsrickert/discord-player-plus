@@ -3,7 +3,9 @@
 Player engines are the heart of `discord-player-plus`. They are responsible for searching tracks and streaming them using different streaming providers such as YouTube or Spotify. Following player engines are built-in:
 
 - YouTube
-- Spotify (Spotify does not provide a web API to stream tracks so they are only searched on Spotify but streamed on YouTube)
+- Spotify
+  - **YouTube mapping:** Spotify does not provide a web API to stream tracks so they are only searched on Spotify but streamed on YouTube
+  - **Limitations:** Tracks can only be searched by URL, not by title. Also when searching playlists, only the first 100 tracks will be searched
 - Files (local files on your file system, e.g. `my-music.mp3`)
 
 When you use `player.search()` the engine will be detected automatically but you can also specify which engine you want to use with:
