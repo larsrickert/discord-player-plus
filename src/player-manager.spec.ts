@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { Player } from "./player";
 import { PlayerManager } from "./player-manager";
+import { PlayerEvents } from "./types/player";
 
 describe("player manager", () => {
   let playerManager: PlayerManager;
@@ -50,5 +51,31 @@ describe("player manager", () => {
     playerManager.remove("TEST_GUILD_ID");
     player = playerManager.find("TEST_GUILD_ID");
     expect(player).toBeUndefined();
+  });
+
+  it("proxies player events", () => {
+    const player = playerManager.get("TEST_GUILD_ID");
+    expect(player).toBeDefined();
+
+    const events: (keyof PlayerEvents)[] = [
+      "trackStart",
+      "trackEnd",
+      "error",
+      "destroyed",
+    ];
+
+    events.forEach((event) => {
+      let eventName = "";
+      let guildId = "";
+
+      playerManager.on(event, (id) => {
+        eventName = event;
+        guildId = id;
+      });
+      player.emit(event);
+
+      expect(eventName).toBe(event);
+      expect(guildId).toBe("TEST_GUILD_ID");
+    });
   });
 });
