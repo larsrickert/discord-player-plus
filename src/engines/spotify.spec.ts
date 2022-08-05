@@ -78,4 +78,17 @@ describe("spotify engine", () => {
 
     await Promise.all(promises);
   });
+
+  it("searches playlist with limit", async () => {
+    const limit = 64;
+    const searchResults = await spotifyEngine.search(
+      "https://open.spotify.com/playlist/3xMQTDLOIGvj3lWH5e5x6F",
+      {},
+      { limit }
+    );
+
+    const result = searchResults[0];
+    expect(result).toBeDefined();
+    expect(result.tracks.length).toBe(limit);
+  });
 });

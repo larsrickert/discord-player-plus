@@ -721,7 +721,10 @@ interface SearchOptions {
    * The source where tracks should be searched. If not provided, will automatically detect the source or fall back to YouTube.
    */
   source?: string;
-  /** Limit number of tracks to search. Might not work for all engines. */
+  /**
+   * Limit number of tracks to search.
+   * Not supported when searching Spotify track. Due to Spotify limitations, only first 100 playlist tracks are searched.
+   */
   limit?: number;
 }
 ```

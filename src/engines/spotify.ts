@@ -16,9 +16,9 @@ export const spotifyEngine: PlayerEngine = {
   isResponsible(query) {
     return responsibleRegex.test(query);
   },
-  async search(query) {
+  async search(query, _, searchOptions) {
     const isPlaylist = query.includes("open.spotify.com/playlist");
-    if (isPlaylist) return await searchPlaylist(query);
+    if (isPlaylist) return await searchPlaylist(query, searchOptions?.limit);
 
     const tracks = await getTracks(query);
 
@@ -44,7 +44,10 @@ export const spotifyEngine: PlayerEngine = {
   },
 };
 
-async function searchPlaylist(query: string): Promise<SearchResult[]> {
+async function searchPlaylist(
+  query: string,
+  limit?: number
+): Promise<SearchResult[]> {
   const data = await getData(query);
   if (data?.type !== "playlist") return [];
 
@@ -54,17 +57,17 @@ async function searchPlaylist(query: string): Promise<SearchResult[]> {
     thumbnailUrl: data.images.length ? data.images[0].url : undefined,
   };
 
-  return [
-    {
-      tracks: data.tracks.items.map((i: { track: Tracks }) => {
-        const mapped = mapSpotifyTrack(i.track);
-        mapped.playlist = playlist;
-        return mapped;
-      }),
-      playlist,
-      source: spotifyEngine.source,
-    },
-  ];
+  let tracks: Track[] = data.tracks.items.map((i: { track: Tracks }) => {
+    const mapped = mapSpotifyTrack(i.track);
+    mapped.playlist = playlist;
+    return mapped;
+  });
+
+  if (limit && tracks.length > limit) {
+    tracks = tracks.slice(0, limit);
+  }
+
+  return [{ tracks, playlist, source: spotifyEngine.source }];
 }
 
 function mapSpotifyTrack(track: Tracks): Track {
