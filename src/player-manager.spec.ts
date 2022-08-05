@@ -1,7 +1,19 @@
 import { beforeEach, describe, expect, it } from "vitest";
+import de from "./languages/de.json";
+import en from "./languages/en.json";
 import { Player } from "./player";
 import { PlayerManager } from "./player-manager";
 import { PlayerEvents } from "./types/player";
+
+// @see: https://stackoverflow.com/a/47514598
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getDeepObjectKeys(obj: Record<string, any>) {
+  return Object.keys(obj)
+    .filter((key) => obj[key] instanceof Object)
+    .map((key) => getDeepObjectKeys(obj[key]).map((k) => `${key}.${k}`))
+    .reduce((x, y) => x.concat(y), Object.keys(obj))
+    .sort();
+}
 
 describe("player manager", () => {
   let playerManager: PlayerManager;
@@ -77,5 +89,15 @@ describe("player manager", () => {
       expect(eventName).toBe(event);
       expect(guildId).toBe("TEST_GUILD_ID");
     });
+  });
+
+  it("has default en translations", () => {
+    expect(playerManager.translations).toBe(en);
+  });
+
+  it("translations contain same keys", () => {
+    const enKeys = getDeepObjectKeys(en);
+    const deKeys = getDeepObjectKeys(de);
+    expect(enKeys).toEqual(deKeys);
   });
 });
