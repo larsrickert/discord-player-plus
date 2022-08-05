@@ -1,5 +1,5 @@
 import { Readable } from "stream";
-import { describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Playlist, Track } from "../types/engines";
 import { spotifyEngine } from "./spotify";
 import { youtubeEngine } from "./youtube";
@@ -12,6 +12,10 @@ describe("spotify engine", () => {
     source: "spotify",
     artist: "Luis Fonsi, Daddy Yankee",
   };
+
+  beforeEach(() => {
+    vi.resetAllMocks();
+  });
 
   it("is responsible", async () => {
     const queries: string[] = [

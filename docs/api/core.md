@@ -545,6 +545,18 @@ The guild/discord server id passed on player creation.
   readonly guildId: string
   ```
 
+### options
+
+The options passed on player creation.
+
+- **Type**
+
+  ```ts
+  readonly options: PlayerOptions
+  ```
+
+For available player options see [PlayerOptions](#playeroptions).
+
 ## PlayerEngine
 
 Player engines are the heart of `discord-player-plus`. They are responsible for searching and streaming tracks from streaming providers like YouTube or Spotify.

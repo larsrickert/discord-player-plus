@@ -42,7 +42,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   constructor(
     public readonly guildId: string,
-    private readonly options: PlayerOptions = {}
+    public readonly options: PlayerOptions = {}
   ) {
     super();
 
