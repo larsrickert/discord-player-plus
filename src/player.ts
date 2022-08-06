@@ -50,11 +50,13 @@ export class Player extends TypedEmitter<PlayerEvents> {
       // the following player events are based on discord voice life cycle, see: https://discordjs.guide/voice/audio-player.html#life-cycle
       const oldTrack =
         oldState.status !== AudioPlayerStatus.Idle
-          ? (oldState.resource as typeof this.audioResource)?.metadata.track
+          ? (oldState.resource as NonNullable<typeof this.audioResource>)
+              .metadata.track
           : undefined;
       const newTrack =
         newState.status !== AudioPlayerStatus.Idle
-          ? (newState.resource as typeof this.audioResource)?.metadata.track
+          ? (newState.resource as NonNullable<typeof this.audioResource>)
+              .metadata.track
           : undefined;
 
       // check if new track has started (will also be emitted when current track has been seeked)
@@ -82,19 +84,19 @@ export class Player extends TypedEmitter<PlayerEvents> {
         this.emit("trackEnd", oldTrack);
       }
 
+      // play next queued track if available or stop player (disconnect from voice channel) if nothing more to play
       if (
-        newState.status === AudioPlayerStatus.Idle &&
-        oldState.status !== AudioPlayerStatus.Idle
+        oldState.status !== AudioPlayerStatus.Idle &&
+        newState.status === AudioPlayerStatus.Idle
       ) {
-        // current track ended
         const nextTrack = await this.getNextTrack();
+        const currentVoiceChannel = this.getVoiceChannel();
 
-        // play next queued track
         if (!nextTrack) {
           this.stop();
-        } else if (this.audioResource) {
+        } else if (currentVoiceChannel) {
           await this.play({
-            channel: this.audioResource.metadata.channel,
+            channel: currentVoiceChannel,
             tracks: [nextTrack],
           });
         }
@@ -107,7 +109,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
     // this method is async to support autoplay and queue repeat in the future
     if (this.repeatMode === PlayerRepeatMode.TRACK) {
       const currentTrack = this.getCurrentTrack();
-      if (currentTrack) return currentTrack;
+      if (currentTrack) {
+        delete currentTrack.seek;
+        return currentTrack;
+      }
     }
 
     return this.queue.shift();
