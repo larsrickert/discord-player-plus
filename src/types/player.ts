@@ -6,7 +6,10 @@ import { PlayerEngine, Track } from "./engines";
 export interface PlayerEvents {
   /** Emitted after a new track has started. */
   trackStart: (track: Track) => void;
-  /** Emitted after a track has ended and before a new track has started (if any). */
+  /**
+   * Emitted after a track has ended and before a new track has started.
+   * Will not be emitted when player is stopped while playing (`destroyed` event).
+   */
   trackEnd: () => void;
   /**
    * Emitted after the player was destroyed/player left voice channel.
