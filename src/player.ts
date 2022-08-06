@@ -84,21 +84,26 @@ export class Player extends TypedEmitter<PlayerEvents> {
         this.emit("trackEnd", oldTrack);
       }
 
-      // play next queued track if available or stop player (disconnect from voice channel) if nothing more to play
+      // when track ends, play next queued track if available
       if (
         oldState.status !== AudioPlayerStatus.Idle &&
         newState.status === AudioPlayerStatus.Idle
       ) {
         const nextTrack = await this.getNextTrack();
-        const currentVoiceChannel = this.getVoiceChannel();
 
-        if (!nextTrack) {
-          this.stop();
-        } else if (currentVoiceChannel) {
+        if (nextTrack) {
+          const voiceChannel = (
+            oldState.resource as AudioResource<AudioPlayerMetadata>
+          ).metadata.channel;
+
           await this.play({
-            channel: currentVoiceChannel,
+            channel: voiceChannel,
             tracks: [nextTrack],
           });
+        }
+
+        if (!nextTrack && (this.options.stopOnEnd ?? true)) {
+          this.stop();
         }
       }
     });
@@ -304,6 +309,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
   skip(): Track | undefined {
     const currentTrack = this.getCurrentTrack();
     const stopped = this.audioPlayer.stop();
+    if (stopped) this.audioResource = undefined;
     return stopped ? currentTrack : undefined;
   }
 
@@ -385,8 +391,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
    * Stops the player, clears the current queue and disconnects from the voice channel if connected.
    */
   stop(): void {
-    const connection = getVoiceConnection(this.guildId);
     this.clear();
+    const connection = getVoiceConnection(this.guildId);
     connection?.destroy();
   }
 

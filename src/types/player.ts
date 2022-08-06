@@ -12,8 +12,7 @@ export interface PlayerEvents {
    */
   trackEnd: (track: Track) => void;
   /**
-   * Emitted after the player was destroyed/player left voice channel.
-   * Since the player is being destroyed when the queue is empty, this event can also be seen as `queueEnd` event.
+   * Emitted after the player was stopped/destroyed/player left voice channel.
    */
   destroyed: () => void;
   /** Emitted before a player error is thrown. */
@@ -79,6 +78,13 @@ export interface PlayerOptions {
    *
    */
   allowSwitchChannels?: boolean;
+  /**
+   * When `true`, player will be stopped when there is nothing more to play (track ends, queue is empty and no repeat mode has been set).
+   * Otherwise, the player will stay connected to the voice channel and will not play anything.
+   *
+   * @default `true`
+   */
+  stopOnEnd?: boolean;
 }
 
 export interface PlayerManagerOptions {

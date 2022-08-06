@@ -58,7 +58,7 @@ export class PlayerManager extends TypedEmitter<PlayerManagerEvents> {
   }
 
   /**
-   * Removes and destroys the player for the given guildId (if any). Will stop playing audio and leave voice channel if connected.
+   * Removes and stops the player for the given guildId (if any).
    */
   remove(guildId: string): void {
     const player = this.find(guildId);

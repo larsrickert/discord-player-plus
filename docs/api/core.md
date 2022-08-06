@@ -66,7 +66,7 @@ Gets the player for the given guildId if it exists. Does not create a player.
 
 ### remove()
 
-Removes and destroys the player for the given guildId (if any). Will stop playing audio and leave voice channel if connected.
+Removes and stops the player for the given guildId (if any).
 
 - **Type**
 
@@ -667,6 +667,13 @@ interface PlayerOptions {
    *
    */
   allowSwitchChannels?: boolean;
+  /**
+   * When `true`, player will be stopped when there is nothing more to play (track ends, queue is empty and no repeat mode has been set).
+   * Otherwise, the player will stay connected to the voice channel and will not play anything.
+   *
+   * @default `true`
+   */
+  stopOnEnd?: boolean;
 }
 ````
 
