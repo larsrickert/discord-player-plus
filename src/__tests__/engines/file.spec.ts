@@ -1,6 +1,6 @@
 import { IAudioMetadata, parseFile } from "music-metadata";
 import path from "path";
-import { afterEach, describe, expect, it, Mock, vi } from "vitest";
+import { afterEach, describe, expect, it, Mock, test, vi } from "vitest";
 import { fileEngine } from "../../engines/file";
 import { Track } from "../../types/engines";
 
@@ -60,34 +60,21 @@ describe("file engine", () => {
     source: "file",
   };
 
-  it("is responsible", async () => {
-    const validQueries: string[] = [
-      `${fileRoot}/file.mp3`,
-      `${fileRoot}/subdir/file.mp3`,
-      `${fileRoot}/subdir/subsubdir/file.mp3`,
-    ];
-
-    const invalidQueries: string[] = [
-      fileRoot,
-      `${fileRoot}/`,
-      "/somedir/file.mp3",
-    ];
-
+  test.concurrent.each([
+    [`${fileRoot}/file.mp3`, true],
+    [`${fileRoot}/subdir/file.mp3`, true],
+    [`${fileRoot}/subdir/subsubdir/file.mp3`, true],
+    [fileRoot, false],
+    [`${fileRoot}/`, false],
+    ["/somedir/file.mp3", false],
+  ])(`is responsible for %s -> %s`, async (query, shouldBeResponsible) => {
     // should not be responsible when fileRoot option is not set
-    for (const query of [...validQueries, ...invalidQueries]) {
-      const isResponsible = await fileEngine.isResponsible(query, {});
-      expect(isResponsible).toBe(false);
-    }
+    let isResponsible = await fileEngine.isResponsible(query, {});
+    expect(isResponsible).toBe(false);
 
     // check responsibility with fileRoot option
-    for (const query of validQueries) {
-      const isResponsible = await fileEngine.isResponsible(query, { fileRoot });
-      expect(isResponsible).toBe(true);
-    }
-    for (const query of invalidQueries) {
-      const isResponsible = await fileEngine.isResponsible(query, { fileRoot });
-      expect(isResponsible).toBe(false);
-    }
+    isResponsible = await fileEngine.isResponsible(query, { fileRoot });
+    expect(isResponsible).toBe(shouldBeResponsible);
   });
 
   it("searches track with metadata", async () => {

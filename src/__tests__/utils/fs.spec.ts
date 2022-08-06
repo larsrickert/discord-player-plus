@@ -1,60 +1,18 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, test } from "vitest";
 import { isSubPath } from "../../utils/fs";
 
-interface Path {
-  root: string;
-  subpath: string;
-}
-
-describe("fs util", () => {
-  it("recognized sub paths", () => {
-    const validPaths: Path[] = [
-      {
-        root: "/",
-        subpath: "test.mp3",
-      },
-      {
-        root: "",
-        subpath: "test.mp3",
-      },
-      {
-        root: "/public",
-        subpath: "/public/test.mp3",
-      },
-      {
-        root: "/public",
-        subpath: "/public/sub/test.mp3",
-      },
-    ];
-    const invalidPaths: Path[] = [
-      {
-        root: "/public",
-        subpath: "/public",
-      },
-      {
-        root: "/public",
-        subpath: "/public/",
-      },
-      {
-        root: "/public",
-        subpath: "test.mp3",
-      },
-      {
-        root: "/public",
-        subpath: "/etc",
-      },
-      {
-        root: "/public/test",
-        subpath: "public/test.mp3",
-      },
-    ];
-
-    validPaths.forEach((path) => {
-      expect(isSubPath(path.root, path.subpath)).toBe(true);
-    });
-
-    invalidPaths.forEach((path) => {
-      expect(isSubPath(path.root, path.subpath)).toBe(false);
-    });
+describe.concurrent("fs util", () => {
+  test.each([
+    ["test.mp3", "/", true],
+    ["test.mp3", "", true],
+    ["/public/test.mp3", "/public", true],
+    ["/public/sub/test.mp3", "/public", true],
+    ["/public", "/public", false],
+    ["/public/", "/public", false],
+    ["test.mp3", "/public", false],
+    ["/etc", "/public", false],
+    ["/public/test.mp3", "/public/test", false],
+  ])(`is %s sub path of %s -> %s`, (subPath, root, shouldBeSubPath) => {
+    expect(isSubPath(root, subPath)).toBe(shouldBeSubPath);
   });
 });

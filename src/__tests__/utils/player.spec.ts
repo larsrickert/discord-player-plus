@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, test } from "vitest";
 import { Track } from "../../types/engines";
 import {
   formatDuration,
@@ -7,19 +7,15 @@ import {
   validateVolume,
 } from "../../utils/player";
 
-describe("player util", () => {
-  it("validates volume", () => {
-    const testCases = [
-      { input: -1, expected: false },
-      { input: 0, expected: true },
-      { input: 1, expected: true },
-      { input: 200, expected: true },
-      { input: 201, expected: false },
-    ];
-
-    testCases.forEach((c) => {
-      expect(validateVolume(c.input)).toBe(c.expected);
-    });
+describe.concurrent("player util", () => {
+  test.each([
+    [-1, false],
+    [0, true],
+    [1, true],
+    [200, true],
+    [201, false],
+  ])(`validates volume $i -> %s`, (volume, isValid) => {
+    expect(validateVolume(volume)).toBe(isValid);
   });
 
   it("formats track to markdown", () => {
@@ -57,22 +53,18 @@ describe("player util", () => {
     );
   });
 
-  it("formats track duration", () => {
-    const testCases = [
-      { input: 0, expected: "00:00" },
-      { input: 4, expected: "00:04" },
-      { input: 4.123, expected: "00:04" },
-      { input: 42, expected: "00:42" },
-      { input: 60, expected: "01:00" },
-      { input: 90, expected: "01:30" },
-      { input: 600, expected: "10:00" },
-      { input: 3599, expected: "59:59" },
-      { input: 3661, expected: "01:01:01" },
-      { input: 360061, expected: "100:01:01" },
-    ];
-
-    testCases.forEach((c) => {
-      expect(formatDuration(c.input)).toBe(c.expected);
-    });
+  test.each([
+    [0, "00:00"],
+    [4, "00:04"],
+    [4.123, "00:04"],
+    [42, "00:42"],
+    [60, "01:00"],
+    [90, "01:30"],
+    [600, "10:00"],
+    [3599, "59:59"],
+    [3661, "01:01:01"],
+    [360061, "100:01:01"],
+  ])(`formats track duration $i -> %s`, (time, formatted) => {
+    expect(formatDuration(time)).toBe(formatted);
   });
 });

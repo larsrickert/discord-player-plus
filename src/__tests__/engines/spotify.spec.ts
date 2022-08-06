@@ -1,5 +1,5 @@
 import { Readable } from "stream";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, describe, expect, it, test, vi } from "vitest";
 import { spotifyEngine } from "../../engines/spotify";
 import { youtubeEngine } from "../../engines/youtube";
 import { Playlist, Track } from "../../types/engines";
@@ -13,79 +13,61 @@ describe("spotify engine", () => {
     artist: "Luis Fonsi, Daddy Yankee",
   };
 
-  beforeEach(() => {
-    vi.resetAllMocks();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it("is responsible", async () => {
-    const queries: string[] = [
-      "https://open.spotify.com/",
-      "http://open.spotify.com/",
-    ];
-
-    for (const query of queries) {
-      const isResponsible = spotifyEngine.isResponsible(query, {});
-      expect(isResponsible).toBe(true);
-    }
+  test.concurrent.each([
+    "https://open.spotify.com/",
+    "http://open.spotify.com/",
+  ])("is responsible for %s", (query) => {
+    const isResponsible = spotifyEngine.isResponsible(query, {});
+    expect(isResponsible).toBe(true);
   });
 
-  it("searches track", async () => {
-    const queries: string[] = [
-      "https://open.spotify.com/track/6habFhsOp2NvshLv26DqMb?si=a956465f4cc848cc",
-      "https://open.spotify.com/embed/track/6habFhsOp2NvshLv26DqMb",
-    ];
+  test.concurrent.each([
+    "https://open.spotify.com/track/6habFhsOp2NvshLv26DqMb?si=a956465f4cc848cc",
+    "https://open.spotify.com/embed/track/6habFhsOp2NvshLv26DqMb",
+  ])("searches track %s", async (query) => {
+    const searchResults = await spotifyEngine.search(query, {}, {});
+    const result = searchResults[0];
+    expect(result).toBeDefined();
+    expect(result.tracks.length).toBeGreaterThanOrEqual(1);
+    expect(result.source).toBe("spotify");
+    expect(result.playlist).toBeUndefined();
+    const track = result.tracks[0];
+    // do not test thumbnail url since it can change due to caching
+    expect({ ...track, thumbnailUrl: undefined }).toEqual(expectedTrack);
+  });
 
-    const promises = queries.map(async (query) => {
-      const searchResults = await spotifyEngine.search(query, {}, {});
-      const result = searchResults[0];
-      expect(result).toBeDefined();
-      expect(result.tracks.length).toBeGreaterThanOrEqual(1);
-      expect(result.source).toBe("spotify");
-      expect(result.playlist).toBeUndefined();
-      const track = result.tracks[0];
-      // do not test thumbnail url since it can change due to caching
-      expect({ ...track, thumbnailUrl: undefined }).toEqual(expectedTrack);
+  it.concurrent("searches playlist", async () => {
+    const query = "https://open.spotify.com/playlist/3xMQTDLOIGvj3lWH5e5x6F";
+
+    const searchResults = await spotifyEngine.search(query, {}, {});
+    const result = searchResults[0];
+    expect(result).toBeDefined();
+    expect(result.tracks.length).toBeGreaterThanOrEqual(1);
+    expect(result.source).toBe("spotify");
+    expect(result.playlist).toBeDefined();
+    expect(result.tracks.length).toBe(100);
+
+    const expected: Playlist = {
+      title:
+        "Charts 2022 🔥Top 100 Aktuelle Charts Radio Hits 2022 - Musik Mix - Summer - Pop Songs - Top 2022",
+      url: query,
+    };
+
+    // do not test thumbnail url since it can change due to caching
+    expect({ ...result.playlist, thumbnailUrl: undefined }).toEqual(expected);
+
+    result.tracks.forEach((track) => {
+      expect(track.playlist).toBeDefined();
+      expect({ ...track.playlist, thumbnailUrl: undefined }).toEqual(expected);
+      expect(track.playlist).toBe(result.playlist);
     });
-
-    await Promise.all(promises);
   });
 
-  it("searches playlist", async () => {
-    const queries: string[] = [
-      "https://open.spotify.com/playlist/3xMQTDLOIGvj3lWH5e5x6F",
-    ];
-
-    const promises = queries.map(async (query) => {
-      const searchResults = await spotifyEngine.search(query, {}, {});
-      const result = searchResults[0];
-      expect(result).toBeDefined();
-      expect(result.tracks.length).toBeGreaterThanOrEqual(1);
-      expect(result.source).toBe("spotify");
-      expect(result.playlist).toBeDefined();
-      expect(result.tracks.length).toBe(100);
-
-      const expected: Playlist = {
-        title:
-          "Charts 2022 🔥Top 100 Aktuelle Charts Radio Hits 2022 - Musik Mix - Summer - Pop Songs - Top 2022",
-        url: "https://open.spotify.com/playlist/3xMQTDLOIGvj3lWH5e5x6F",
-      };
-
-      // do not test thumbnail url since it can change due to caching
-      expect({ ...result.playlist, thumbnailUrl: undefined }).toEqual(expected);
-
-      result.tracks.forEach((track) => {
-        expect(track.playlist).toBeDefined();
-        expect({ ...track.playlist, thumbnailUrl: undefined }).toEqual(
-          expected
-        );
-        expect(track.playlist).toBe(result.playlist);
-      });
-    });
-
-    await Promise.all(promises);
-  });
-
-  it("searches playlist with limit", async () => {
+  it.concurrent("searches playlist with limit", async () => {
     const limit = 64;
     const searchResults = await spotifyEngine.search(
       "https://open.spotify.com/playlist/3xMQTDLOIGvj3lWH5e5x6F",
