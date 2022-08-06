@@ -68,8 +68,6 @@ export class Player extends TypedEmitter<PlayerEvents> {
         this.emit("trackStart", { ...newTrack });
       }
 
-      // console.log(oldState.status, newState.status);
-
       // check if track has ended (will NOT be emitted when player was destroyed while playing)
       const playingTrackEnded =
         oldState.status === AudioPlayerStatus.Playing &&

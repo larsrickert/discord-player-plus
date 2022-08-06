@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - "docs/**"
+      - "src/**"
+      - "!src/__tests__"
   workflow_dispatch:
 
 jobs:

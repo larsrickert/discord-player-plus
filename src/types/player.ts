@@ -26,6 +26,7 @@ export type PlayerManagerEvents = {
     : never;
 };
 
+// #region PlayOptions
 export interface PlayOptions {
   /** Voice channel to play in. */
   channel: VoiceBasedChannel;
@@ -37,8 +38,10 @@ export interface PlayOptions {
    */
   addSkippedTrackToQueue?: boolean;
 }
+// #endregion PlayOptions
 
 /* eslint-disable @typescript-eslint/no-empty-interface */
+// #region PlayerOptions
 export interface PlayerOptions {
   /**
    * Audio quality.
@@ -75,7 +78,6 @@ export interface PlayerOptions {
    * voice channel B. If `false`, player wont connect to another voice channel when he is already playing in a voice channel.
    *
    * @default true
-   *
    */
   allowSwitchChannels?: boolean;
   /**
@@ -86,20 +88,25 @@ export interface PlayerOptions {
    */
   stopOnEnd?: boolean;
 }
+// #endregion PlayerOptions
 
+// #region PlayerManagerOptions
 export interface PlayerManagerOptions {
   /** Player options that should be applied for all guilds. Guild specific options can be overridden when calling `playerManager.get(guildId)`. */
   playerDefault?: PlayerOptions;
   /** Translations for the pre-build commands. Default: en */
   translations?: Translations;
 }
+// #endregion PlayerManagerOptions
 
+// #region PlayerRepeatMode
 export enum PlayerRepeatMode {
   /** No tracks are repeated (default) */
   NONE,
   /** Repeat currently playing track */
   TRACK,
 }
+// #endregion PlayerRepeatMode
 
 export enum PlayerErrorCode {
   REFUSED_TO_SWITCH_VOICE_CHANNEL,

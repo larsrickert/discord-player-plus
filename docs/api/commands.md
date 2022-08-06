@@ -10,16 +10,9 @@ A command extends the default command type provided by `discord.js` with a `run`
 
 - **Type**
 
-  ```ts
-  import {
-    ChatInputApplicationCommandData,
-    ChatInputCommandInteraction,
-  } from "discord.js";
+  <<< @/../src/types/commands.ts#Command
 
-  interface Command<T = boolean> extends ChatInputApplicationCommandData {
-    run: (interaction: ChatInputCommandInteraction<"cached">) => Promise<T>;
-  }
-  ```
+  Types `ChatInputApplicationCommandData` and `ChatInputCommandInteraction` are imported from `discord.js`.
 
   By default all commands expect the `run` method to return a Promise with a boolean that indicates whether the command has been executed successfully.
 
@@ -536,42 +529,8 @@ Options for creating pre-build commands from `discord-player-plus`.
 
 ### CreateCommandOptions
 
-```ts
-interface CreateCommandOptions {
-  /**
-   * Whether messages should only be visible for the user that executed the command.
-   *
-   * @default `false`
-   */
-  ephemeral?: boolean;
-  /**
-   * Whether error messages should only be visible for the user that executed the command.
-   *
-   * @default `true`
-   */
-  ephemeralError?: boolean;
-}
-```
+<<< @/../src/types/commands.ts#CreateCommandOptions
 
 ### CreateHelpCommandOptions
 
-```ts
-interface CreateHelpCommandOptions {
-  /** Title that is being displayed at the top of the help prompt. Markdown supported. */
-  title?: string;
-  /** URL that the title should be linked to. */
-  url?: string;
-  /** Description/text inside the help prompt. Markdown supported. */
-  description?: string;
-  /** Commands that the help prompt should be generated for. Will be sorted alphabetically. */
-  commands: Command[];
-  /** Information about the author that developed the discord bot. */
-  author?: {
-    name: string;
-    iconUrl?: string;
-    url?: string;
-  };
-  /** Footer text, e.g. to specify the discord bot version. */
-  footerText?: string;
-}
-```
+<<< @/../src/types/commands.ts#CreateHelpCommandOptions

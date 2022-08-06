@@ -561,52 +561,29 @@ For available player options see [PlayerOptions](#playeroptions).
 
 Player engines are the heart of `discord-player-plus`. They are responsible for searching and streaming tracks from streaming providers like YouTube or Spotify.
 
-`discord-player-plus` provides some default engines but they can be overridden or extended.
+`discord-player-plus` provides some [built-in engines](/guide/engines) but they can be overridden or extended.
 
 - **Type**
 
-  ```ts
-  interface PlayerEngine {
-    /** Source (e.g. "youtube", "spotify" etc.) */
-    source: string;
-    /**
-     * Whether this engine is responsible for searching/streaming the given query.
-     * If no available engines are responsible for a user query, YouTube will be used.
-     */
-    isResponsible(
-      query: string,
-      playerOptions: PlayerOptions
-    ): boolean | Promise<boolean>;
-    /** Gets information about the given query. */
-    search(
-      query: string,
-      playerOptions: PlayerOptions,
-      options?: SearchOptions
-    ): Promise<SearchResult[]>;
-    /** Gets the playable stream for the given track. */
-    getStream(
-      track: Track,
-      playerOptions: PlayerOptions
-    ): Promise<TrackStream | null>;
-  }
-  ```
+  <<< @/../src/types/engines.ts#PlayerEngine
 
   - **Example**
 
   ```ts
   import { PlayerEngine } from "discord-player-plus";
 
-  const youtubeEngine: PlayerEngine = {
-    source: "youtube",
+  const myCustomEngine: PlayerEngine = {
+    source: "vimeo",
     isResponsible(query) {
-      return query.startsWith("https://www.youtube.com");
+      // can also be async
+      return query.startsWith("https://player.vimeo.com/video");
     },
     async search(query, playerOptions, searchOptions) {
-      // search on YouTube
+      // put your code here that searches the query on vimeo
       return [];
     },
     async getStream(track, playerOptions) {
-      // get stream from YouTube
+      // get stream from vimeo
       return null;
     },
   };
@@ -616,66 +593,11 @@ Player engines are the heart of `discord-player-plus`. They are responsible for 
 
 ### PlayerManagerOptions
 
-```ts
-interface PlayerManagerOptions {
-  /** Player options that should be applied for all guilds. Guild specific options can be overridden when calling `playerManager.get(guildId)`. */
-  playerDefault?: PlayerOptions;
-  /** Translations for the pre-build commands. Default: en */
-  translations?: Translations;
-}
-```
+<<< @/../src/types/player.ts#PlayerManagerOptions
 
 ### PlayerOptions
 
-````ts
-interface PlayerOptions {
-  /**
-   * Audio quality.
-   *
-   * @default "high"
-   */
-  quality?: "low" | "medium" | "high";
-  /**
-   * Setting to `true` will enable the player to change the volume of the played tracks.
-   * Set to `false` for slightly better performance.
-   *
-   * @default true
-   */
-  inlineVolume?: boolean;
-  /**
-   * Initial player volume for all tracks between 0 and 200. Can also be an (async) function that returns the volume.
-   */
-  initialVolume?: number | ((guildId: string) => number | Promise<number>);
-  /**
-   * Path to the folder where local files should be playable from. Must be set if local files should be playable.
-   * For security reasons files outside this directory are refused to play.
-   *
-   * @example
-   * ```ts
-   * // files outside of this public folder wont be playable
-   * fileRoot: path.join(__dirname, "../public")
-   * ```
-   */
-  fileRoot?: string;
-  /** Custom player engines to provide additional streaming services or override existing ones. */
-  customEngines?: Record<string, PlayerEngine>;
-  /**
-   * When `true` and the player is already playing in voice channel A, player will be allowed to switch to
-   * voice channel B. If `false`, player wont connect to another voice channel when he is already playing in a voice channel.
-   *
-   * @default true
-   *
-   */
-  allowSwitchChannels?: boolean;
-  /**
-   * When `true`, player will be stopped when there is nothing more to play (track ends, queue is empty and no repeat mode has been set).
-   * Otherwise, the player will stay connected to the voice channel and will not play anything.
-   *
-   * @default `true`
-   */
-  stopOnEnd?: boolean;
-}
-````
+<<< @/../src/types/player.ts#PlayerOptions
 
 ### Translations
 
@@ -683,103 +605,32 @@ For available translations see [here](https://github.com/larsrickert/discord-pla
 
 ### PlayOptions
 
-```ts
-interface PlayOptions {
-  /** Voice channel to play in. */
-  channel: VoiceBasedChannel;
-  /** Tracks to play / add to queue. */
-  tracks: Track[];
-  /**
-   * If `true` and player is currently playing a track, it will be added to the front of the queue with the current playback duration.
-   * Can be used to temporarily play a (short) track.
-   */
-  addSkippedTrackToQueue?: boolean;
-}
-```
+<<< @/../src/types/player.ts#PlayOptions
 
-Type `VoiceBasedChannel` comes from `discord.js` library.
+Type `VoiceBasedChannel` is imported from `discord.js` library.
 
 ### Track
 
-```ts
-interface Track {
-  title: string;
-  /** Track url. If using local file url/path, set `source` to `file`. */
-  url: string;
-  thumbnailUrl?: string;
-  /** Duration in seconds. */
-  duration: number;
-  artist?: string;
-  /**
-   * Track source (used player engine). Built-in engines/sources: `youtube`, `spotify`, `file`.
-   *
-   * @example "youtube"
-   */
-  source: string;
-  playlist?: Playlist;
-  /** Number of milliseconds to seek/skip. */
-  seek?: number;
-}
-```
+<<< @/../src/types/engines.ts#Track
 
 ### Playlist
 
-```ts
-interface Playlist {
-  title: string;
-  url: string;
-  thumbnailUrl?: string;
-}
-```
+<<< @/../src/types/engines.ts#Playlist
 
 ### SearchOptions
 
-```ts
-interface SearchOptions {
-  /**
-   * The source where tracks should be searched. If not provided, will automatically detect the source or fall back to YouTube.
-   */
-  source?: string;
-  /**
-   * Limit number of tracks to search.
-   * Not supported when searching single Spotify track. Due to Spotify limitations, only first 100 playlist tracks are searched.
-   */
-  limit?: number;
-}
-```
+<<< @/../src/types/engines.ts#SearchOptions
 
 ### SearchResult
 
-```ts
-interface SearchResult {
-  tracks: Track[];
-  playlist?: Playlist;
-  source: string;
-}
-```
+<<< @/../src/types/engines.ts#SearchResult
 
 ### PlayerRepeatMode
 
-```ts
-enum PlayerRepeatMode {
-  /** No tracks are repeated (default) */
-  NONE,
-  /** Repeat currently playing track */
-  TRACK,
-}
-```
+<<< @/../src/types/player.ts#PlayerRepeatMode
 
 ### TrackStream
 
-```ts
-interface TrackStream {
-  /**
-   * If the input is given as a string, then the inputType option will be overridden and FFmpeg will be used.
-   * Can be used as file path when playing local files.
-   */
-  stream: Readable | string;
-  type?: StreamType;
-}
-```
+<<< @/../src/types/engines.ts#TrackStream
 
-Type `StreamType` comes from `discord.js` library.
+Type `StreamType` is imported from `discord.js` library.
