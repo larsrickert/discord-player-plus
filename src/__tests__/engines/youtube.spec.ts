@@ -1,7 +1,7 @@
 import { Readable } from "stream";
 import { describe, expect, it } from "vitest";
-import { Playlist, Track } from "../types/engines";
-import { youtubeEngine } from "./youtube";
+import { youtubeEngine } from "../../engines/youtube";
+import { Playlist, Track } from "../../types/engines";
 
 describe("youtube engine", () => {
   const expectedTrack: Track = {

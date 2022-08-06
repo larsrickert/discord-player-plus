@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isSubPath } from "./fs";
+import { isSubPath } from "../../utils/fs";
 
 interface Path {
   root: string;

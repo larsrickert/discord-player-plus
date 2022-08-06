@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import de from "./languages/de.json";
-import en from "./languages/en.json";
-import { Player } from "./player";
-import { PlayerManager } from "./player-manager";
-import { PlayerEvents } from "./types/player";
+import de from "../languages/de.json";
+import en from "../languages/en.json";
+import { Player } from "../player";
+import { PlayerManager } from "../player-manager";
+import { PlayerEvents } from "../types/player";
 
 // @see: https://stackoverflow.com/a/47514598
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

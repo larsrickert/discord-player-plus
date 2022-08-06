@@ -1,8 +1,8 @@
 import { IAudioMetadata, parseFile } from "music-metadata";
 import path from "path";
 import { afterEach, describe, expect, it, Mock, vi } from "vitest";
-import { Track } from "../types/engines";
-import { fileEngine } from "./file";
+import { fileEngine } from "../../engines/file";
+import { Track } from "../../types/engines";
 
 const mockMetadataWithoutData: IAudioMetadata = {
   common: {

@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { Track } from "../types/engines";
+import { Track } from "../../types/engines";
 import {
   formatDuration,
   trackToMarkdown,
   urlToMarkdown,
   validateVolume,
-} from "../utils/player";
+} from "../../utils/player";
 
 describe("player util", () => {
   it("validates volume", () => {
