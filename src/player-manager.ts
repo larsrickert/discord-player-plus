@@ -42,7 +42,7 @@ export class PlayerManager extends TypedEmitter<PlayerManagerEvents> {
     const newPlayer = new Player(guildId, options);
     newPlayer
       .on("trackStart", (track) => this.emit("trackStart", guildId, track))
-      .on("trackEnd", () => this.emit("trackEnd", guildId))
+      .on("trackEnd", (track) => this.emit("trackEnd", guildId, track))
       .on("error", (error) => this.emit("error", guildId, error))
       .on("destroyed", () => this.emit("destroyed", guildId));
 

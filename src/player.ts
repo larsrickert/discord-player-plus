@@ -48,6 +48,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     this.audioPlayer.on("stateChange", async (oldState, newState) => {
       // the following player events are based on discord voice life cycle, see: https://discordjs.guide/voice/audio-player.html#life-cycle
+      const oldTrack =
+        oldState.status !== AudioPlayerStatus.Idle
+          ? (oldState.resource as typeof this.audioResource)?.metadata.track
+          : undefined;
       const newTrack =
         newState.status !== AudioPlayerStatus.Idle
           ? (newState.resource as typeof this.audioResource)?.metadata.track
@@ -74,8 +78,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
         oldState.status === AudioPlayerStatus.Paused &&
         newState.status === AudioPlayerStatus.Buffering;
 
-      if (playingTrackEnded || pausedTrackEnded) {
-        this.emit("trackEnd");
+      if (oldTrack && (playingTrackEnded || pausedTrackEnded)) {
+        this.emit("trackEnd", oldTrack);
       }
 
       if (

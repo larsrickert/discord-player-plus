@@ -10,7 +10,7 @@ export interface PlayerEvents {
    * Emitted after a track has ended and before a new track has started.
    * Will not be emitted when player is stopped while playing (`destroyed` event).
    */
-  trackEnd: () => void;
+  trackEnd: (track: Track) => void;
   /**
    * Emitted after the player was destroyed/player left voice channel.
    * Since the player is being destroyed when the queue is empty, this event can also be seen as `queueEnd` event.
