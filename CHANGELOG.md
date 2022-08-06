@@ -1,3 +1,19 @@
+# [1.4.0](https://github.com/larsrickert/discord-player-plus/compare/v1.3.0...v1.4.0) (2022-08-06)
+
+
+### Bug Fixes
+
+* **player:** event `trackEnd` not emitted when playing track while already playing ([cdc809a](https://github.com/larsrickert/discord-player-plus/commit/cdc809a702b892d5c3563226ce63f63c8c918e9a))
+* **player:** event `trackStart` emitted when paused track is resumed ([67a6539](https://github.com/larsrickert/discord-player-plus/commit/67a653972274d4ccdc3d23d58413ed78bb4a5150))
+* **player:** track seek time not resetting when repeating ([0ed25f4](https://github.com/larsrickert/discord-player-plus/commit/0ed25f432f9124bc150b0c82a9069026899ce21d))
+
+
+### Features
+
+* **file-engine:** extract audio file metadata for track information ([5de66ae](https://github.com/larsrickert/discord-player-plus/commit/5de66ae344647ad71e7ee363cb138897da7ddccc))
+* **player:** add option `stopOnEnd` to enable bot to stay connected when audio playback ends, default: `true` ([78fe5ed](https://github.com/larsrickert/discord-player-plus/commit/78fe5ed1479256b9ffb44e1e88d9e7055c4b77f2))
+* **player:** add track to `trackEnd` event ([06e8282](https://github.com/larsrickert/discord-player-plus/commit/06e82824932cf608baa48df3d5b3b3491934b07c))
+
 # [1.3.0](https://github.com/larsrickert/discord-player-plus/compare/v1.2.0...v1.3.0) (2022-08-05)
 
 
