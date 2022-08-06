@@ -47,16 +47,19 @@ export class Player extends TypedEmitter<PlayerEvents> {
     super();
 
     this.audioPlayer.on("stateChange", async (oldState, newState) => {
+      const newTrack =
+        newState.status !== AudioPlayerStatus.Idle
+          ? (newState.resource as typeof this.audioResource)?.metadata.track
+          : undefined;
+
+      // check if new track has started (will also be emitted when current track has been seeked)
+      // see: https://discordjs.guide/voice/audio-player.html#life-cycle
       if (
         newState.status === AudioPlayerStatus.Playing &&
-        oldState.status !== AudioPlayerStatus.AutoPaused
+        oldState.status === AudioPlayerStatus.Buffering &&
+        newTrack
       ) {
-        // new track started
-        const resource = newState.resource as typeof this.audioResource;
-        if (resource) {
-          this.emit("trackStart", Object.assign({}, resource.metadata.track));
-        }
-        return;
+        this.emit("trackStart", { ...newTrack });
       }
 
       if (
