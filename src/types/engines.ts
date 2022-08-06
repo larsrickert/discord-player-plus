@@ -7,7 +7,7 @@ export interface PlayerEngine {
   source: string;
   /**
    * Whether this engine is responsible for searching/streaming the given query.
-   * If not available engines are responsible for a user query, YouTube will be automatically selected.
+   * If no available engines are responsible for a user query, YouTube will be used.
    */
   isResponsible(
     query: string,
@@ -53,7 +53,7 @@ export interface Track {
   duration: number;
   artist?: string;
   /**
-   * Track source (used player engine). Build-in engines/sources: `youtube`, `spotify`, `file`.
+   * Track source (used player engine). Built-in engines/sources: `youtube`, `spotify`, `file`.
    *
    * @example "youtube"
    */

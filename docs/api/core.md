@@ -571,7 +571,7 @@ Player engines are the heart of `discord-player-plus`. They are responsible for 
     source: string;
     /**
      * Whether this engine is responsible for searching/streaming the given query.
-     * If not available engines are responsible for a user query, YouTube will be automatically selected.
+     * If no available engines are responsible for a user query, YouTube will be used.
      */
     isResponsible(
       query: string,
@@ -704,7 +704,7 @@ interface Track {
   duration: number;
   artist?: string;
   /**
-   * Track source (used player engine)
+   * Track source (used player engine). Built-in engines/sources: `youtube`, `spotify`, `file`.
    *
    * @example "youtube"
    */

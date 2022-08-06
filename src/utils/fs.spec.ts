@@ -29,6 +29,14 @@ describe("fs util", () => {
     const invalidPaths: Path[] = [
       {
         root: "/public",
+        subpath: "/public",
+      },
+      {
+        root: "/public",
+        subpath: "/public/",
+      },
+      {
+        root: "/public",
         subpath: "test.mp3",
       },
       {
