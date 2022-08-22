@@ -5,6 +5,13 @@ import {
 import { CreateCommandFunc } from "../types/commands";
 import { PlayerRepeatMode } from "../types/player";
 
+const repeatModeEntries = Object.entries(PlayerRepeatMode)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  .filter(([_, value]) => typeof value !== "string") as [
+  string,
+  PlayerRepeatMode
+][];
+
 /**
  * Creates a `/repeat` command for setting the repeat mode.
  */
@@ -21,21 +28,17 @@ export const createRepeatCommand: CreateCommandFunc = (
         type: ApplicationCommandOptionType.Integer,
         description: playerManager.translations.repeat.modeDescription,
         required: true,
-        choices: Object.entries(PlayerRepeatMode)
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          .filter(([_, value]) => typeof value === "number")
-          .map<ApplicationCommandOptionChoiceData>(([key, value]) => {
-            return {
-              value,
-              name:
-                (
-                  playerManager.translations.repeat.modes as Record<
-                    string,
-                    string
-                  >
-                )[key.toString().toLowerCase()] ?? "",
-            };
-          }),
+        choices: repeatModeEntries.map<
+          ApplicationCommandOptionChoiceData<number>
+        >(([key, value]) => {
+          const translations = playerManager.translations.repeat
+            .modes as Record<string, string>;
+
+          return {
+            value,
+            name: translations[key.toString().toLowerCase()] ?? "",
+          };
+        }),
       },
     ],
     run: async (interaction) => {
