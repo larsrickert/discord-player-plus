@@ -59,6 +59,12 @@ export async function handleSlashCommand(
   }
 }
 
+/**
+ * Utility function for playing/adding tracks for an interaction and checking if user is inside the voice channel and bot has proper channel permissions.
+ *
+ * @param interaction Discord slash command interaction to play/add tracks for.
+ * @param immediate if `true` will play track(s), otherwise will add track(s) to end of queue.
+ */
 export async function playTracks(
   interaction: ChatInputCommandInteraction<"cached">,
   playerManager: PlayerManager,
