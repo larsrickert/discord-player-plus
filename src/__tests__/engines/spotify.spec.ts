@@ -36,8 +36,9 @@ describe("spotify engine", () => {
     expect(result.source).toBe("spotify");
     expect(result.playlist).toBeUndefined();
     const track = result.tracks[0];
+    delete track.thumbnailUrl;
     // do not test thumbnail url since it can change due to caching
-    expect({ ...track, thumbnailUrl: undefined }).toEqual(expectedTrack);
+    expect(track).toEqual(expectedTrack);
   });
 
   it.concurrent("searches playlist", async () => {

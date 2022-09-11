@@ -71,10 +71,14 @@ async function searchPlaylist(
 }
 
 function mapSpotifyTrack(track: Tracks): Track {
+  // somehow for some tracks "spotify-url-info" returns "duration" instead of "duration_ms"
+  const durationMs =
+    track.duration_ms || (track as { duration?: number }).duration || 0;
+
   return {
     title: track.name,
     url: track.external_urls.spotify,
-    duration: Math.round(track.duration_ms / 1000),
+    duration: Math.round(durationMs / 1000),
     artist: track.artists?.map((a) => a.name).join(", "),
     source: spotifyEngine.source,
   };
