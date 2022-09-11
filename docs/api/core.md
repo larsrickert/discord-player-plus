@@ -35,6 +35,7 @@ Gets an existing player for the given guild id or creates one if it does not exi
   ```
 
 - **Details**
+
   `optionOverrides` parameter can be used to specify player options for individual guild players. They will be deep merged with options passed to the [PlayerManager](#playermanager).
 
   For available player options see [PlayerOptions](#playeroptions).

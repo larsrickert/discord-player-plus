@@ -78,6 +78,10 @@ export default defineConfig({
             text: "Events",
             link: "/api/events",
           },
+          {
+            text: "Utilities",
+            link: "/api/utilities",
+          },
         ],
       },
     ],
