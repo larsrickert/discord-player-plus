@@ -101,3 +101,7 @@ const playerManager = new PlayerManager({
   translations: customTranslations,
 });
 ```
+
+::: info Message placeholders
+As you can see in the above example, some messages support placeholders that you can use in your custom messages to insert e.g. the track title. Placeholders are placed inside curly brackets. For a full list of supported placeholders for each message, please see the [English tranlsation](https://github.com/larsrickert/discord-player-plus/blob/main/src/languages/en.json) as reference.
+:::
