@@ -40,34 +40,34 @@
   "peerDependencies": {
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.11.0",
-    "discord.js": "^14.3.0",
+    "discord.js": "^14.5.0",
     "ffmpeg-static": "^5.1.0"
   },
   "dependencies": {
-    "deepmerge-ts": "^4.2.1",
+    "deepmerge-ts": "^4.2.2",
     "isomorphic-unfetch": "^3.1.0",
     "libsodium-wrappers": "^0.7.10",
     "music-metadata": "^7.12.6",
     "play-dl": "^1.9.5",
-    "spotify-url-info": "^3.1.8",
+    "spotify-url-info": "^3.1.9",
     "tiny-typed-emitter": "^2.1.0"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
-    "@types/node": "^18.7.16",
-    "@typescript-eslint/eslint-plugin": "^5.36.2",
-    "@typescript-eslint/parser": "^5.36.2",
-    "@vitest/coverage-c8": "^0.23.2",
-    "eslint": "^8.23.0",
+    "@types/node": "^18.8.0",
+    "@typescript-eslint/eslint-plugin": "^5.38.1",
+    "@typescript-eslint/parser": "^5.38.1",
+    "@vitest/coverage-c8": "^0.23.4",
+    "eslint": "^8.24.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
-    "typescript": "^4.8.3",
-    "vitepress": "^1.0.0-alpha.13",
-    "vitest": "^0.23.2"
+    "typescript": "^4.8.4",
+    "vitepress": "^1.0.0-alpha.19",
+    "vitest": "^0.23.4"
   },
   "engines": {
     "node": ">=16.9.0"
