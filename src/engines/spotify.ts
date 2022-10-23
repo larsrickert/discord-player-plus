@@ -72,8 +72,11 @@ async function searchPlaylist(
 
 function mapSpotifyTrack(track: Tracks): Track {
   // somehow for some tracks "spotify-url-info" returns "duration" instead of "duration_ms"
+  // check issue https://github.com/microlinkhq/spotify-url-info/issues/107 for further information/fixes.
   const durationMs =
-    track.duration_ms || (track as { duration?: number }).duration || 0;
+    track.duration_ms ||
+    (track as Tracks & { duration?: number }).duration ||
+    0;
 
   return {
     title: track.name,
