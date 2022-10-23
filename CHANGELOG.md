@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/larsrickert/discord-player-plus/compare/v1.4.1...v1.4.2) (2022-10-23)
+
+
+### Bug Fixes
+
+* **spotify:** duration NaN for some tracks ([4103459](https://github.com/larsrickert/discord-player-plus/commit/41034594a531b088ae9a3f8226ed71e6fd0970b2))
+
 ## [1.4.1](https://github.com/larsrickert/discord-player-plus/compare/v1.4.0...v1.4.1) (2022-08-22)
 
 
