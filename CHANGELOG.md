@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/larsrickert/discord-player-plus/compare/v1.4.2...v1.4.3) (2022-12-27)
+
+
+### Bug Fixes
+
+* **spotify:** searching playlist throws error `cannot read XYZ of undefined` ([8e7d799](https://github.com/larsrickert/discord-player-plus/commit/8e7d799f89c08295568e93897b295756621ac7ef))
+
 ## [1.4.2](https://github.com/larsrickert/discord-player-plus/compare/v1.4.1...v1.4.2) (2022-10-23)
 
 
