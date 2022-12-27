@@ -48,19 +48,24 @@ async function searchPlaylist(
   query: string,
   limit?: number
 ): Promise<SearchResult[]> {
-  const data = await getData(query);
+  const data: SpotifyPlaylist | undefined = await getData(query);
   if (data?.type !== "playlist") return [];
 
   const playlist: Playlist = {
     title: data.name,
-    url: data.external_urls.spotify,
-    thumbnailUrl: data.images.length ? data.images[0].url : undefined,
+    url: query,
+    thumbnailUrl: data.coverArt?.sources?.[0]?.url,
   };
 
-  let tracks: Track[] = data.tracks.items.map((i: { track: Tracks }) => {
-    const mapped = mapSpotifyTrack(i.track);
-    mapped.playlist = playlist;
-    return mapped;
+  let tracks: Track[] = data.trackList.map((i) => {
+    return {
+      title: i.title,
+      url: i.uri,
+      duration: Math.round(i.duration / 1000),
+      artist: i.subtitle,
+      source: spotifyEngine.source,
+      playlist,
+    };
   });
 
   if (limit && tracks.length > limit) {
@@ -84,5 +89,23 @@ function mapSpotifyTrack(track: Tracks): Track {
     duration: Math.round(durationMs / 1000),
     artist: track.artists?.map((a) => a.name).join(", "),
     source: spotifyEngine.source,
+  };
+}
+
+export interface SpotifyPlaylist {
+  type: "playlist";
+  name: string;
+  uri: string;
+  id: string;
+  title: string;
+  trackList: {
+    uri: string;
+    uid: string;
+    title: string;
+    subtitle: string;
+    duration: number;
+  }[];
+  coverArt?: {
+    sources?: { url: string }[];
   };
 }

@@ -54,12 +54,14 @@ describe("spotify engine", () => {
 
     const expected: Playlist = {
       title:
-        "Charts 2022 🔥Top 100 Aktuelle Charts Radio Hits 2022 - Musik Mix - Summer - Pop Songs - Top 2022",
+        "Charts 2022 🔥Top 100 Aktuelle Charts Radio Hits 2023 - Musik Mix - Summer - Pop Songs - Top 2022",
       url: query,
     };
 
+    delete result.playlist?.thumbnailUrl;
+
     // do not test thumbnail url since it can change due to caching
-    expect({ ...result.playlist, thumbnailUrl: undefined }).toEqual(expected);
+    expect(result.playlist).toEqual(expected);
 
     result.tracks.forEach((track) => {
       expect(track.playlist).toBeDefined();
