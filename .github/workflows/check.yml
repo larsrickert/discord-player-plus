@@ -1,24 +1,25 @@
-name: Check source files
+name: Check
 on: pull_request
 
 jobs:
   check:
+    name: Check
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout Git repository
         uses: actions/checkout@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
-      - name: Install node modules
-        run: npm ci
-      - name: Lint
-        run: npm run lint
-      - name: Test
-        run: npm run test
-      - name: Build
-        run: npm run build
-      - name: Build docs
-        run: npm run docs:build
+          cache: "pnpm"
+      - name: 📦 Install dependencies
+        run: pnpm install
+      - name: 🔎 Lint
+        run: pnpm lint
+      - name: 🚨 Run unit tests
+        run: pnpm test:unit
+      - name: ⚒️ Build
+        run: pnpm build
