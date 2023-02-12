@@ -25,7 +25,7 @@ jobs:
       - name: ⚒️ Build
         run: pnpm build
       - name: 🚨 Run unit tests
-        run: pnpm test:unit
+        run: pnpm test
       - name: 🚀 Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
