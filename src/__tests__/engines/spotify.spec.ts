@@ -54,7 +54,7 @@ describe("spotify engine", () => {
 
     const expected: Playlist = {
       title:
-        "Charts 2022 🔥Top 100 Aktuelle Charts Radio Hits 2023 - Musik Mix - Summer - Pop Songs - Top 2022",
+        "Charts 2023 🔥Top 100 Aktuelle Charts Radio Hits 2023 - Musik Mix - Summer - Pop Songs - Top 2022",
       url: query,
     };
 

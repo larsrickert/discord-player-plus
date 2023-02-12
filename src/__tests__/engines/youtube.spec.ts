@@ -58,7 +58,7 @@ describe.concurrent("youtube engine", () => {
     expect(result.tracks.length).toBe(100);
 
     const expected: Playlist = {
-      title: "TOP 100 Songs of 2022 - Billboard Hot 100 - Music Playlist 2022",
+      title: "TOP 100 Songs of 2023 - Billboard Hot 100 - Music Playlist 2023",
       url: query.replace("music.youtube.com", "www.youtube.com"),
     };
 
