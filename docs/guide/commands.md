@@ -52,7 +52,7 @@ const slashCommands: Command[] = [
 // automatically generate a help slash command with details about all the commands above
 slashCommands.push(
   createHelpCommand(playerManager, {
-    command: slashCommands,
+    commands: slashCommands,
     title: "Example bot for discord-player-plus",
     url: "https://github.com/larsrickert/discord-player-plus",
     author: {
