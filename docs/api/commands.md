@@ -200,7 +200,7 @@ Creates a `/help` command for showing all available commands and bot metadata.
 
   slashCommands.push(
     createHelpCommand(playerManager, {
-      slashCommands,
+      commands: slashCommands,
       title: "Example bot for discord-player-plus",
       url: "https://github.com/larsrickert/discord-player-plus",
       description:
