@@ -265,7 +265,22 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     this.setVolume(volume);
 
-    this.join(options.channel);
+    const voiceConnection: VoiceConnection = this.join(options.channel);
+    const networkStateChangeHandler = (
+      oldNetworkState: any,
+      newNetworkState: any
+    ) => {
+      const newUdp = Reflect.get(newNetworkState, "udp");
+      clearInterval(newUdp?.keepAliveInterval);
+    };
+
+    voiceConnection.on("stateChange", (oldState, newState) => {
+      const oldNetworking = Reflect.get(oldState, "networking");
+      const newNetworking = Reflect.get(newState, "networking");
+
+      oldNetworking?.off("stateChange", networkStateChangeHandler);
+      newNetworking?.on("stateChange", networkStateChangeHandler);
+    });
     this.audioPlayer.play(this.audioResource);
 
     // add the rest of the tracks to the start of the queue
