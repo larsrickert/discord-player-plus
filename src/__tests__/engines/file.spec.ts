@@ -79,15 +79,11 @@ describe("file engine", () => {
 
   it("searches track with metadata", async () => {
     // should return no result when fileRoot is not set
-    let searchResults = await fileEngine.search(expectedTrack.url, {}, {});
+    let searchResults = await fileEngine.search(expectedTrack.url, {});
     expect(searchResults.length).toBe(0);
 
     // should return result when fileRoot is set
-    searchResults = await fileEngine.search(
-      expectedTrack.url,
-      { fileRoot },
-      {}
-    );
+    searchResults = await fileEngine.search(expectedTrack.url, { fileRoot });
     const result = searchResults[0];
     expect(result).toBeDefined();
     expect(result.playlist).toBeUndefined();
@@ -110,11 +106,9 @@ describe("file engine", () => {
       source: "file",
     };
 
-    let searchResults = await fileEngine.search(
-      expectedTrack.url,
-      { fileRoot },
-      {}
-    );
+    let searchResults = await fileEngine.search(expectedTrack.url, {
+      fileRoot,
+    });
     const result = searchResults[0];
     expect(result).toBeDefined();
     expect(result.playlist).toBeUndefined();
@@ -129,11 +123,7 @@ describe("file engine", () => {
     (parseFile as Mock).mockImplementation(() => {
       throw Error("This should be handled");
     });
-    searchResults = await fileEngine.search(
-      expectedTrack.url,
-      { fileRoot },
-      {}
-    );
+    searchResults = await fileEngine.search(expectedTrack.url, { fileRoot });
     expect(searchResults.length).toBe(0);
   });
 

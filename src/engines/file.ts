@@ -2,7 +2,7 @@ import { StreamType } from "@discordjs/voice";
 import { stat } from "fs/promises";
 import { IAudioMetadata, parseFile } from "music-metadata";
 import path from "path";
-import { PlayerEngine, Track } from "../types/engines";
+import { PlayerEngine, SearchResult, Track } from "../types/engines";
 import { isSubPath } from "../utils/fs";
 
 async function isFile(path: string): Promise<boolean> {
@@ -17,7 +17,7 @@ async function isFile(path: string): Promise<boolean> {
 /**
  * Player engine to search/stream tracks that are stored in the file system.
  */
-export const fileEngine: PlayerEngine = {
+export const fileEngine = {
   source: "file",
   isResponsible(query, { fileRoot }) {
     return !!fileRoot && isSubPath(fileRoot, query);
@@ -43,7 +43,8 @@ export const fileEngine: PlayerEngine = {
       source: this.source,
     };
 
-    return [{ tracks: [track], source: this.source }];
+    const searchResult: SearchResult = { tracks: [track], source: this.source };
+    return [searchResult];
   },
   async getStream(track, playerOptions) {
     // refuse to stream files outside of fileRoot
@@ -52,4 +53,4 @@ export const fileEngine: PlayerEngine = {
 
     return { stream: track.url, type: StreamType.Arbitrary };
   },
-};
+} as const satisfies PlayerEngine;

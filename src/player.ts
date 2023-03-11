@@ -172,6 +172,24 @@ export class Player extends TypedEmitter<PlayerEvents> {
         this.emit("destroyed");
       });
 
+    // temp fix for issue that bot stops playing after around 60 seconds
+    // see: https://github.com/discordjs/discord.js/issues/9185#issuecomment-1452514375
+    const networkStateChangeListener = (
+      oldNetworkState: object,
+      newNetworkState: object
+    ) => {
+      const newUdp = Reflect.get(newNetworkState, "udp");
+      clearInterval(newUdp?.keepAliveInterval);
+    };
+
+    connection.on("stateChange", (oldState, newState) => {
+      const oldNetworking = Reflect.get(oldState, "networking");
+      const newNetworking = Reflect.get(newState, "networking");
+
+      oldNetworking?.off("stateChange", networkStateChangeListener);
+      newNetworking?.on("stateChange", networkStateChangeListener);
+    });
+
     return connection;
   }
 
