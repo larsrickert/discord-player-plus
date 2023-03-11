@@ -11,7 +11,7 @@ const responsibleRegex = /^https?:\/\/open.spotify.com\//;
  * Player engine to search/stream tracks from Spotify.
  * Spotify does not provide a web api to stream tracks so the track will be streamed from YouTube instead.
  */
-export const spotifyEngine: PlayerEngine = {
+export const spotifyEngine = {
   source: "spotify",
   isResponsible(query) {
     return responsibleRegex.test(query);
@@ -42,7 +42,7 @@ export const spotifyEngine: PlayerEngine = {
 
     return youtubeEngine.getStream(mappedTrack, playerOptions);
   },
-};
+} as const satisfies PlayerEngine;
 
 async function searchPlaylist(
   query: string,

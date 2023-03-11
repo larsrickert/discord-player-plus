@@ -17,7 +17,7 @@ async function isFile(path: string): Promise<boolean> {
 /**
  * Player engine to search/stream tracks that are stored in the file system.
  */
-export const fileEngine: PlayerEngine = {
+export const fileEngine = {
   source: "file",
   isResponsible(query, { fileRoot }) {
     return !!fileRoot && isSubPath(fileRoot, query);
@@ -52,4 +52,4 @@ export const fileEngine: PlayerEngine = {
 
     return { stream: track.url, type: StreamType.Arbitrary };
   },
-};
+} as const satisfies PlayerEngine;
