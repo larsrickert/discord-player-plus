@@ -22,12 +22,11 @@ export const spotifyEngine = {
 
     const tracks = await getTracks(query);
 
-    return [
-      {
-        tracks: tracks.map((track) => mapSpotifyTrack(track)),
-        source: this.source,
-      },
-    ];
+    const searchResult: SearchResult = {
+      tracks: tracks.map((track) => mapSpotifyTrack(track)),
+      source: this.source,
+    };
+    return [searchResult];
   },
   async getStream(track, playerOptions) {
     const searchResults = await youtubeEngine.search(

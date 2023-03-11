@@ -30,12 +30,11 @@ export const youtubeEngine = {
       limit: searchOptions?.limit,
     });
 
-    return [
-      {
-        tracks: videos.map((video) => mapVideoToTrack(video)),
-        source: this.source,
-      },
-    ];
+    const searchResult: SearchResult = {
+      tracks: videos.map((video) => mapVideoToTrack(video)),
+      source: this.source,
+    };
+    return [searchResult];
   },
   async getStream(track, playerOptions) {
     return await stream(track.url, {
