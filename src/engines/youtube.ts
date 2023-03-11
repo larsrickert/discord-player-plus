@@ -54,7 +54,7 @@ const searchPlaylist = async (
   query: string,
   limit?: number
 ): Promise<SearchResult[]> => {
-  const playlistInfo = await playlist_info(query);
+  const playlistInfo = await playlist_info(query, { incomplete: true });
   let playlistVideos: YouTubeVideo[] = playlistInfo.page(1);
 
   // limit/fetch more videos (playlist will only include first 100 songs by default)
