@@ -27,6 +27,17 @@ vi.mock("spotify-url-info", async (importOriginal) => {
     ...module,
     default: vi.fn(() => {
       return {
+        getTracks: vi.fn(() =>
+          Promise.resolve([
+            {
+              ...mock<Tracks>({
+                name: expectedTrack.title,
+                duration: expectedTrack.duration * 1000,
+                artist: expectedTrack.artist,
+              }),
+            },
+          ])
+        ),
         getData: vi.fn(() =>
           Promise.resolve({
             ...mock<SpotifyPlaylist>({
@@ -35,10 +46,9 @@ vi.mock("spotify-url-info", async (importOriginal) => {
               type: "playlist",
               trackList: new Array(100).fill("").map(() => ({
                 ...mock<Tracks>({
-                  external_urls: { spotify: expectedTrack.url },
                   name: expectedTrack.title,
-                  duration_ms: expectedTrack.duration * 1000,
-                  artists: [{ name: "testArtist1" }, { name: "testArtist2" }],
+                  duration: expectedTrack.duration * 1000,
+                  artist: expectedTrack.artist,
                 }),
               })),
             }),
@@ -46,18 +56,6 @@ vi.mock("spotify-url-info", async (importOriginal) => {
         ),
         getDetails: vi.fn(),
         getPreview: vi.fn(),
-        getTracks: vi.fn(() =>
-          Promise.resolve([
-            {
-              ...mock<Tracks>({
-                external_urls: { spotify: expectedTrack.url },
-                name: expectedTrack.title,
-                duration_ms: expectedTrack.duration * 1000,
-                artists: [{ name: "testArtist1" }, { name: "testArtist2" }],
-              }),
-            },
-          ])
-        ),
       } as ReturnType<typeof spotify>;
     }),
   };
