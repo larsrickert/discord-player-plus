@@ -23,7 +23,7 @@ export const spotifyEngine = {
     const tracks = await getTracks(query);
 
     const searchResult: SearchResult = {
-      tracks: tracks.map((track) => mapSpotifyTrack(track)),
+      tracks: tracks.map((track) => mapSpotifyTrack(track, query)),
       source: this.source,
     };
     return [searchResult];
@@ -47,7 +47,7 @@ async function searchPlaylist(
   query: string,
   limit?: number
 ): Promise<SearchResult[]> {
-  const data: SpotifyPlaylist | undefined = await getData(query);
+  const data = await getData<SpotifyPlaylist | undefined>(query);
   if (data?.type !== "playlist") return [];
 
   const playlist: Playlist = {
@@ -74,19 +74,16 @@ async function searchPlaylist(
   return [{ tracks, playlist, source: spotifyEngine.source }];
 }
 
-function mapSpotifyTrack(track: Tracks): Track {
-  // somehow for some tracks "spotify-url-info" returns "duration" instead of "duration_ms"
-  // check issue https://github.com/microlinkhq/spotify-url-info/issues/107 for further information/fixes.
-  const durationMs =
-    track.duration_ms ||
-    (track as Tracks & { duration?: number }).duration ||
-    0;
-
+/**
+ * Maps the given spotify track.
+ * @param url Can be passed to set url. If unset, track uri will be used.
+ */
+function mapSpotifyTrack(track: Tracks, url?: string): Track {
   return {
     title: track.name,
-    url: track.external_urls.spotify,
-    duration: Math.round(durationMs / 1000),
-    artist: track.artists?.map((a) => a.name).join(", "),
+    url: url || track.uri,
+    duration: Math.round((track.duration ?? 0) / 1000),
+    artist: track.artist,
     source: spotifyEngine.source,
   };
 }
@@ -97,11 +94,13 @@ export interface SpotifyPlaylist {
   uri: string;
   id: string;
   title: string;
+  subtitle: string;
   trackList: {
     uri: string;
     uid: string;
     title: string;
     subtitle: string;
+    /** Duration in milliseconds */
     duration: number;
   }[];
   coverArt?: {
