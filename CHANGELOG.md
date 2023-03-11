@@ -1,3 +1,13 @@
+## [1.4.4](https://github.com/larsrickert/discord-player-plus/compare/v1.4.3...v1.4.4) (2023-03-11)
+
+
+### Bug Fixes
+
+* **player:** bot stops playing after approximately 60 seconds ([2bc1bb9](https://github.com/larsrickert/discord-player-plus/commit/2bc1bb926605d5ce58e168441262329ccabb47f9))
+* **player:** bot stops playing after approximately 60 seconds ([#11](https://github.com/larsrickert/discord-player-plus/issues/11)) ([78fb74a](https://github.com/larsrickert/discord-player-plus/commit/78fb74a3902074f6ff96232210d731df3477ac63)), closes [#9](https://github.com/larsrickert/discord-player-plus/issues/9) [#10](https://github.com/larsrickert/discord-player-plus/issues/10)
+* remove vulnerable dependencies ([c30fa11](https://github.com/larsrickert/discord-player-plus/commit/c30fa11ec54bf7a63b5cacfa8b3d3f0c45c30f3c))
+* **youtube:** playlist not searched when it contains hidden videos ([1898238](https://github.com/larsrickert/discord-player-plus/commit/1898238df713a21eef154158f581f83ef2d801f0))
+
 ## [1.4.3](https://github.com/larsrickert/discord-player-plus/compare/v1.4.2...v1.4.3) (2022-12-27)
 
 
