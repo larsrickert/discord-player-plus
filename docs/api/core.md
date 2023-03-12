@@ -477,6 +477,23 @@ Removes the queued track at the specific index, if any. Returns removed track (i
   }
   ```
 
+### jump()
+
+Jumps to the queued track at the specific index and skip all tracks before the index.
+Will play the track immediately and stop the current track (if any).
+
+- **Type**
+
+  ```ts
+  async jump(index: number): Promise<boolean>
+  ```
+
+- **Example**
+
+  ```ts
+  const success = await playerManager.jump(3);
+  ```
+
 ### setRepeat()
 
 Sets the repeat mode.

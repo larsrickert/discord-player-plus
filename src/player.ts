@@ -124,6 +124,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
   /**
    * Joins the given voice channel (reusing existing connection), subscribes to the audioPlayer and
    * registers events when disconnected and destroyed.
+   *
+   * @throws PlayerError if tried to switch channel but switching is not allowed in player options.
    */
   private join(channel: VoiceBasedChannel): VoiceConnection {
     // check if player is allowed to switch channels when already playing in another voice channel
@@ -204,6 +206,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
    * Immediate plays the first of the given tracks, skips current track if playing.
    * The remaining tracks will be added to the front of the queue.
    * If no tracks provided, will play first queued track if available.
+   *
+   * @throws PlayerError if unexpected error occurred while trying to play tracks.
    */
   async play(options: PlayOptions): Promise<void> {
     const track: Track | undefined = options.tracks.length
@@ -293,6 +297,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   /**
    * Adds the given tracks to the end of the queue. Immediately plays first track in queue if currently not playing.
+   *
+   * @throws PlayerError if not currently playing and unexpected error occurred while trying to play tracks.
    */
   async add(options: PlayOptions): Promise<void> {
     this.queue.push(...options.tracks);
@@ -503,5 +509,27 @@ export class Player extends TypedEmitter<PlayerEvents> {
   /** Gets the voice channel that the player is currently connected to (if any). */
   getVoiceChannel(): VoiceBasedChannel | undefined {
     return this.audioResource?.metadata.channel;
+  }
+
+  /**
+   * Jumps to the queued track at the specific index and skip all tracks before the index.
+   * Will play the track immediately and stop the current track (if any).
+   *
+   * @returns `true` if jumped successfully, `false` otherwise (player is not currently playing or passed index is invalid).
+   * @throws PlayerError if new track could not be played (same as `player.play()`).
+   */
+  async jump(index: number): Promise<boolean> {
+    if (index < 0 || index >= this.queue.length) return false;
+
+    const voiceChannel = this.getVoiceChannel();
+    if (!voiceChannel) return false;
+
+    this.queue = this.queue.slice(index);
+
+    await this.play({
+      channel: voiceChannel,
+      tracks: [], // not passing tracks will play the first track in the queue
+    });
+    return true;
   }
 }
