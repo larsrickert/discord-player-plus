@@ -78,5 +78,22 @@
     "optionDescription": "Time to seek to (in seconds).",
     "success": "✅ Seeked current song to {duration}",
     "failure": "❌ Current song could not be seeked."
+  },
+  "remove": {
+    "description": "Removes a song from the queue.",
+    "optionDescription": "Position of the song in the queue.",
+    "success": "🗑️ Removed song {track} from the queue.",
+    "failure": "❌ Unable to remove song because it is not queued."
+  },
+  "jump": {
+    "description": "Jumps to a song in the queue.",
+    "optionDescription": "Position of the song in the queue.",
+    "success": "⏭️ Jumped to track {track} in the queue.",
+    "failure": "❌ Unable to jump to song because it is not queued."
+  },
+  "insert": {
+    "description": "Adds a track to a specific position in the queue.",
+    "optionDescription": "Position in the queue where the track should be added to.",
+    "success": "▶️ Added track {track} at position {position} in the queue."
   }
 }

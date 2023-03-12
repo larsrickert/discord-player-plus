@@ -3,9 +3,12 @@ import {
   createAddCommand,
   createClearCommand,
   createHelpCommand,
+  createInsertCommand,
+  createJumpCommand,
   createPauseCommand,
   createPlayCommand,
   createQueueCommand,
+  createRemoveCommand,
   createRepeatCommand,
   createResumeCommand,
   createSeekCommand,
@@ -35,6 +38,8 @@ export const playerManager = new PlayerManager({
 export const slashCommands: Command[] = [
   createAddCommand(playerManager),
   createClearCommand(playerManager),
+  createInsertCommand(playerManager),
+  createJumpCommand(playerManager),
   createPauseCommand(playerManager),
   createPlayCommand(playerManager),
   createQueueCommand(playerManager, { ephemeral: true }),
@@ -46,6 +51,7 @@ export const slashCommands: Command[] = [
   createSetVolumeCommand(playerManager),
   createRepeatCommand(playerManager),
   createSeekCommand(playerManager),
+  createRemoveCommand(playerManager),
 ];
 slashCommands.push(
   createHelpCommand(playerManager, {

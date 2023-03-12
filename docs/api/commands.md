@@ -215,6 +215,63 @@ Creates a `/help` command for showing all available commands and bot metadata.
   );
   ```
 
+### createInsertCommand()
+
+Creates a `/insert` command for adding a track to a specific position in the queue.
+If the user query searches a playlist instead of a single track, only the first track will be inserted.
+
+- **Type**
+
+  ```ts
+  function createInsertCommand(
+    playerManager: PlayerManager,
+    options?: CreateCommandOptions
+  ): Command;
+  ```
+
+  For available options see [CreateCommandOptions](#createcommandoptions).
+
+  - **Example**
+
+  ```ts
+  import {
+    Command,
+    createInsertCommand,
+    PlayerManager,
+  } from "discord-player-plus";
+
+  const playerManager = new PlayerManager();
+  const slashCommands: Command[] = [createInsertCommand()];
+  ```
+
+### createJumpCommand()
+
+Creates a `/jump` command for jumping to a specific track inside the queue (will skip all songs before the given track).
+
+- **Type**
+
+  ```ts
+  function createJumpCommand(
+    playerManager: PlayerManager,
+    options?: CreateCommandOptions
+  ): Command;
+  ```
+
+  For available options see [CreateCommandOptions](#createcommandoptions).
+
+  - **Example**
+
+  ```ts
+  import {
+    Command,
+    createJumpCommand,
+    PlayerManager,
+  } from "discord-player-plus";
+
+  const playerManager = new PlayerManager();
+  const slashCommands: Command[] = [createJumpCommand()];
+  ```
+
 ### createPauseCommand()
 
 Creates a `/pause` command for pausing the current track.
@@ -297,6 +354,34 @@ Creates a `/queue` command for displaying queued tracks.
 
   const playerManager = new PlayerManager();
   const slashCommands: Command[] = [createQueueCommand()];
+  ```
+
+### createRemoveCommand()
+
+Creates a `/remove` command for removing tracks from the queue.
+
+- **Type**
+
+  ```ts
+  function createRemoveCommand(
+    playerManager: PlayerManager,
+    options?: CreateCommandOptions
+  ): Command;
+  ```
+
+  For available options see [CreateCommandOptions](#createcommandoptions).
+
+  - **Example**
+
+  ```ts
+  import {
+    Command,
+    createRemoveCommand,
+    PlayerManager,
+  } from "discord-player-plus";
+
+  const playerManager = new PlayerManager();
+  const slashCommands: Command[] = [createRemoveCommand()];
   ```
 
 ### createResumeCommand()

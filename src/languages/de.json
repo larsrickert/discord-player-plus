@@ -78,5 +78,22 @@
     "optionDescription": "Zeit, zu der gespult werden soll (in Sekunden).",
     "success": "✅ Aktueller Song zu {duration} gespult.",
     "failure": "❌ Aktueller Song konnte nicht vor/zurückgespult werden."
+  },
+  "remove": {
+    "description": "Entfernt einen Song aus der Warteschlange.",
+    "optionDescription": "Position des zu entfernenden Songs in der Warteschlange.",
+    "success": "🗑️ Song {track} aus der Warteschlange entfernt.",
+    "failure": "❌ Song konnte nicht entfernt werden, da er sich nicht in der Warteschlange befindet."
+  },
+  "jump": {
+    "description": "Springt zu einem Song aus der Warteschlange.",
+    "optionDescription": "Position des Songs in der Warteschlange.",
+    "success": "⏭️ Zu Song {track} aus der Warteschlange gesprungen.",
+    "failure": "❌ Konnte nicht zu Song springen, da er sich nicht in der Warteschlange befindet."
+  },
+  "insert": {
+    "description": "Fügt einen Song an eine spezifische Position zur Warteschlange hinzu.",
+    "optionDescription": "Position in der Warteschlange, an die der Song hinzugefügt werden soll.",
+    "success": "▶️ Song {track} an Position {position} der Warteschlange hinzugefügt."
   }
 }
