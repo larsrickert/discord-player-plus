@@ -215,6 +215,35 @@ Creates a `/help` command for showing all available commands and bot metadata.
   );
   ```
 
+### createInsertCommand()
+
+Creates a `/insert` command for adding a track to a specific position in the queue.
+If the user query searches a playlist instead of a single track, only the first track will be inserted.
+
+- **Type**
+
+  ```ts
+  function createInsertCommand(
+    playerManager: PlayerManager,
+    options?: CreateCommandOptions
+  ): Command;
+  ```
+
+  For available options see [CreateCommandOptions](#createcommandoptions).
+
+  - **Example**
+
+  ```ts
+  import {
+    Command,
+    createInsertCommand,
+    PlayerManager,
+  } from "discord-player-plus";
+
+  const playerManager = new PlayerManager();
+  const slashCommands: Command[] = [createInsertCommand()];
+  ```
+
 ### createJumpCommand()
 
 Creates a `/jump` command for jumping to a specific track inside the queue (will skip all songs before the given track).

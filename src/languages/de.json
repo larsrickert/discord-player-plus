@@ -90,5 +90,10 @@
     "optionDescription": "Position des Songs in der Warteschlange.",
     "success": "⏭️ Zu Song {track} aus der Warteschlange gesprungen.",
     "failure": "❌ Konnte nicht zu Song springen, da er sich nicht in der Warteschlange befindet."
+  },
+  "insert": {
+    "description": "Fügt einen Song an eine spezifische Position zur Warteschlange hinzu.",
+    "optionDescription": "Position in der Warteschlange, an die der Song hinzugefügt werden soll.",
+    "success": "▶️ Song {track} an Position {position} der Warteschlange hinzugefügt."
   }
 }

@@ -90,5 +90,10 @@
     "optionDescription": "Position of the song in the queue.",
     "success": "⏭️ Jumped to track {track} in the queue.",
     "failure": "❌ Unable to jump to song because it is not queued."
+  },
+  "insert": {
+    "description": "Adds a track to a specific position in the queue.",
+    "optionDescription": "Position in the queue where the track should be added to.",
+    "success": "▶️ Added track {track} at position {position} in the queue."
   }
 }

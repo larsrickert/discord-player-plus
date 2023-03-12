@@ -2,6 +2,7 @@ export { handleSlashCommand } from "./commands";
 export { createAddCommand } from "./commands/add";
 export { createClearCommand } from "./commands/clear";
 export { createHelpCommand } from "./commands/help";
+export { createInsertCommand } from "./commands/insert";
 export { createJumpCommand } from "./commands/jump";
 export { createPauseCommand } from "./commands/pause";
 export { createPlayCommand } from "./commands/play";

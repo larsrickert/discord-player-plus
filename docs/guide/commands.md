@@ -12,6 +12,7 @@ import {
   createAddCommand,
   createClearCommand,
   createHelpCommand,
+  createInsertCommand,
   createJumpCommand,
   createPauseCommand,
   createPlayCommand,
@@ -38,6 +39,7 @@ const playerManager = new PlayerManager({
 const slashCommands: Command[] = [
   createAddCommand(playerManager),
   createClearCommand(playerManager),
+  createInsertCommand(playerManager),
   createJumpCommand(playerManager),
   createPauseCommand(playerManager),
   createPlayCommand(playerManager),
