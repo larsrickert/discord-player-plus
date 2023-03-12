@@ -1,3 +1,14 @@
+# [1.5.0](https://github.com/larsrickert/discord-player-plus/compare/v1.4.4...v1.5.0) (2023-03-12)
+
+
+### Features
+
+* **commands:** add `/insert` command ([7d6bab4](https://github.com/larsrickert/discord-player-plus/commit/7d6bab4908cd9df8e6f585133c4deb690587fe7d))
+* **commands:** add `/jump` slash command ([805c414](https://github.com/larsrickert/discord-player-plus/commit/805c41433cdce6ba8cf451d48f7c2b0c38b0f296))
+* **commands:** add `/remove` slash command ([10b3216](https://github.com/larsrickert/discord-player-plus/commit/10b32168999973be34c9f46cfe41c5f45a2307cd))
+* **commands:** add `/remove`, `/jump` and `/insert` pre-build slash command ([#12](https://github.com/larsrickert/discord-player-plus/issues/12)) ([2111194](https://github.com/larsrickert/discord-player-plus/commit/21111942b6221c201da01a12361e8ffa41fec300))
+* **player:** add method `jump` ([9f0812c](https://github.com/larsrickert/discord-player-plus/commit/9f0812c557ee1f6c7f7ca7f8aba5ba0d124f27c2))
+
 ## [1.4.4](https://github.com/larsrickert/discord-player-plus/compare/v1.4.3...v1.4.4) (2023-03-11)
 
 
