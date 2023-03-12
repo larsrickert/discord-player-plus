@@ -78,5 +78,11 @@
     "optionDescription": "Zeit, zu der gespult werden soll (in Sekunden).",
     "success": "✅ Aktueller Song zu {duration} gespult.",
     "failure": "❌ Aktueller Song konnte nicht vor/zurückgespult werden."
+  },
+  "remove": {
+    "description": "Entfernt einen Song aus der Warteschlange.",
+    "optionDescription": "Position des zu entfernenden Songs in der Warteschlange.",
+    "success": "🗑️ Song {track} aus der Warteschlange entfernt.",
+    "failure": "❌ Song konnte nicht entfernt werden, da er sich nicht in der Warteschlange befindet."
   }
 }

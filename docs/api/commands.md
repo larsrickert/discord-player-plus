@@ -299,6 +299,34 @@ Creates a `/queue` command for displaying queued tracks.
   const slashCommands: Command[] = [createQueueCommand()];
   ```
 
+### createRemoveCommand()
+
+Creates a `/remove` command for removing tracks from the queue.
+
+- **Type**
+
+  ```ts
+  function createRemoveCommand(
+    playerManager: PlayerManager,
+    options?: CreateCommandOptions
+  ): Command;
+  ```
+
+  For available options see [CreateCommandOptions](#createcommandoptions).
+
+  - **Example**
+
+  ```ts
+  import {
+    Command,
+    createRemoveCommand,
+    PlayerManager,
+  } from "discord-player-plus";
+
+  const playerManager = new PlayerManager();
+  const slashCommands: Command[] = [createRemoveCommand()];
+  ```
+
 ### createResumeCommand()
 
 Creates a `/resume` command for resuming the currently paused track.

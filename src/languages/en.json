@@ -78,5 +78,11 @@
     "optionDescription": "Time to seek to (in seconds).",
     "success": "✅ Seeked current song to {duration}",
     "failure": "❌ Current song could not be seeked."
+  },
+  "remove": {
+    "description": "Removes a song from the queue.",
+    "optionDescription": "Position of the song in the queue.",
+    "success": "🗑️ Removed song {track} from the queue.",
+    "failure": "❌ Unable to remove song because it is not queued."
   }
 }

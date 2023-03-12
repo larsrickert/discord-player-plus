@@ -6,6 +6,7 @@ import {
   createPauseCommand,
   createPlayCommand,
   createQueueCommand,
+  createRemoveCommand,
   createRepeatCommand,
   createResumeCommand,
   createSeekCommand,
@@ -46,6 +47,7 @@ export const slashCommands: Command[] = [
   createSetVolumeCommand(playerManager),
   createRepeatCommand(playerManager),
   createSeekCommand(playerManager),
+  createRemoveCommand(playerManager),
 ];
 slashCommands.push(
   createHelpCommand(playerManager, {
