@@ -84,5 +84,11 @@
     "optionDescription": "Position of the song in the queue.",
     "success": "🗑️ Removed song {track} from the queue.",
     "failure": "❌ Unable to remove song because it is not queued."
+  },
+  "jump": {
+    "description": "Jumps to a song in the queue.",
+    "optionDescription": "Position of the song in the queue.",
+    "success": "⏭️ Jumped to track {track} in the queue.",
+    "failure": "❌ Unable to jump to song because it is not queued."
   }
 }

@@ -215,6 +215,34 @@ Creates a `/help` command for showing all available commands and bot metadata.
   );
   ```
 
+### createJumpCommand()
+
+Creates a `/jump` command for jumping to a specific track inside the queue (will skip all songs before the given track).
+
+- **Type**
+
+  ```ts
+  function createJumpCommand(
+    playerManager: PlayerManager,
+    options?: CreateCommandOptions
+  ): Command;
+  ```
+
+  For available options see [CreateCommandOptions](#createcommandoptions).
+
+  - **Example**
+
+  ```ts
+  import {
+    Command,
+    createJumpCommand,
+    PlayerManager,
+  } from "discord-player-plus";
+
+  const playerManager = new PlayerManager();
+  const slashCommands: Command[] = [createJumpCommand()];
+  ```
+
 ### createPauseCommand()
 
 Creates a `/pause` command for pausing the current track.

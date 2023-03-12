@@ -3,6 +3,7 @@ import {
   createAddCommand,
   createClearCommand,
   createHelpCommand,
+  createJumpCommand,
   createPauseCommand,
   createPlayCommand,
   createQueueCommand,
@@ -36,6 +37,7 @@ export const playerManager = new PlayerManager({
 export const slashCommands: Command[] = [
   createAddCommand(playerManager),
   createClearCommand(playerManager),
+  createJumpCommand(playerManager),
   createPauseCommand(playerManager),
   createPlayCommand(playerManager),
   createQueueCommand(playerManager, { ephemeral: true }),

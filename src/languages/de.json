@@ -84,5 +84,11 @@
     "optionDescription": "Position des zu entfernenden Songs in der Warteschlange.",
     "success": "🗑️ Song {track} aus der Warteschlange entfernt.",
     "failure": "❌ Song konnte nicht entfernt werden, da er sich nicht in der Warteschlange befindet."
+  },
+  "jump": {
+    "description": "Springt zu einem Song aus der Warteschlange.",
+    "optionDescription": "Position des Songs in der Warteschlange.",
+    "success": "⏭️ Zu Song {track} aus der Warteschlange gesprungen.",
+    "failure": "❌ Konnte nicht zu Song springen, da er sich nicht in der Warteschlange befindet."
   }
 }
