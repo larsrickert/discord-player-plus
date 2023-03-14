@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/larsrickert/discord-player-plus/compare/v1.5.0...v1.5.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* **peerDependencies:** specify range of peerDependencies ([656485b](https://github.com/larsrickert/discord-player-plus/commit/656485be667cc9d9f60b65ed346b21f6e0d85c16))
+
 # [1.5.0](https://github.com/larsrickert/discord-player-plus/compare/v1.4.4...v1.5.0) (2023-03-12)
 
 
