@@ -26,10 +26,8 @@ export default defineConfig({
       message: `Released under the ${pkg.license} License.`,
       copyright: `Copyright © 2022-present ${pkg.author.name}`,
     },
-    algolia: {
-      appId: "SFDITE1CIH",
-      apiKey: "7ef775ec258b6e7ecf4cfc88bdb00be3",
-      indexName: "discordplayerplus",
+    search: {
+      provider: "local",
     },
     nav: [
       {
