@@ -79,7 +79,7 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*.{ts}": "eslint --fix --ignore-path .gitignore"
+    "*.ts": "eslint --fix --ignore-path .gitignore"
   },
   "engines": {
     "node": ">=16.9.0"
