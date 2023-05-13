@@ -29,13 +29,7 @@
     "docs:serve": "vitepress serve docs",
     "test": "vitest --coverage",
     "update": "npx npm-check-updates -i",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{js,ts}": [
-      "eslint --cache --fix",
-      "prettier --write --ignore-path .gitignore"
-    ]
+    "prepare": "simple-git-hooks"
   },
   "peerDependencies": {
     "@discordjs/opus": ">= 0.5.1",
@@ -62,13 +56,22 @@
     "eslint": "^8.40.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8",
+    "simple-git-hooks": "^2.8.1",
     "typescript": "^4.9.5",
     "vitepress": "1.0.0-alpha.73",
     "vitest": "~0.29.2",
     "vitest-mock-extended": "^1.1.3"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "eslint --cache --fix",
+      "prettier --write --ignore-path .gitignore"
+    ]
   },
   "engines": {
     "node": ">=16.9.0"
