@@ -10,9 +10,12 @@ dependencies:
   deepmerge-ts:
     specifier: ^4.3.0
     version: 4.3.0
+  discord-api-types:
+    specifier: '>= 0.37.0'
+    version: 0.37.42
   discord.js:
-    specifier: '>= 14.5.0'
-    version: 14.5.0
+    specifier: '>= 14.8.0'
+    version: 14.8.0
   ffmpeg-static:
     specifier: '>= 5.1.0'
     version: 5.1.0
@@ -283,6 +286,13 @@ packages:
     engines: {node: '>=16.9.0'}
     dev: false
 
+  /@discordjs/formatters@0.2.0:
+    resolution: {integrity: sha512-vn4oMSXuMZUm8ITqVOtvE7/fMMISj4cI5oLsR09PEQXHKeKDAMLltG/DWeeIs7Idfy6V8Fk3rn1e69h7NfzuNA==}
+    engines: {node: '>=16.9.0'}
+    dependencies:
+      discord-api-types: 0.37.42
+    dev: false
+
   /@discordjs/formatters@0.3.1:
     resolution: {integrity: sha512-M7X4IGiSeh4znwcRGcs+49B5tBkNDn4k5bmhxJDAUhRxRHTiFAOTVUNQ6yAKySu5jZTnCbSvTYHW3w0rAzV1MA==}
     engines: {node: '>=16.9.0'}
@@ -332,6 +342,11 @@ packages:
       file-type: 18.4.0
       tslib: 2.5.0
       undici: 5.22.1
+    dev: false
+
+  /@discordjs/util@0.2.0:
+    resolution: {integrity: sha512-/8qNbebFzLWKOOg+UV+RB8itp4SmU5jw0tBUD3ifElW6rYNOj1Ku5JaSW7lLl/WgjjxF01l/1uQPCzkwr110vg==}
+    engines: {node: '>=16.9.0'}
     dev: false
 
   /@discordjs/util@0.3.1:
@@ -1952,14 +1967,15 @@ packages:
     resolution: {integrity: sha512-1Huaj9cQ1W7/uryS8MZs/tZemnoKB94thM1cE40lep3rpU3q7WHqkdjN/veX0prTkYlPhcyLd/DeF/pBO8X8oQ==}
     dev: false
 
-  /discord.js@14.5.0:
-    resolution: {integrity: sha512-Kd5OqdeiXe3t9eHUHCzf1r3LmKpeJJ7lKqwlWX1qdC0WfsbO2K3kucIDLfe0INnZVZaErUQ6/U6kGbTDnGgwZg==}
+  /discord.js@14.8.0:
+    resolution: {integrity: sha512-UOxYtc/YnV7jAJ2gISluJyYeBw4e+j8gWn+IoqG8unaHAVuvZ13DdYN0M1f9fbUgUvSarV798inIrYFtDNDjwQ==}
     engines: {node: '>=16.9.0'}
-    deprecated: Hard crashes on interactions with a channel in the payload, use 14.8.0 and up
     dependencies:
       '@discordjs/builders': 1.6.3
       '@discordjs/collection': 1.5.1
+      '@discordjs/formatters': 0.2.0
       '@discordjs/rest': 1.7.1
+      '@discordjs/util': 0.2.0
       '@sapphire/snowflake': 3.5.1
       '@types/ws': 8.5.4
       discord-api-types: 0.37.42

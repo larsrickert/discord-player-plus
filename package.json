@@ -34,7 +34,8 @@
   "peerDependencies": {
     "@discordjs/opus": ">= 0.8.0",
     "@discordjs/voice": ">= 0.11.0",
-    "discord.js": ">= 14.5.0",
+    "discord-api-types": ">= 0.37.0",
+    "discord.js": ">= 14.8.0",
     "ffmpeg-static": ">= 5.1.0"
   },
   "dependencies": {
