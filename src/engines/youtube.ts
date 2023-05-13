@@ -14,7 +14,7 @@ export const youtubeEngine = {
   },
   async search(query, _, searchOptions) {
     query = query.trim();
-    if (!query) return [];
+    if (!query) return null;
 
     if (playDl.yt_validate(query) === "playlist") {
       return await searchPlaylist(query, searchOptions?.limit);
@@ -25,11 +25,10 @@ export const youtubeEngine = {
       limit: searchOptions?.limit,
     });
 
-    const searchResult: SearchResult = {
+    return {
       tracks: videos.map((video) => mapVideoToTrack(video)),
       source: this.source,
     };
-    return [searchResult];
   },
   async getStream(track, playerOptions) {
     return await playDl.stream(track.url, {
@@ -47,7 +46,7 @@ export const youtubeEngine = {
 const searchPlaylist = async (
   query: string,
   limit?: number
-): Promise<SearchResult[]> => {
+): Promise<SearchResult> => {
   const playlistInfo = await playDl.playlist_info(query, { incomplete: true });
   let playlistVideos: YouTubeVideo[] = playlistInfo.page(1);
 
@@ -69,16 +68,14 @@ const searchPlaylist = async (
       }
     : undefined;
 
-  return [
-    {
-      tracks: playlistVideos.map<Track>((video) => ({
-        ...mapVideoToTrack(video),
-        playlist,
-      })),
+  return {
+    tracks: playlistVideos.map<Track>((video) => ({
+      ...mapVideoToTrack(video),
       playlist,
-      source: youtubeEngine.source,
-    },
-  ];
+    })),
+    playlist,
+    source: youtubeEngine.source,
+  };
 };
 
 const mapVideoToTrack = (video: YouTubeVideo): Track => {

@@ -12,12 +12,7 @@ import {
 import { VoiceBasedChannel } from "discord.js";
 import { TypedEmitter } from "tiny-typed-emitter";
 import { playerEngines } from "./engines";
-import {
-  PlayerEngine,
-  SearchOptions,
-  SearchResult,
-  Track,
-} from "./types/engines";
+import { PlayerEngine, SearchOptions, Track } from "./types/engines";
 import {
   PlayerError,
   PlayerErrorCode,
@@ -447,11 +442,11 @@ export class Player extends TypedEmitter<PlayerEvents> {
   async search(
     query: string,
     options?: SearchOptions
-  ): Promise<SearchResult[]> {
+  ): ReturnType<PlayerEngine["search"]> {
     const trackSource =
       options?.source || (await this.detectTrackSource(query));
     const playerEngine = this.getEngine(trackSource);
-    if (!playerEngine) return [];
+    if (!playerEngine) return null;
     return await playerEngine.search(query, this.options, options);
   }
 

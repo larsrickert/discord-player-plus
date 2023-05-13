@@ -19,7 +19,7 @@ export interface PlayerEngine {
     query: string,
     playerOptions: PlayerOptions,
     options?: SearchOptions
-  ): Promise<SearchResult[]>;
+  ): Promise<SearchResult | null>;
   /** Gets the playable stream for the given track. */
   getStream(
     track: Track,

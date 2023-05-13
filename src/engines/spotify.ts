@@ -11,7 +11,7 @@ const responsibleRegex = /^https?:\/\/open.spotify.com\//;
  * Player engine to search/stream tracks from Spotify.
  * Spotify does not provide a web api to stream tracks so the track will be streamed from YouTube instead.
  */
-export const spotifyEngine = {
+export const spotifyEngine: PlayerEngine = {
   source: "spotify",
   isResponsible(query) {
     return responsibleRegex.test(query);
@@ -22,33 +22,32 @@ export const spotifyEngine = {
 
     const tracks = await getTracks(query);
 
-    const searchResult: SearchResult = {
+    return {
       tracks: tracks.map((track) => mapSpotifyTrack(track, query)),
       source: this.source,
     };
-    return [searchResult];
   },
   async getStream(track, playerOptions) {
-    const searchResults = await youtubeEngine.search(
+    const searchResult = await youtubeEngine.search(
       track.artist ? `${track.title} ${track.artist}` : track.title,
       playerOptions,
       { limit: 1 }
     );
+    if (!searchResult?.tracks.length) return null;
 
-    if (!searchResults.length || !searchResults[0].tracks.length) return null;
-    const mappedTrack = searchResults[0].tracks[0];
+    const mappedTrack = searchResult.tracks[0];
     mappedTrack.seek = track.seek;
 
     return youtubeEngine.getStream(mappedTrack, playerOptions);
   },
-} as const satisfies PlayerEngine;
+} as const;
 
 async function searchPlaylist(
   query: string,
   limit?: number
-): Promise<SearchResult[]> {
+): Promise<SearchResult | null> {
   const data = await getData<SpotifyPlaylist | undefined>(query);
-  if (data?.type !== "playlist") return [];
+  if (data?.type !== "playlist") return null;
 
   const playlist: Playlist = {
     title: data.name,
@@ -71,7 +70,7 @@ async function searchPlaylist(
     tracks = tracks.slice(0, limit);
   }
 
-  return [{ tracks, playlist, source: spotifyEngine.source }];
+  return { tracks, playlist, source: spotifyEngine.source };
 }
 
 /**
