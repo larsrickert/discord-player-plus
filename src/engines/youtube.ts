@@ -1,10 +1,4 @@
-import {
-  playlist_info,
-  search,
-  stream,
-  YouTubeVideo,
-  yt_validate,
-} from "play-dl";
+import playDl, { YouTubeVideo } from "play-dl";
 import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
 
 const responsibleRegex =
@@ -19,13 +13,14 @@ export const youtubeEngine = {
     return responsibleRegex.test(query);
   },
   async search(query, _, searchOptions) {
+    query = query.trim();
     if (!query) return [];
 
-    if (yt_validate(query) === "playlist") {
+    if (playDl.yt_validate(query) === "playlist") {
       return await searchPlaylist(query, searchOptions?.limit);
     }
 
-    const videos = await search(query, {
+    const videos = await playDl.search(query, {
       source: { youtube: "video" },
       limit: searchOptions?.limit,
     });
@@ -37,7 +32,7 @@ export const youtubeEngine = {
     return [searchResult];
   },
   async getStream(track, playerOptions) {
-    return await stream(track.url, {
+    return await playDl.stream(track.url, {
       quality:
         playerOptions.quality === "low"
           ? 0
@@ -53,7 +48,7 @@ const searchPlaylist = async (
   query: string,
   limit?: number
 ): Promise<SearchResult[]> => {
-  const playlistInfo = await playlist_info(query, { incomplete: true });
+  const playlistInfo = await playDl.playlist_info(query, { incomplete: true });
   let playlistVideos: YouTubeVideo[] = playlistInfo.page(1);
 
   // limit/fetch more videos (playlist will only include first 100 songs by default)
