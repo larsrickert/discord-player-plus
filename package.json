@@ -47,12 +47,12 @@
     "ffmpeg-static": ">= 5.1.0"
   },
   "dependencies": {
-    "deepmerge-ts": "^4.3.0",
-    "isomorphic-unfetch": "^3.1.0",
+    "deepmerge-ts": "^5.1.0",
+    "isomorphic-unfetch": "^4.0.2",
     "libsodium-wrappers": "~0.7.11",
-    "music-metadata": "^7.13.4",
+    "music-metadata": "^8.1.4",
     "play-dl": "^1.9.6",
-    "spotify-url-info": "^3.2.3",
+    "spotify-url-info": "^3.2.4",
     "tiny-typed-emitter": "^2.1.0"
   },
   "devDependencies": {
@@ -71,7 +71,7 @@
     "simple-git-hooks": "^2.8.1",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
-    "vitepress": "1.0.0-alpha.73",
+    "vitepress": "1.0.0-alpha.75",
     "vitest": "~0.29.8",
     "vitest-mock-extended": "^1.1.3"
   },
