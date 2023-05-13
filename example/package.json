@@ -1,32 +1,39 @@
 {
-  "name": "discord-bot",
-  "version": "1.0.0",
-  "description": "Discord bot for playing music and sounds written in TypeScript.",
-  "main": "src/app.ts",
+  "name": "discord-bot-example",
+  "description": "Example Discord bot for playing music and sounds written in TypeScript.",
+  "version": "0.0.1",
+  "type": "module",
+  "license": "MIT",
+  "main": "./dist/index.js",
   "private": true,
   "scripts": {
-    "dev": "ts-node-dev .",
-    "build": "tsc",
-    "start": "ts-node .",
-    "lint": "tsc --noEmit && eslint --fix src",
-    "format": "prettier --write src --ignore-path .gitignore",
-    "update": "npx npm-check-updates -i"
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "start": "node .",
+    "lint": "eslint src --fix --ignore-path .gitignore",
+    "prepare": "simple-git-hooks"
   },
   "dependencies": {
-    "@types/node": "^18.15.0",
-    "discord-player-plus": "^1.5.0",
-    "discord.js": "^14.7.1",
-    "dotenv": "^16.0.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "discord-player-plus": "^1.5.2",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.0.3"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.54.1",
-    "@typescript-eslint/parser": "^5.54.1",
-    "eslint": "^8.36.0",
-    "eslint-config-prettier": "^8.7.0",
+    "@types/node": "^18.16.8",
+    "@typescript-eslint/eslint-plugin": "^5.59.5",
+    "@typescript-eslint/parser": "^5.59.5",
+    "eslint": "^8.40.0",
+    "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "^2.8.4",
-    "ts-node-dev": "^2.0.0"
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8",
+    "simple-git-hooks": "^2.8.1",
+    "tsup": "^6.7.0",
+    "typescript": "^5.0.4"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --fix --ignore-path .gitignore"
   }
 }
