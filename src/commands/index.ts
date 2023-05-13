@@ -20,7 +20,7 @@ import { PlayOptions } from "../types/player";
 export async function handleSlashCommand(
   interaction: Interaction,
   commands: Command[],
-  translations: Translations
+  translations: Pick<Translations, "global">
 ): Promise<void> {
   if (
     interaction.type !== InteractionType.ApplicationCommand ||
