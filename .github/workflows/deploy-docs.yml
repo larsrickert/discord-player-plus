@@ -13,17 +13,21 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Git repository
+      - name: Checkout repository
         uses: actions/checkout@v3
-      - name: Setup Node
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
-      - name: Install node modules
-        run: npm ci
-      - name: Build
-        run: npm run docs:build
+          cache: "pnpm"
+
+      - name: 📦 Install dependencies
+        run: pnpm install
+      - name: ⚒️ Build
+        run: pnpm docs:build
+
       - name: Deploy
         uses: appleboy/ssh-action@v0.1.6
         with:
