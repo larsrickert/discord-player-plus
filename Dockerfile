@@ -1,12 +1,15 @@
 # build stage
-FROM node:17 as build
-
+FROM node:18 as build
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci
+
+# install pnpm
+RUN npm i -g pnpm@8.5.0
+
+COPY pnpm-lock.yaml package.json ./
+RUN pnpm install --frozen-lockfile
 
 COPY . ./
-RUN npm run docs:build
+RUN pnpm docs:build
 
 # production stage
 FROM nginx:stable-alpine
