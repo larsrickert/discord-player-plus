@@ -1,8 +1,9 @@
 .DS_Store
 node_modules
-/dist
+dist
 /logs
-/redis
+.eslintcache
+/coverage
 
 # local env files
 .env
@@ -22,7 +23,3 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
-.eslintcache
-
-!/public/.gitkeep
-/public
