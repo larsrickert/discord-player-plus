@@ -2,7 +2,7 @@ import { YouTubeStream } from "play-dl";
 import spotify, { Tracks } from "spotify-url-info";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { spotifyEngine, SpotifyPlaylist } from "../../engines/spotify";
+import { SpotifyPlaylist, spotifyEngine } from "../../engines/spotify";
 import { youtubeEngine } from "../../engines/youtube";
 import { Playlist, Track } from "../../types/engines";
 
@@ -71,64 +71,60 @@ describe.concurrent("spotify engine", () => {
   });
 
   it.each(["https://open.spotify.com/"])("is responsible for %s", (query) => {
-    let isResponsible = spotifyEngine.isResponsible(query);
+    let isResponsible = spotifyEngine.isResponsible(query, {});
     expect(isResponsible).toBe(true);
 
     isResponsible = spotifyEngine.isResponsible(
-      query.replace("https://", "http://")
+      query.replace("https://", "http://"),
+      {}
     );
     expect(isResponsible).toBe(true);
   });
 
   it("should search track", async () => {
-    const result = await spotifyEngine.search(expectedTrack.url, {}, {});
-    expect(result.length).toBe(1);
-    expect(result[0].source).toBe(spotifyEngine.source);
-    expect(result[0].tracks.length).toBe(1);
-    expect(result[0].tracks[0]).toEqual(expectedTrack);
-    expect(result[0].playlist).toBeUndefined();
+    const searchResult = await spotifyEngine.search(expectedTrack.url, {}, {});
+    expect(searchResult).toEqual({
+      source: "spotify",
+      tracks: [expectedTrack],
+    });
   });
 
   it("searches playlist", async () => {
-    const searchResults = await spotifyEngine.search(
+    const searchResult = await spotifyEngine.search(
       expectedPlaylist.url,
       {},
       {}
     );
-    const result = searchResults[0];
-    expect(result).toBeDefined();
-    expect(result.tracks.length).toBeGreaterThanOrEqual(1);
-    expect(result.source).toBe("spotify");
-    expect(result.playlist).toBeDefined();
-    expect(result.tracks.length).toBe(100);
-    expect(result.playlist).toEqual(expectedPlaylist);
 
-    result.tracks.forEach((track) => {
-      expect(track.playlist).toBeDefined();
-      expect(track.playlist).toEqual(expectedPlaylist);
-      expect(track.playlist).toBe(result.playlist);
+    expect(searchResult).not.toBeNull();
+    expect(searchResult?.source).toBe("spotify");
+    expect(searchResult?.tracks.length).toBe(100);
+    expect(searchResult?.playlist).toStrictEqual(expectedPlaylist);
+
+    searchResult?.tracks.forEach((track) => {
+      expect(track.playlist).toBe(searchResult?.playlist);
     });
   });
 
   it("searches playlist with limit", async () => {
     const limit = 64;
-    const searchResults = await spotifyEngine.search(
+    const searchResult = await spotifyEngine.search(
       "https://open.spotify.com/playlist/3xMQTDLOIGvj3lWH5e5x6F",
       {},
       { limit }
     );
 
-    const result = searchResults[0];
-    expect(result).toBeDefined();
-    expect(result.tracks.length).toBe(limit);
+    expect(searchResult).not.toBeNull();
+    expect(searchResult?.tracks.length).toBe(limit);
   });
 
   it("gets stream", async () => {
     const youtubeSearchSpy = vi
       .spyOn(youtubeEngine, "search")
-      .mockResolvedValue([
-        { source: youtubeEngine.source, tracks: [expectedTrack] },
-      ]);
+      .mockResolvedValue({
+        source: youtubeEngine.source,
+        tracks: [expectedTrack],
+      });
     const youtubeStreamSpy = vi
       .spyOn(youtubeEngine, "getStream")
       .mockResolvedValue(mock<YouTubeStream>());

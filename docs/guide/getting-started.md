@@ -127,12 +127,12 @@ const player = playerManager.get("my-guild-id");
 // get your voice channel here, e.g. from a slash command
 const voiceChannel;
 
-const searchResults = await player.search("Luis Fonsi - Despacito");
-if (searchResults.length && searchResults[0].tracks.length) {
+const searchResult = await player.search("Luis Fonsi - Despacito");
+if (searchResult?.tracks.length) {
   await player.play({
     channel: voiceChannel,
     // play first matched song for Despacito
-    tracks: searchResults[0].tracks.slice(1),
+    tracks: searchResult.tracks[0],
   });
 }
 ```

@@ -47,8 +47,8 @@ describe.concurrent("youtube engine", () => {
   });
 
   test("should not return search results for empty query", async () => {
-    const results = await youtubeEngine.search("   ", {}, {});
-    expect(results).toStrictEqual([]);
+    const result = await youtubeEngine.search("   ", {}, {});
+    expect(result).toBeNull();
   });
 
   test("should return search results for video query", async () => {
@@ -56,17 +56,15 @@ describe.concurrent("youtube engine", () => {
 
     const query = "https://www.youtube.com/watch?v=testVideoId";
 
-    const results = await youtubeEngine.search(query, {}, {});
+    const result = await youtubeEngine.search(query, {}, {});
 
     expect(searchSpy).toHaveBeenCalledWith(query, {
       source: { youtube: "video" },
     });
-    expect(results).toStrictEqual([
-      {
-        source: "youtube",
-        tracks: [expectedTrack],
-      },
-    ]);
+    expect(result).toStrictEqual({
+      source: "youtube",
+      tracks: [expectedTrack],
+    });
   });
 
   test("should return search results for playlist query", async () => {
@@ -85,7 +83,7 @@ describe.concurrent("youtube engine", () => {
 
     const query = "https://www.youtube.com/playlist?list=testPlaylistId";
 
-    const results = await youtubeEngine.search(query, {}, {});
+    const result = await youtubeEngine.search(query, {}, {});
 
     const expectedPlaylist: Playlist = {
       title: "testPlaylistTitle",
@@ -96,13 +94,11 @@ describe.concurrent("youtube engine", () => {
     expect(validateSpy).toHaveBeenCalledWith(query);
     expect(playlistInfoSpy).toHaveBeenCalledWith(query, { incomplete: true });
 
-    expect(results).toStrictEqual([
-      {
-        source: "youtube",
-        playlist: expectedPlaylist,
-        tracks: [{ ...expectedTrack, playlist: expectedPlaylist }],
-      },
-    ]);
+    expect(result).toStrictEqual({
+      source: "youtube",
+      playlist: expectedPlaylist,
+      tracks: [{ ...expectedTrack, playlist: expectedPlaylist }],
+    });
   });
 
   test("searches tracks with limit", async () => {
