@@ -1,4 +1,4 @@
-name: Check source files
+name: Check code quality
 on: pull_request
 
 jobs:
@@ -7,18 +7,21 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-          cache: "npm"
-      - name: Install node modules
-        run: npm ci
-      - name: Lint
-        run: npm run lint
-      - name: Test
-        run: npm run test
-      - name: Build
-        run: npm run build
-      - name: Build docs
-        run: npm run docs:build
+          cache: "pnpm"
+
+      - name: 📦 Install dependencies
+        run: pnpm install
+      - name: 🔎 Lint
+        run: pnpm lint
+      - name: 🚨 Run tests
+        run: pnpm test
+      - name: ⚒️ Build
+        run: pnpm build
+      - name: ⚒️ Build docs
+        run: pnpm docs:build
