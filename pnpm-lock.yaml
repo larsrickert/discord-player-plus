@@ -11,8 +11,8 @@ dependencies:
     specifier: ^5.1.0
     version: 5.1.0
   discord-api-types:
-    specifier: '>= 0.37.0'
-    version: 0.37.0
+    specifier: ~0.37.42
+    version: 0.37.42
   discord.js:
     specifier: '>= 14.8.0'
     version: 14.8.0
@@ -2030,10 +2030,6 @@ packages:
 
   /discord-api-types@0.36.3:
     resolution: {integrity: sha512-bz/NDyG0KBo/tY14vSkrwQ/n3HKPf87a0WFW/1M9+tXYK+vp5Z5EksawfCWo2zkAc6o7CClc0eff1Pjrqznlwg==}
-    dev: false
-
-  /discord-api-types@0.37.0:
-    resolution: {integrity: sha512-6LlL0xceiZs/kQ5PeKe5inkcjR73vagt3oACsP/C5IWKjXfzLGKrXn6yRYgiHIeJyFZ1xVPRJYE4W/u8UTT4ig==}
     dev: false
 
   /discord-api-types@0.37.42:
