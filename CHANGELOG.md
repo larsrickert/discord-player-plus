@@ -1,3 +1,38 @@
+# [2.0.0-rc.1](https://github.com/larsrickert/discord-player-plus/compare/v1.5.2...v2.0.0-rc.1) (2023-05-14)
+
+
+### Bug Fixes
+
+* **engines:** remove unnecessary array for `search` method ([#17](https://github.com/larsrickert/discord-player-plus/issues/17)) ([503ab0b](https://github.com/larsrickert/discord-player-plus/commit/503ab0bc6c7f10b2cb8d1664de512dcd8f506867))
+
+
+### chore
+
+* migrate to pnpm ([#14](https://github.com/larsrickert/discord-player-plus/issues/14)) ([a5f7ec7](https://github.com/larsrickert/discord-player-plus/commit/a5f7ec7c5f246fa7c32bc76aeb96ad9a57ef6d09))
+
+
+### Features
+
+* support both ESM and CommonJS ([#15](https://github.com/larsrickert/discord-player-plus/issues/15)) ([01218cf](https://github.com/larsrickert/discord-player-plus/commit/01218cfbce3f906e8c8ef4b374fe2bd2d5c10071))
+* update example discord bot ([#19](https://github.com/larsrickert/discord-player-plus/issues/19)) ([480a0ea](https://github.com/larsrickert/discord-player-plus/commit/480a0ea485624f92ab9b602e6b7735c26795505b))
+
+
+### BREAKING CHANGES
+
+* **engines:** Changed type `PlayerEngine` and all pre-built engines
+(youtube, spotify and file) to return `SearchResult|null` instead of
+`SearchResult[]`. The previous return value just wrapped the search
+result into an array so its length was always 1. Thats why it has been
+changed.
+* **engines:** `player.search()` now returns `SearchResult|null`
+instead of `SearchResult[]`
+* bump min required version of `@discordjs/opus` from
+`0.5.1` to `0.8.0`
+* bump min required version of `discord.js` from `14.5.0`
+to `14.8.0`
+* add peerDependency `discord-api-types` with min version
+`0.37.0`
+
 ## [1.5.2](https://github.com/larsrickert/discord-player-plus/compare/v1.5.1...v1.5.2) (2023-05-13)
 
 
