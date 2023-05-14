@@ -82,6 +82,15 @@ export default defineConfig({
           },
         ],
       },
+      {
+        text: "Migration",
+        items: [
+          {
+            text: "Upgrade from 1.x to 2.x",
+            link: "/migrations/v2",
+          },
+        ],
+      },
     ],
   },
 });
