@@ -23,6 +23,8 @@ jobs:
         run: pnpm test
       - name: ⚒️ Build
         run: pnpm build
+      - name: 🔎 Publint
+        run: npx publint
       - name: ⚒️ Build docs
         run: pnpm docs:build
 
