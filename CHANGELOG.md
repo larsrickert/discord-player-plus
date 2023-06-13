@@ -1,3 +1,10 @@
+# [2.0.0-rc.2](https://github.com/larsrickert/discord-player-plus/compare/v2.0.0-rc.1...v2.0.0-rc.2) (2023-06-13)
+
+
+### Bug Fixes
+
+* downgrade music-metadata to support commonjs ([#23](https://github.com/larsrickert/discord-player-plus/issues/23)) ([039a29e](https://github.com/larsrickert/discord-player-plus/commit/039a29ecbe0c52ee588b719f36f52d800831bf0b))
+
 # [2.0.0-rc.1](https://github.com/larsrickert/discord-player-plus/compare/v1.5.2...v2.0.0-rc.1) (2023-05-14)
 
 
