@@ -50,7 +50,7 @@
     "discord-api-types": "~0.37.43",
     "isomorphic-unfetch": "^4.0.2",
     "libsodium-wrappers": "~0.7.11",
-    "music-metadata": "^8.1.4",
+    "music-metadata": "^7.13.4",
     "play-dl": "^1.9.6",
     "spotify-url-info": "^3.2.5",
     "tiny-typed-emitter": "^2.1.0"
