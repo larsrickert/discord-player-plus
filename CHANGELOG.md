@@ -1,5 +1,6 @@
 # [2.0.0](https://github.com/larsrickert/discord-player-plus/compare/v1.5.2...v2.0.0) (2023-06-13)
 
+Make sure to read the [version 2 migration guide](https://discordplayerplus.lars-rickert.de/migrations/v2.html).
 
 ### Bug Fixes
 
