@@ -139,12 +139,12 @@ Immediate plays the first of the given tracks, skips current track if playing. T
   // get your voice channel here, e.g. from a slash command
   const voiceChannel;
 
-  const searchResults = await player.search("Luis Fonsi - Despacito");
-  if (searchResults.length && searchResults[0].tracks.length) {
+  const searchResult = await player.search("Luis Fonsi - Despacito");
+  if (searchResult?.tracks.length) {
     await player.play({
       channel: voiceChannel,
       // play first matched song for Despacito
-      tracks: searchResults[0].tracks.slice(1),
+      tracks: searchResult.tracks[0],
     });
   }
   ```
@@ -167,11 +167,11 @@ Adds the given tracks to the end of the queue. Immediately plays first track in 
   // get your voice channel here, e.g. from a slash command
   const voiceChannel;
 
-  const searchResults = await player.search("Some YouTube Playlist");
-  if (searchResults.length && searchResults[0].tracks.length) {
+  const searchResult = await player.search("Some YouTube Playlist");
+  if (searchResult?.tracks.length) {
     await player.add({
       channel: voiceChannel,
-      tracks: searchResults[0].tracks,
+      tracks: searchResult.tracks,
     });
   }
   ```
@@ -411,12 +411,12 @@ Searches tracks for the given query.
 - **Example**
 
   ```ts
-  const searchResults = await player.search("Luis Fonsi - Despacito");
-  if (searchResults.length) {
+  const searchResult = await player.search("Luis Fonsi - Despacito");
+  if (!searchResult?.tracks.length) {
     console.log("No search results found for Despacito");
   } else {
     console.log(
-      `Found ${searchResults[0].tracks.length} matching tracks for Despacito`
+      `Found ${searchResult.tracks.length} matching tracks for Despacito`
     );
   }
   ```

@@ -1,29 +1,32 @@
-# Discord Music Bot
+# Example Discord Music Bot 🚀
 
-Discord music bot example using [`discord-player-plus`](https://github.com/larsrickert/discord-player-plus).
+Example Discord music bot example using [`discord-player-plus`](https://github.com/larsrickert/discord-player-plus). Also includes the following additional features:
 
-Before starting the bot, rename file `.env.example` to `.env` and set your discord bot token.
+- [TypeScript](https://www.typescriptlang.org/)
+- [Linting](https://eslint.org/) and [formatting](https://prettier.io/) before committing
 
-## Project setup
+## Project Setup
 
-```
+### Install dependencies
+
+```sh
 npm install
 ```
 
-### Run with hot-reload for development
+### Type-Check and Compile for Production
 
-```
-npm run dev
+```sh
+npm run build
 ```
 
-### Start for production
+### Start application
 
-```
+```sh
 npm start
 ```
 
-### Lints and fixes files
+### Lint and fix files
 
-```
+```sh
 npm run lint
 ```

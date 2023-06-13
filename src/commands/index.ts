@@ -20,7 +20,7 @@ import { PlayOptions } from "../types/player";
 export async function handleSlashCommand(
   interaction: Interaction,
   commands: Command[],
-  translations: Translations
+  translations: Pick<Translations, "global">
 ): Promise<void> {
   if (
     interaction.type !== InteractionType.ApplicationCommand ||
@@ -105,9 +105,8 @@ export async function playTracks(
 
   // search tracks
   const searchResult = await player.search(query);
-  const firstResult = searchResult[0];
 
-  if (!firstResult || !firstResult.tracks.length) {
+  if (!searchResult?.tracks.length) {
     await interaction.followUp({
       content: playerManager.translations.play.noTracksFound.replace(
         "{query}",
@@ -119,14 +118,14 @@ export async function playTracks(
 
   // play track(s)
   const playOptions: PlayOptions = {
-    tracks: firstResult.playlist
-      ? firstResult.tracks
-      : firstResult.tracks.slice(0, 1),
+    tracks: searchResult.playlist
+      ? searchResult.tracks
+      : searchResult.tracks.slice(0, 1),
     channel: interaction.member.voice.channel,
   };
 
   if (immediate) await player.play(playOptions);
   else await player.add(playOptions);
 
-  return firstResult;
+  return searchResult;
 }

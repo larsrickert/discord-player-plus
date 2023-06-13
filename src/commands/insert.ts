@@ -47,9 +47,8 @@ export const createInsertCommand: CreateCommandFunc = (
 
       // search tracks
       const searchResult = await player.search(query);
-      const firstResult = searchResult[0];
 
-      if (!firstResult || !firstResult.tracks.length) {
+      if (!searchResult?.tracks.length) {
         await interaction.followUp({
           content: playerManager.translations.play.noTracksFound.replace(
             "{query}",
@@ -61,7 +60,7 @@ export const createInsertCommand: CreateCommandFunc = (
 
       const queue = player.getQueue();
 
-      const track = firstResult.tracks[0];
+      const track = searchResult.tracks[0];
       player.insert(track, trackIndex);
 
       // human friendly track position

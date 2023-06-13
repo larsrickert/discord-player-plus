@@ -1,20 +1,14 @@
 import { PlayerOptions } from "discord-player-plus";
-import "dotenv/config";
-import path from "path";
+import "dotenv/config"; // load environment variables from .env file
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "url";
 
-export const config: Config = {
+export const config = {
   app: {
     clientToken: process.env.CLIENT_TOKEN ?? "",
   },
   player: {
     initialVolume: 20,
-    fileRoot: path.join(__dirname, "../public"),
-  },
+    fileRoot: resolve(dirname(fileURLToPath(import.meta.url)), "../public"),
+  } satisfies PlayerOptions,
 };
-
-interface Config {
-  app: {
-    clientToken: string;
-  };
-  player: PlayerOptions;
-}

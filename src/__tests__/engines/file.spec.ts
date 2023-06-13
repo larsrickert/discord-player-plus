@@ -1,6 +1,6 @@
 import { IAudioMetadata, parseFile } from "music-metadata";
 import path from "path";
-import { afterEach, describe, expect, it, Mock, test, vi } from "vitest";
+import { Mock, afterEach, describe, expect, it, test, vi } from "vitest";
 import { fileEngine } from "../../engines/file";
 import { Track } from "../../types/engines";
 
@@ -79,20 +79,15 @@ describe("file engine", () => {
 
   it("searches track with metadata", async () => {
     // should return no result when fileRoot is not set
-    let searchResults = await fileEngine.search(expectedTrack.url, {});
-    expect(searchResults.length).toBe(0);
+    let searchResult = await fileEngine.search(expectedTrack.url, {});
+    expect(searchResult).toBe(null);
 
     // should return result when fileRoot is set
-    searchResults = await fileEngine.search(expectedTrack.url, { fileRoot });
-    const result = searchResults[0];
-    expect(result).toBeDefined();
-    expect(result.playlist).toBeUndefined();
-    expect(result.source).toBe("file");
-    expect(result.tracks.length).toBe(1);
-
-    const track = result.tracks[0];
-    expect(track).toBeDefined();
-    expect(track).toEqual(expectedTrack);
+    searchResult = await fileEngine.search(expectedTrack.url, { fileRoot });
+    expect(searchResult).toStrictEqual({
+      source: "file",
+      tracks: [expectedTrack],
+    });
   });
 
   it("searches track without metadata", async () => {
@@ -106,25 +101,20 @@ describe("file engine", () => {
       source: "file",
     };
 
-    let searchResults = await fileEngine.search(expectedTrack.url, {
+    let searchResult = await fileEngine.search(expectedTrack.url, {
       fileRoot,
     });
-    const result = searchResults[0];
-    expect(result).toBeDefined();
-    expect(result.playlist).toBeUndefined();
-    expect(result.source).toBe("file");
-    expect(result.tracks.length).toBe(1);
-
-    const track = result.tracks[0];
-    expect(track).toBeDefined();
-    expect(track).toEqual(expectedTrack);
+    expect(searchResult).toEqual({
+      source: "file",
+      tracks: [expectedTrack],
+    });
 
     // handles metadata error
     (parseFile as Mock).mockImplementation(() => {
       throw Error("This should be handled");
     });
-    searchResults = await fileEngine.search(expectedTrack.url, { fileRoot });
-    expect(searchResults.length).toBe(0);
+    searchResult = await fileEngine.search(expectedTrack.url, { fileRoot });
+    expect(searchResult).toBe(null);
   });
 
   it("gets stream", async () => {

@@ -9,7 +9,7 @@ Player engines are the heart of `discord-player-plus`. They are responsible for 
 When you use `player.search()` the engine will be detected automatically but you can also specify which engine you want to use with:
 
 ```ts
-const searchResults = await player.search("my song to search", {
+const searchResult = await player.search("my song to search", {
   source: "spotify",
 });
 ```
