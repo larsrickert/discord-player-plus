@@ -2,10 +2,11 @@
 FROM node:18 as build
 WORKDIR /app
 
-# install pnpm
-RUN npm i -g pnpm@8.5.0
-
 COPY pnpm-lock.yaml package.json ./
+
+# install pnpm as defined in package.json
+RUN npm i -g $(node -p "require('./package.json').packageManager")
+
 RUN pnpm install --frozen-lockfile
 
 COPY . ./
