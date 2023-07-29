@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/larsrickert/discord-player-plus/compare/v2.0.0...v2.0.1) (2023-07-29)
+
+
+### Bug Fixes
+
+* remove vulnerable dependencies ([#24](https://github.com/larsrickert/discord-player-plus/issues/24)) ([bced032](https://github.com/larsrickert/discord-player-plus/commit/bced032039449b31a46a1c08c9eabe68bc1e1f1a))
+
 # [2.0.0](https://github.com/larsrickert/discord-player-plus/compare/v1.5.2...v2.0.0) (2023-06-13)
 
 Make sure to read the [version 2 migration guide](https://discordplayerplus.lars-rickert.de/migrations/v2.html).
