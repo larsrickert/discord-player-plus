@@ -64,7 +64,7 @@ slashCommands.push(
       iconUrl: "https://avatars.githubusercontent.com/u/67898185?v=4",
     },
     footerText: "Thanks for using discord-player-plus",
-  })
+  }),
 );
 
 client
@@ -77,7 +77,7 @@ client
     await handleSlashCommand(
       interaction,
       slashCommands,
-      playerManager.translations
+      playerManager.translations,
     );
   });
 

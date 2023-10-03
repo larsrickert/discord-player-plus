@@ -6,7 +6,7 @@ import { CreateCommandFunc } from "../types/commands";
  */
 export const createSetVolumeCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "setvolume",
@@ -44,7 +44,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (
       await interaction.reply({
         content: playerManager.translations.setvolume.success.replace(
           "{volume}",
-          volume.toString()
+          volume.toString(),
         ),
         ephemeral: options?.ephemeral,
       });

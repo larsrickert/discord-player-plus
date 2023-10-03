@@ -13,7 +13,7 @@ export interface Command<T = boolean> extends ChatInputApplicationCommandData {
 
 export type CreateCommandFunc = (
   playerManager: PlayerManager,
-  options?: CreateCommandOptions
+  options?: CreateCommandOptions,
 ) => Command;
 
 // #region CreateCommandOptions

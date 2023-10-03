@@ -37,7 +37,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   constructor(
     public readonly guildId: string,
-    public readonly options: PlayerOptions = {}
+    public readonly options: PlayerOptions = {},
   ) {
     super();
 
@@ -67,7 +67,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
       const playingTrackEnded =
         oldState.status === AudioPlayerStatus.Playing &&
         ![AudioPlayerStatus.Paused, AudioPlayerStatus.AutoPaused].includes(
-          newState.status
+          newState.status,
         );
       const pausedTrackEnded =
         oldState.status === AudioPlayerStatus.Paused &&
@@ -132,7 +132,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
       ) {
         const error = new PlayerError(
           PlayerErrorCode.REFUSED_TO_SWITCH_VOICE_CHANNEL,
-          `Refused to join voice channel ${channel.id} because player is already connected to voice channel ${currentConnection.joinConfig.channelId}`
+          `Refused to join voice channel ${channel.id} because player is already connected to voice channel ${currentConnection.joinConfig.channelId}`,
         );
         this.emit("error", error);
         throw error;
@@ -173,7 +173,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
     // see: https://github.com/discordjs/discord.js/issues/9185#issuecomment-1452514375
     const networkStateChangeListener = (
       oldNetworkState: object,
-      newNetworkState: object
+      newNetworkState: object,
     ) => {
       const newUdp = Reflect.get(newNetworkState, "udp");
       clearInterval(newUdp?.keepAliveInterval);
@@ -222,7 +222,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
     if (!playerEngine) {
       const error = new PlayerError(
         PlayerErrorCode.UNKNOWN_PLAYER_ENGINE,
-        `Unknown player engine "${track.source}"`
+        `Unknown player engine "${track.source}"`,
       );
       this.emit("error", error);
       throw error;
@@ -233,7 +233,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
     if (!trackStream) {
       const error = new PlayerError(
         PlayerErrorCode.UNKNOWN_PLAYER_ENGINE,
-        `Unable to create stream for track (url: ${track.url})`
+        `Unable to create stream for track (url: ${track.url})`,
       );
       this.emit("error", error);
       throw error;
@@ -265,7 +265,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
             PlayerErrorCode.INITIAL_VOLUME_FUNCTION_ERROR,
             `Unexpected error for custom initial volume function: ${
               (e as Error).message
-            }`
+            }`,
           );
           this.emit("error", error);
         }
@@ -300,7 +300,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     if (
       ![AudioPlayerStatus.Buffering, AudioPlayerStatus.Playing].includes(
-        this.audioPlayer.state.status
+        this.audioPlayer.state.status,
       )
     ) {
       await this.play({ ...options, tracks: [] });
@@ -422,7 +422,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
   private async detectTrackSource(query: string): Promise<string> {
     const entries = Object.entries(this.options.customEngines ?? {}).concat(
-      Object.entries(playerEngines)
+      Object.entries(playerEngines),
     );
 
     for (const [source, engine] of entries) {
@@ -441,7 +441,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
    */
   async search(
     query: string,
-    options?: SearchOptions
+    options?: SearchOptions,
   ): ReturnType<PlayerEngine["search"]> {
     const trackSource =
       options?.source || (await this.detectTrackSource(query));

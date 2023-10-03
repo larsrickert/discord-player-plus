@@ -5,7 +5,7 @@ import { CreateCommandFunc } from "../types/commands";
  */
 export const createShuffleCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "shuffle",

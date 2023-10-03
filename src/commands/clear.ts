@@ -5,7 +5,7 @@ import { CreateCommandFunc } from "../types/commands";
  */
 export const createClearCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "clear",
@@ -24,7 +24,7 @@ export const createClearCommand: CreateCommandFunc = (
       await interaction.reply({
         content: playerManager.translations.clear.success.replace(
           "{count}",
-          count.toString()
+          count.toString(),
         ),
         ephemeral: options?.ephemeral,
       });

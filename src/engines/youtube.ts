@@ -45,7 +45,7 @@ export const youtubeEngine = {
 
 const searchPlaylist = async (
   query: string,
-  limit?: number
+  limit?: number,
 ): Promise<SearchResult> => {
   const playlistInfo = await playDl.playlist_info(query, { incomplete: true });
   let playlistVideos: YouTubeVideo[] = playlistInfo.page(1);

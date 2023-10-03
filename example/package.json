@@ -13,22 +13,22 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
-    "discord-player-plus": "^2.0.0",
-    "discord.js": "^14.11.0",
+    "discord-player-plus": "^2.0.1",
+    "discord.js": "^14.13.0",
     "dotenv": "^16.3.1"
   },
   "devDependencies": {
-    "@types/node": "^18.17.1",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
-    "eslint": "^8.46.0",
-    "eslint-config-prettier": "^8.9.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "lint-staged": "^13.2.3",
-    "prettier": "^2.8.8",
+    "@types/node": "^18.18.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.4",
+    "eslint": "^8.50.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
     "simple-git-hooks": "^2.9.0",
-    "tsup": "^6.7.0",
-    "typescript": "~5.1.6"
+    "tsup": "^7.2.0",
+    "typescript": "~5.2.2"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"

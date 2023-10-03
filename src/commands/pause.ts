@@ -5,7 +5,7 @@ import { CreateCommandFunc } from "../types/commands";
  */
 export const createPauseCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "pause",

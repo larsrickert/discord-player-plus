@@ -27,29 +27,29 @@ describe.concurrent("player util", () => {
     };
 
     expect(trackToMarkdown(track)).toBe(
-      "[Example track](https://example.com) (01:01)"
+      "[Example track](https://example.com) (01:01)",
     );
 
     expect(trackToMarkdown({ ...track, artist: "Test artist" })).toBe(
-      "[Example track](https://example.com) (01:01), Test artist"
+      "[Example track](https://example.com) (01:01), Test artist",
     );
 
     expect(trackToMarkdown(track, true)).toBe(
-      "[Example track](<https://example.com>) (01:01)"
+      "[Example track](<https://example.com>) (01:01)",
     );
 
     expect(trackToMarkdown({ ...track, artist: "Test artist" }, true)).toBe(
-      "[Example track](<https://example.com>) (01:01), Test artist"
+      "[Example track](<https://example.com>) (01:01), Test artist",
     );
   });
 
   it("formats url to markdown", () => {
     expect(urlToMarkdown("Example track", "https://example.com")).toBe(
-      "[Example track](https://example.com)"
+      "[Example track](https://example.com)",
     );
 
     expect(urlToMarkdown("Example track", "https://example.com", true)).toBe(
-      "[Example track](<https://example.com>)"
+      "[Example track](<https://example.com>)",
     );
   });
 

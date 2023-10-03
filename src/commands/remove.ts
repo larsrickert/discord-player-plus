@@ -7,7 +7,7 @@ import { trackToMarkdown } from "../utils/player";
  */
 export const createRemoveCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "remove",
@@ -45,7 +45,7 @@ export const createRemoveCommand: CreateCommandFunc = (
       await interaction.reply({
         content: playerManager.translations.remove.success.replace(
           "{track}",
-          trackToMarkdown(removedTrack, true)
+          trackToMarkdown(removedTrack, true),
         ),
         ephemeral: options?.ephemeral,
       });

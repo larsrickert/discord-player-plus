@@ -31,7 +31,7 @@ export const spotifyEngine: PlayerEngine = {
     const searchResult = await youtubeEngine.search(
       track.artist ? `${track.title} ${track.artist}` : track.title,
       playerOptions,
-      { limit: 1 }
+      { limit: 1 },
     );
     if (!searchResult?.tracks.length) return null;
 
@@ -44,7 +44,7 @@ export const spotifyEngine: PlayerEngine = {
 
 async function searchPlaylist(
   query: string,
-  limit?: number
+  limit?: number,
 ): Promise<SearchResult | null> {
   const data = await getData<SpotifyPlaylist | undefined>(query);
   if (data?.type !== "playlist") return null;

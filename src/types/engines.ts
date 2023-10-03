@@ -12,18 +12,18 @@ export interface PlayerEngine {
    */
   isResponsible(
     query: string,
-    playerOptions: PlayerOptions
+    playerOptions: PlayerOptions,
   ): boolean | Promise<boolean>;
   /** Gets information about the given query. */
   search(
     query: string,
     playerOptions: PlayerOptions,
-    options?: SearchOptions
+    options?: SearchOptions,
   ): Promise<SearchResult | null>;
   /** Gets the playable stream for the given track. */
   getStream(
     track: Track,
-    playerOptions: PlayerOptions
+    playerOptions: PlayerOptions,
   ): Promise<TrackStream | null>;
 }
 // #endregion PlayerEngine

@@ -6,7 +6,7 @@ import { trackToMarkdown } from "../utils/player";
  */
 export const createSkipCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "skip",
@@ -34,7 +34,7 @@ export const createSkipCommand: CreateCommandFunc = (
       await interaction.reply({
         content: playerManager.translations.skip.success.replace(
           "{song}",
-          trackToMarkdown(track, true)
+          trackToMarkdown(track, true),
         ),
         ephemeral: options?.ephemeral,
       });

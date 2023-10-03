@@ -6,7 +6,7 @@ import { Command, CreateHelpCommandOptions } from "../types/commands";
  */
 export const createHelpCommand = (
   playerManager: PlayerManager,
-  options: CreateHelpCommandOptions
+  options: CreateHelpCommandOptions,
 ): Command => {
   return {
     name: "help",

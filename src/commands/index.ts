@@ -20,7 +20,7 @@ import { PlayOptions } from "../types/player";
 export async function handleSlashCommand(
   interaction: Interaction,
   commands: Command[],
-  translations: Pick<Translations, "global">
+  translations: Pick<Translations, "global">,
 ): Promise<void> {
   if (
     interaction.type !== InteractionType.ApplicationCommand ||
@@ -34,7 +34,7 @@ export async function handleSlashCommand(
     return void (await interaction.reply({
       content: translations.global.unsupportedCommand.replace(
         "{command}",
-        interaction.commandName
+        interaction.commandName,
       ),
       ephemeral: true,
     }));
@@ -69,7 +69,7 @@ export async function playTracks(
   interaction: ChatInputCommandInteraction<"cached">,
   playerManager: PlayerManager,
   immediate: boolean,
-  options?: CreateCommandOptions
+  options?: CreateCommandOptions,
 ): Promise<SearchResult | null> {
   // check that user is in voice channel
   if (!interaction.member.voice.channel) {
@@ -83,7 +83,7 @@ export async function playTracks(
   // check bot voice channel permissions
   if (interaction.guild.members.me) {
     const permissions = interaction.member.voice.channel.permissionsFor(
-      interaction.guild.members.me
+      interaction.guild.members.me,
     );
 
     if (!permissions.has(["Connect", "Speak"])) {
@@ -91,7 +91,7 @@ export async function playTracks(
         content:
           playerManager.translations.play.insufficientVoiceChannelPermissions.replace(
             "{channel}",
-            interaction.member.voice.channel.name
+            interaction.member.voice.channel.name,
           ),
         ephemeral: options?.ephemeralError ?? true,
       });
@@ -110,7 +110,7 @@ export async function playTracks(
     await interaction.followUp({
       content: playerManager.translations.play.noTracksFound.replace(
         "{query}",
-        query
+        query,
       ),
     });
     return null;

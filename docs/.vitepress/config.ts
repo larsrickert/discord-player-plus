@@ -9,6 +9,7 @@ export default defineConfig({
 
   themeConfig: {
     logo: "/logo.png",
+    externalLinkIcon:true,
     socialLinks: [
       {
         icon: "github",

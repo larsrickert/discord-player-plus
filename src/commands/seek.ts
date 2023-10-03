@@ -7,7 +7,7 @@ import { formatDuration } from "../utils/player";
  */
 export const createSeekCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "seek",
@@ -46,7 +46,7 @@ export const createSeekCommand: CreateCommandFunc = (
       await interaction.followUp({
         content: playerManager.translations.seek.success.replace(
           "{duration}",
-          formatDuration(time)
+          formatDuration(time),
         ),
         ephemeral: options?.ephemeral,
       });

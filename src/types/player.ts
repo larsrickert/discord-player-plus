@@ -116,7 +116,10 @@ export enum PlayerErrorCode {
 }
 
 export class PlayerError extends Error {
-  constructor(public readonly code: PlayerErrorCode, msg: string) {
+  constructor(
+    public readonly code: PlayerErrorCode,
+    msg: string,
+  ) {
     super(msg);
 
     // Set the prototype explicitly.

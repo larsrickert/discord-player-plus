@@ -23,7 +23,7 @@ export const createAddCommand: CreateCommandFunc = (playerManager, options) => {
         interaction,
         playerManager,
         false,
-        options
+        options,
       );
       if (!searchResult) return false;
 
@@ -34,8 +34,8 @@ export const createAddCommand: CreateCommandFunc = (playerManager, options) => {
             urlToMarkdown(
               searchResult.playlist.title,
               searchResult.playlist.url,
-              true
-            )
+              true,
+            ),
           ),
         });
         return true;
@@ -44,7 +44,7 @@ export const createAddCommand: CreateCommandFunc = (playerManager, options) => {
       await interaction.followUp({
         content: playerManager.translations.add.successTrack.replace(
           "{track}",
-          trackToMarkdown(searchResult.tracks[0], true)
+          trackToMarkdown(searchResult.tracks[0], true),
         ),
       });
       return true;

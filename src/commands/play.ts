@@ -9,7 +9,7 @@ import { trackToMarkdown, urlToMarkdown } from "../utils/player";
  */
 export const createPlayCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "play",
@@ -27,7 +27,7 @@ export const createPlayCommand: CreateCommandFunc = (
         interaction,
         playerManager,
         true,
-        options
+        options,
       );
       if (!searchResult) return false;
 
@@ -37,8 +37,8 @@ export const createPlayCommand: CreateCommandFunc = (
             "{playlist}",
             urlToMarkdown(
               searchResult.playlist.title,
-              searchResult.playlist.url
-            )
+              searchResult.playlist.url,
+            ),
           ),
         });
         return true;
@@ -47,7 +47,7 @@ export const createPlayCommand: CreateCommandFunc = (
       await interaction.followUp({
         content: playerManager.translations.play.successTrack.replace(
           "{track}",
-          trackToMarkdown(searchResult.tracks[0])
+          trackToMarkdown(searchResult.tracks[0]),
         ),
       });
       return true;
