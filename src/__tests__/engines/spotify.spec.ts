@@ -36,7 +36,7 @@ vi.mock("spotify-url-info", async (importOriginal) => {
                 artist: expectedTrack.artist,
               }),
             },
-          ])
+          ]),
         ),
         getData: vi.fn(() =>
           Promise.resolve({
@@ -52,7 +52,7 @@ vi.mock("spotify-url-info", async (importOriginal) => {
                 }),
               })),
             }),
-          })
+          }),
         ),
         getDetails: vi.fn(),
         getPreview: vi.fn(),
@@ -76,7 +76,7 @@ describe.concurrent("spotify engine", () => {
 
     isResponsible = spotifyEngine.isResponsible(
       query.replace("https://", "http://"),
-      {}
+      {},
     );
     expect(isResponsible).toBe(true);
   });
@@ -93,7 +93,7 @@ describe.concurrent("spotify engine", () => {
     const searchResult = await spotifyEngine.search(
       expectedPlaylist.url,
       {},
-      {}
+      {},
     );
 
     expect(searchResult).not.toBeNull();
@@ -111,7 +111,7 @@ describe.concurrent("spotify engine", () => {
     const searchResult = await spotifyEngine.search(
       "https://open.spotify.com/playlist/3xMQTDLOIGvj3lWH5e5x6F",
       {},
-      { limit }
+      { limit },
     );
 
     expect(searchResult).not.toBeNull();
@@ -134,7 +134,7 @@ describe.concurrent("spotify engine", () => {
     expect(youtubeSearchSpy).toHaveBeenCalledWith(
       `${expectedTrack.title} testArtist1, testArtist2`,
       {},
-      { limit: 1 }
+      { limit: 1 },
     );
     expect(youtubeStreamSpy).toHaveBeenCalledOnce();
   });

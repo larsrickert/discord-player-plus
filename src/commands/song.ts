@@ -6,7 +6,7 @@ import { trackToMarkdown } from "../utils/player";
  */
 export const createSongCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "song",
@@ -26,7 +26,7 @@ export const createSongCommand: CreateCommandFunc = (
       await interaction.reply({
         content: playerManager.translations.song.success.replace(
           "{track}",
-          trackToMarkdown(currentTrack)
+          trackToMarkdown(currentTrack),
         ),
         ephemeral: options?.ephemeral,
       });

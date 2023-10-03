@@ -8,7 +8,7 @@ declare module "spotify-url-info" {
     getTracks(url: string, options?: object): Promise<Tracks[]>;
     getDetails(
       url: string,
-      options?: object
+      options?: object,
     ): Promise<{ preview: Preview; tracks: Tracks[] }>;
   }
 

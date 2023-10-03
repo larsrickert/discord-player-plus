@@ -9,7 +9,7 @@ const repeatModeEntries = Object.entries(PlayerRepeatMode)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   .filter(([_, value]) => typeof value !== "string") as [
   string,
-  PlayerRepeatMode
+  PlayerRepeatMode,
 ][];
 
 /**
@@ -17,7 +17,7 @@ const repeatModeEntries = Object.entries(PlayerRepeatMode)
  */
 export const createRepeatCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "repeat",
@@ -53,7 +53,7 @@ export const createRepeatCommand: CreateCommandFunc = (
 
       const mode = interaction.options.getInteger(
         "mode",
-        true
+        true,
       ) as PlayerRepeatMode;
       player.setRepeat(mode);
 
@@ -62,7 +62,7 @@ export const createRepeatCommand: CreateCommandFunc = (
           "{mode}",
           (playerManager.translations.repeat.modes as Record<string, string>)[
             PlayerRepeatMode[mode].toString().toLowerCase()
-          ] ?? ""
+          ] ?? "",
         ),
         ephemeral: options?.ephemeral,
       });

@@ -41,7 +41,7 @@ describe.concurrent("youtube engine", () => {
     expect(isResponsible).toBe(true);
 
     isResponsible = youtubeEngine.isResponsible(
-      query.replace("https://", "http://")
+      query.replace("https://", "http://"),
     );
     expect(isResponsible).toBe(true);
   });
@@ -74,7 +74,7 @@ describe.concurrent("youtube engine", () => {
         title: "testPlaylistTitle",
         url: "testPlaylistUrl",
         thumbnail: { url: "testPlaylistThumbnail" },
-      })
+      }),
     );
 
     const validateSpy = vi

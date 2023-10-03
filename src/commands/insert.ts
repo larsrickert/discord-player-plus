@@ -8,7 +8,7 @@ import { trackToMarkdown } from "../utils/player";
  */
 export const createInsertCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "insert",
@@ -52,7 +52,7 @@ export const createInsertCommand: CreateCommandFunc = (
         await interaction.followUp({
           content: playerManager.translations.play.noTracksFound.replace(
             "{query}",
-            query
+            query,
           ),
         });
         return false;

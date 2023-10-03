@@ -7,7 +7,7 @@ import { trackToMarkdown } from "../utils/player";
  */
 export const createJumpCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "jump",
@@ -48,7 +48,7 @@ export const createJumpCommand: CreateCommandFunc = (
       await interaction.followUp({
         content: playerManager.translations.jump.success.replace(
           "{track}",
-          currentTrack ? trackToMarkdown(currentTrack, true) : ""
+          currentTrack ? trackToMarkdown(currentTrack, true) : "",
         ),
       });
       return true;

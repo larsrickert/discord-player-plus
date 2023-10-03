@@ -30,7 +30,7 @@ export function trackToMarkdown(track: Track, escapeUrl = false): string {
 export function urlToMarkdown(
   title: string,
   url: string,
-  escape = false
+  escape = false,
 ): string {
   return escape ? `[${title}](<${url}>)` : `[${title}](${url})`;
 }

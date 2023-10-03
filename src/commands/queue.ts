@@ -6,7 +6,7 @@ import { trackToMarkdown } from "../utils/player";
  */
 export const createQueueCommand: CreateCommandFunc = (
   playerManager,
-  options
+  options,
 ) => {
   return {
     name: "queue",
