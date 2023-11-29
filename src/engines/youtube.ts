@@ -36,8 +36,8 @@ export const youtubeEngine = {
         playerOptions.quality === "low"
           ? 0
           : playerOptions.quality === "medium"
-          ? 1
-          : 2,
+            ? 1
+            : 2,
       seek: track?.seek ? track.seek / 1000 : undefined,
     });
   },
