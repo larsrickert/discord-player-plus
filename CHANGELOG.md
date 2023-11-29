@@ -1,3 +1,10 @@
+## [2.0.3](https://github.com/larsrickert/discord-player-plus/compare/v2.0.2...v2.0.3) (2023-11-29)
+
+
+### Bug Fixes
+
+* update dependencies ([#26](https://github.com/larsrickert/discord-player-plus/issues/26)) ([567a148](https://github.com/larsrickert/discord-player-plus/commit/567a14834d53322773a669505cc5f78de2ae4b75))
+
 ## [2.0.2](https://github.com/larsrickert/discord-player-plus/compare/v2.0.1...v2.0.2) (2023-10-03)
 
 
