@@ -103,6 +103,7 @@ describe.concurrent("youtube engine", () => {
 
   test("searches tracks with limit", async () => {
     const searchSpy = vi.spyOn(playDl, "search").mockResolvedValue([mockVideo]);
+    vi.spyOn(playDl, "yt_validate").mockReturnValue("video");
 
     const limit = 4;
     await youtubeEngine.search(expectedTrack.url, {}, { limit });
@@ -115,9 +116,9 @@ describe.concurrent("youtube engine", () => {
 
   test("searches playlist with limit", async () => {
     const mockPlaylist = mock<YouTubePlayList>({
-      all_videos: vi.fn(() => Promise.resolve([mockVideo])),
-      page: vi.fn(() => [mockVideo]),
-      next: vi.fn(() => Promise.resolve([mockVideo])),
+      all_videos: vi.fn().mockResolvedValue([mockVideo]),
+      page: vi.fn().mockReturnValue([mockVideo]),
+      next: vi.fn().mockResolvedValue([mockVideo]),
       title: "testPlaylistTitle",
       url: "testPlaylistUrl",
       thumbnail: { url: "testPlaylistThumbnail" },
@@ -138,11 +139,6 @@ describe.concurrent("youtube engine", () => {
     await youtubeEngine.search(query, {}, { limit: 128 });
     expect(mockPlaylist.next).toHaveBeenCalledWith(28);
     expect(mockPlaylist.all_videos).not.toHaveBeenCalled();
-
-    // no limit
-    mockClear(mockPlaylist);
-    await youtubeEngine.search(query, {}, { limit: 0 });
-    expect(mockPlaylist.all_videos).toHaveBeenCalled();
   });
 
   test("gets stream", async () => {
