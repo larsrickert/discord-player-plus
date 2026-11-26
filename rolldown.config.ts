@@ -8,9 +8,11 @@ const external = [
   ...Object.keys(packageJson.peerDependencies),
 ];
 
+const tsconfig = "tsconfig.app.json";
+
 export default defineConfig({
   input: "src/index.ts",
-  tsconfig: "tsconfig.app.json",
+  tsconfig,
   output: {
     cleanDir: true,
   },
@@ -18,5 +20,5 @@ export default defineConfig({
     ...external,
     ...builtinModules.map((module) => (module.startsWith(":node") ? module : `node:${module}`)),
   ],
-  plugins: [dts({ tsconfig: "tsconfig.app.json" })],
+  plugins: [dts({ tsconfig })],
 });
