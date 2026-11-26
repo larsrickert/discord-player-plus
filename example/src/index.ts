@@ -21,7 +21,7 @@ import {
   PlayerManager,
 } from "discord-player-plus";
 import { ActivityType, Client, GatewayIntentBits } from "discord.js";
-import { config } from "./config";
+import { config } from "./config.js";
 
 const client = new Client({
   intents: [
@@ -68,7 +68,7 @@ slashCommands.push(
 );
 
 client
-  .on("ready", async (client) => {
+  .on("clientReady", async (client) => {
     console.log(`Bot ready and logged in as ${client.user.tag}`);
     await client.application.commands.set(slashCommands);
     client.user.setActivity({ name: "/help", type: ActivityType.Listening });

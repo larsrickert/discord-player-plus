@@ -1,7 +1,5 @@
 import { PlayerOptions } from "discord-player-plus";
-import "dotenv/config"; // load environment variables from .env file
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "url";
+import path from "node:path";
 
 export const config = {
   app: {
@@ -9,6 +7,6 @@ export const config = {
   },
   player: {
     initialVolume: 20,
-    fileRoot: resolve(dirname(fileURLToPath(import.meta.url)), "../public"),
+    fileRoot: path.join(import.meta.dirname, "../public"),
   } satisfies PlayerOptions,
 };
