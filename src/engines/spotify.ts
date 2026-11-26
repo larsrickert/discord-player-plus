@@ -1,9 +1,9 @@
 import fetch from "isomorphic-unfetch";
-import spotify, { Tracks } from "spotify-url-info";
+import spotify, { Track as SpotifyTrack, SpotifyUrlInfoModule } from "spotify-url-info";
 import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines.js";
 import { youtubeEngine } from "./youtube.js";
 
-const { getTracks, getData } = spotify(fetch);
+const { getTracks, getData } = (spotify as SpotifyUrlInfoModule)(fetch);
 
 const responsibleRegex = /^https?:\/\/open.spotify.com\//;
 
@@ -43,7 +43,7 @@ export const spotifyEngine: PlayerEngine = {
 } as const;
 
 async function searchPlaylist(query: string, limit?: number): Promise<SearchResult | null> {
-  const data = await getData<SpotifyPlaylist | undefined>(query);
+  const data = (await getData(query)) as SpotifyPlaylist | undefined;
   if (data?.type !== "playlist") return null;
 
   const playlist: Playlist = {
@@ -74,7 +74,7 @@ async function searchPlaylist(query: string, limit?: number): Promise<SearchResu
  * Maps the given spotify track.
  * @param url Can be passed to set url. If unset, track uri will be used.
  */
-function mapSpotifyTrack(track: Tracks, url?: string): Track {
+function mapSpotifyTrack(track: SpotifyTrack, url?: string): Track {
   return {
     title: track.name,
     url: url || track.uri,
