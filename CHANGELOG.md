@@ -1,5 +1,11 @@
 # discord-player-plus
 
+## 4.0.1
+
+### Patch Changes
+
+- 4bfccfa: fix: use build-in `spotify-url-info` types instead of custom types
+
 ## 4.0.0
 
 ### Major Changes
