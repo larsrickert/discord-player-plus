@@ -1,7 +1,7 @@
-import { PlayerEngine } from "../types/engines";
-import { fileEngine } from "./file";
-import { spotifyEngine } from "./spotify";
-import { youtubeEngine } from "./youtube";
+import { PlayerEngine } from "../types/engines.js";
+import { fileEngine } from "./file.js";
+import { spotifyEngine } from "./spotify.js";
+import { youtubeEngine } from "./youtube.js";
 
 export const playerEngines: Record<string, PlayerEngine> = {
   [youtubeEngine.source]: youtubeEngine,

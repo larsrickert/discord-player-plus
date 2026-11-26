@@ -1,0 +1,10 @@
+{
+  "extends": "@tsconfig/node26/tsconfig.json",
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.spec.ts"],
+  "compilerOptions": {
+    "strict": true,
+    "rootDir": "src",
+    "outDir": "dist"
+  }
+}

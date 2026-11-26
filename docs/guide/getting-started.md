@@ -3,7 +3,7 @@
 This section will help you installing `discord-player-plus` to use it as a discord bot.
 
 ::: warning Node.js version
-As of `discord.js` v14 you have to install Node 16.9 or higher (see [discord.js documentation](https://discordjs.guide/additional-info/changes-in-v14.html)).
+Node is required as prerequisite. Check the [discord.js](https://discord.js.org/docs/packages/discord.js/main) documentation for the required minimum version. Its recommended to use a current LTS version.
 :::
 
 ## Step 1: Installation
@@ -19,8 +19,8 @@ npm i discord.js discord-player-plus
 You need to create a discord client for your bot to interact with the discord API.
 
 ```ts
-import { Client, GatewayIntentBits } from "discord.js";
 import { Command } from "discord-player-plus";
+import { Client, GatewayIntentBits } from "discord.js";
 
 // this is the discord client for your music bot
 const client = new Client({
@@ -36,15 +36,14 @@ const client = new Client({
 const slashCommands: Command[] = [];
 
 // register the slash commands when the bot is started
-client.on("ready", async (client) => {
+client.on("clientReady", async (client) => {
   console.log(`Bot ready and logged in as ${client.user.tag}`);
   await client.application.commands.set(slashCommands);
 });
 
 // actually login the discord bot
 // important: you should not expose your discord client token in your git repository.
-// you can e.g. use dotenv (https://www.npmjs.com/package/dotenv) for this and add the .env file
-// to your .gitignore
+// you can use the Node native support for .env files: `node --env-file=.env ./dist/index.js`
 client.login("DISCORD_CLIENT_TOKEN");
 ```
 
@@ -69,11 +68,7 @@ const playerManager = new PlayerManager({
 client.on("interactionCreate", async (interaction) => {
   // the handleSlashCommand helper is provided by discord-player-plus and checks if the given slash command
   // is supported and executes it accordingly.
-  await handleSlashCommand(
-    interaction,
-    slashCommands,
-    playerManager.translations
-  );
+  await handleSlashCommand(interaction, slashCommands, playerManager.translations);
 });
 ```
 
@@ -85,6 +80,7 @@ However, here is an example for creating a custom command:
 
 ```ts
 import { Command } from "discord-player-plus";
+import { MessageFlags } from "discord.js";
 
 const myCustomCommand: Command = {
   name: "mycommand",
@@ -96,14 +92,14 @@ const myCustomCommand: Command = {
     if (!player || !player.isPlaying()) {
       await interaction.reply({
         content: "🤖 I am currently not playing anything.",
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return false;
     }
 
     await interaction.reply({
       content: `I am playing the current song since ${Math.round(player.getPlaybackDuration() / 1000)} seconds`
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     });
     return true;
   },

@@ -1,18 +1,18 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import de from "../languages/de.json";
-import en from "../languages/en.json";
-import { Player } from "../player";
-import { PlayerManager } from "../player-manager";
-import { PlayerEvents } from "../types/player";
+import de from "../languages/de.json" with { type: "json" };
+import en from "../languages/en.json" with { type: "json" };
+import { PlayerManager } from "../player-manager.js";
+import { Player } from "../player.js";
+import { PlayerEvents } from "../types/player.js";
 
 // @see: https://stackoverflow.com/a/47514598
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function getDeepObjectKeys(obj: Record<string, any>) {
+function getDeepObjectKeys(obj: Record<string, any>): string[] {
   return Object.keys(obj)
     .filter((key) => obj[key] instanceof Object)
     .map((key) => getDeepObjectKeys(obj[key]).map((k) => `${key}.${k}`))
     .reduce((x, y) => x.concat(y), Object.keys(obj))
-    .sort();
+    .toSorted();
 }
 
 describe("player manager", () => {
@@ -69,18 +69,13 @@ describe("player manager", () => {
     const player = playerManager.get("TEST_GUILD_ID");
     expect(player).toBeDefined();
 
-    const events: (keyof PlayerEvents)[] = [
-      "trackStart",
-      "trackEnd",
-      "error",
-      "destroyed",
-    ];
+    const events: (keyof PlayerEvents)[] = ["trackStart", "trackEnd", "error", "destroyed"];
 
     events.forEach((event) => {
       let eventName = "";
       let guildId = "";
 
-      playerManager.on(event, (id) => {
+      playerManager.on(event, (id: string) => {
         eventName = event;
         guildId = id;
       });

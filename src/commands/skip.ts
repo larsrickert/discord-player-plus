@@ -1,13 +1,11 @@
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown } from "../utils/player";
+import { MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown } from "../utils/player.js";
 
 /**
  * Creates a `/skip` command for skipping the current track.
  */
-export const createSkipCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createSkipCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "skip",
     description: playerManager.translations.skip.description,
@@ -16,7 +14,7 @@ export const createSkipCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -26,7 +24,7 @@ export const createSkipCommand: CreateCommandFunc = (
       if (!track) {
         await interaction.reply({
           content: playerManager.translations.skip.failure,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -36,7 +34,7 @@ export const createSkipCommand: CreateCommandFunc = (
           "{song}",
           trackToMarkdown(track, true),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

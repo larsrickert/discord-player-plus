@@ -1,24 +1,19 @@
 import {
   ApplicationCommandOptionChoiceData,
   ApplicationCommandOptionType,
+  MessageFlags,
 } from "discord.js";
-import { CreateCommandFunc } from "../types/commands";
-import { PlayerRepeatMode } from "../types/player";
+import { CreateCommandFunc } from "../types/commands.js";
+import { PlayerRepeatMode } from "../types/player.js";
 
 const repeatModeEntries = Object.entries(PlayerRepeatMode)
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  .filter(([_, value]) => typeof value !== "string") as [
-  string,
-  PlayerRepeatMode,
-][];
+  .filter(([_, value]) => typeof value !== "string") as [string, PlayerRepeatMode][];
 
 /**
  * Creates a `/repeat` command for setting the repeat mode.
  */
-export const createRepeatCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createRepeatCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "repeat",
     description: playerManager.translations.repeat.description,
@@ -28,17 +23,16 @@ export const createRepeatCommand: CreateCommandFunc = (
         type: ApplicationCommandOptionType.Integer,
         description: playerManager.translations.repeat.modeDescription,
         required: true,
-        choices: repeatModeEntries.map<
-          ApplicationCommandOptionChoiceData<number>
-        >(([key, value]) => {
-          const translations = playerManager.translations.repeat
-            .modes as Record<string, string>;
+        choices: repeatModeEntries.map<ApplicationCommandOptionChoiceData<number>>(
+          ([key, value]) => {
+            const translations = playerManager.translations.repeat.modes as Record<string, string>;
 
-          return {
-            value,
-            name: translations[key.toString().toLowerCase()] ?? "",
-          };
-        }),
+            return {
+              value,
+              name: translations[key.toString().toLowerCase()] ?? "",
+            };
+          },
+        ),
       },
     ],
     run: async (interaction) => {
@@ -46,15 +40,12 @@ export const createRepeatCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
 
-      const mode = interaction.options.getInteger(
-        "mode",
-        true,
-      ) as PlayerRepeatMode;
+      const mode = interaction.options.getInteger("mode", true) as PlayerRepeatMode;
       player.setRepeat(mode);
 
       await interaction.reply({
@@ -64,7 +55,7 @@ export const createRepeatCommand: CreateCommandFunc = (
             PlayerRepeatMode[mode].toString().toLowerCase()
           ] ?? "",
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

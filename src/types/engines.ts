@@ -1,6 +1,6 @@
+import { Readable } from "node:stream";
 import { StreamType } from "@discordjs/voice";
-import { Readable } from "stream";
-import { PlayerOptions } from "./player";
+import { PlayerOptions } from "./player.js";
 
 // #region PlayerEngine
 export interface PlayerEngine {
@@ -10,10 +10,7 @@ export interface PlayerEngine {
    * Whether this engine is responsible for searching/streaming the given query.
    * If no available engines are responsible for a user query, YouTube will be used.
    */
-  isResponsible(
-    query: string,
-    playerOptions: PlayerOptions,
-  ): boolean | Promise<boolean>;
+  isResponsible(query: string, playerOptions: PlayerOptions): boolean | Promise<boolean>;
   /** Gets information about the given query. */
   search(
     query: string,
@@ -21,10 +18,7 @@ export interface PlayerEngine {
     options?: SearchOptions,
   ): Promise<SearchResult | null>;
   /** Gets the playable stream for the given track. */
-  getStream(
-    track: Track,
-    playerOptions: PlayerOptions,
-  ): Promise<TrackStream | null>;
+  getStream(track: Track, playerOptions: PlayerOptions): Promise<TrackStream | null>;
 }
 // #endregion PlayerEngine
 

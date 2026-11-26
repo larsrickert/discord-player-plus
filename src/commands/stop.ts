@@ -1,12 +1,10 @@
-import { CreateCommandFunc } from "../types/commands";
+import { MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/stop` command for stopping the playback and leaving the voice channel.
  */
-export const createStopCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createStopCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "stop",
     description: playerManager.translations.stop.description,
@@ -15,7 +13,7 @@ export const createStopCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -24,7 +22,7 @@ export const createStopCommand: CreateCommandFunc = (
 
       await interaction.reply({
         content: playerManager.translations.stop.success,
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

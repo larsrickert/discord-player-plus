@@ -4,11 +4,12 @@ import {
   Interaction,
   InteractionReplyOptions,
   InteractionType,
+  MessageFlags,
 } from "discord.js";
-import { PlayerManager } from "../player-manager";
-import { Command, CreateCommandOptions, Translations } from "../types/commands";
-import { SearchResult } from "../types/engines";
-import { PlayOptions } from "../types/player";
+import { PlayerManager } from "../player-manager.js";
+import { Command, CreateCommandOptions, Translations } from "../types/commands.js";
+import { SearchResult } from "../types/engines.js";
+import { PlayOptions } from "../types/player.js";
 
 /**
  * Helper function to execute slash commands for a given interaction from discord.js. Will check if command is supported, calls its `run` method and handles unexpected errors.
@@ -32,18 +33,15 @@ export async function handleSlashCommand(
   const slashCommand = commands.find((c) => c.name === interaction.commandName);
   if (!slashCommand) {
     return void (await interaction.reply({
-      content: translations.global.unsupportedCommand.replace(
-        "{command}",
-        interaction.commandName,
-      ),
-      ephemeral: true,
+      content: translations.global.unsupportedCommand.replace("{command}", interaction.commandName),
+      flags: MessageFlags.Ephemeral,
     }));
   }
 
   if (!interaction.inCachedGuild()) {
     return void (await interaction.reply({
       content: translations.global.unknownGuild,
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     }));
   }
 
@@ -75,7 +73,7 @@ export async function playTracks(
   if (!interaction.member.voice.channel) {
     await interaction.reply({
       content: playerManager.translations.play.userNotInVoiceChannel,
-      ephemeral: options?.ephemeralError ?? true,
+      flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
     });
     return null;
   }
@@ -88,12 +86,11 @@ export async function playTracks(
 
     if (!permissions.has(["Connect", "Speak"])) {
       await interaction.reply({
-        content:
-          playerManager.translations.play.insufficientVoiceChannelPermissions.replace(
-            "{channel}",
-            interaction.member.voice.channel.name,
-          ),
-        ephemeral: options?.ephemeralError ?? true,
+        content: playerManager.translations.play.insufficientVoiceChannelPermissions.replace(
+          "{channel}",
+          interaction.member.voice.channel.name,
+        ),
+        flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
       });
       return null;
     }
@@ -101,26 +98,21 @@ export async function playTracks(
 
   const player = playerManager.get(interaction.guildId);
   const query = interaction.options.getString("query", true);
-  await interaction.deferReply({ ephemeral: options?.ephemeral });
+  await interaction.deferReply({ flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined });
 
   // search tracks
   const searchResult = await player.search(query);
 
   if (!searchResult?.tracks.length) {
     await interaction.followUp({
-      content: playerManager.translations.play.noTracksFound.replace(
-        "{query}",
-        query,
-      ),
+      content: playerManager.translations.play.noTracksFound.replace("{query}", query),
     });
     return null;
   }
 
   // play track(s)
   const playOptions: PlayOptions = {
-    tracks: searchResult.playlist
-      ? searchResult.tracks
-      : searchResult.tracks.slice(0, 1),
+    tracks: searchResult.playlist ? searchResult.tracks : searchResult.tracks.slice(0, 1),
     channel: interaction.member.voice.channel,
   };
 

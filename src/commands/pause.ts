@@ -1,12 +1,10 @@
-import { CreateCommandFunc } from "../types/commands";
+import { MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/pause` command for pausing the current track.
  */
-export const createPauseCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createPauseCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "pause",
     description: playerManager.translations.pause.description,
@@ -15,7 +13,7 @@ export const createPauseCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -24,14 +22,14 @@ export const createPauseCommand: CreateCommandFunc = (
       if (!paused) {
         await interaction.reply({
           content: playerManager.translations.pause.failure,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
 
       await interaction.reply({
         content: playerManager.translations.pause.success,
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

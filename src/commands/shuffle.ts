@@ -1,12 +1,10 @@
-import { CreateCommandFunc } from "../types/commands";
+import { MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/shuffle` command for shuffling the queue.
  */
-export const createShuffleCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createShuffleCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "shuffle",
     description: playerManager.translations.shuffle.description,
@@ -15,7 +13,7 @@ export const createShuffleCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -24,7 +22,7 @@ export const createShuffleCommand: CreateCommandFunc = (
 
       await interaction.reply({
         content: playerManager.translations.shuffle.success,
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

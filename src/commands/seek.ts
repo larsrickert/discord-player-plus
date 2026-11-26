@@ -1,14 +1,11 @@
-import { ApplicationCommandOptionType } from "discord.js";
-import { CreateCommandFunc } from "../types/commands";
-import { formatDuration } from "../utils/player";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
+import { formatDuration } from "../utils/player.js";
 
 /**
  * Creates a `/seek` command for seeking the current track to a specific duration.
  */
-export const createSeekCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createSeekCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "seek",
     description: playerManager.translations.seek.description,
@@ -26,12 +23,14 @@ export const createSeekCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
 
-      await interaction.deferReply({ ephemeral: options?.ephemeral });
+      await interaction.deferReply({
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
+      });
 
       const time = interaction.options.getNumber("time", true);
 
@@ -48,7 +47,7 @@ export const createSeekCommand: CreateCommandFunc = (
           "{duration}",
           formatDuration(time),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

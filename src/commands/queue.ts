@@ -1,13 +1,11 @@
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown } from "../utils/player";
+import { MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown } from "../utils/player.js";
 
 /**
  * Creates a `/queue` command for displaying queued tracks.
  */
-export const createQueueCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createQueueCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "queue",
     description: playerManager.translations.queue.description,
@@ -16,7 +14,7 @@ export const createQueueCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -27,7 +25,7 @@ export const createQueueCommand: CreateCommandFunc = (
       if (!currentTrack || !tracks.length) {
         await interaction.reply({
           content: playerManager.translations.queue.empty,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -51,7 +49,10 @@ export const createQueueCommand: CreateCommandFunc = (
         break;
       }
 
-      await interaction.reply({ content, ephemeral: options?.ephemeral });
+      await interaction.reply({
+        content,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
+      });
       return true;
     },
   };

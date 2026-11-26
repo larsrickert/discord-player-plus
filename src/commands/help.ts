@@ -1,5 +1,6 @@
-import { PlayerManager } from "../player-manager";
-import { Command, CreateHelpCommandOptions } from "../types/commands";
+import { MessageFlags } from "discord.js";
+import { PlayerManager } from "../player-manager.js";
+import { Command, CreateHelpCommandOptions } from "../types/commands.js";
 
 /**
  * Creates a `/help` command for showing all available commands and bot metadata.
@@ -26,7 +27,7 @@ export const createHelpCommand = (
                 }
               : undefined,
             fields: options.commands
-              .sort((a, b) => a.name.localeCompare(b.name))
+              .toSorted((a, b) => a.name.localeCompare(b.name))
               .map((c) => {
                 return {
                   name: c.name,
@@ -41,7 +42,7 @@ export const createHelpCommand = (
               : undefined,
           },
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return true;
     },

@@ -1,7 +1,7 @@
 import fetch from "isomorphic-unfetch";
 import spotify, { Tracks } from "spotify-url-info";
-import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
-import { youtubeEngine } from "./youtube";
+import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines.js";
+import { youtubeEngine } from "./youtube.js";
 
 const { getTracks, getData } = spotify(fetch);
 
@@ -42,10 +42,7 @@ export const spotifyEngine: PlayerEngine = {
   },
 } as const;
 
-async function searchPlaylist(
-  query: string,
-  limit?: number,
-): Promise<SearchResult | null> {
+async function searchPlaylist(query: string, limit?: number): Promise<SearchResult | null> {
   const data = await getData<SpotifyPlaylist | undefined>(query);
   if (data?.type !== "playlist") return null;
 

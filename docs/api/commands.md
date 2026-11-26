@@ -10,106 +10,99 @@ A command extends the default command type provided by `discord.js` with a `run`
 
 - **Type**
 
-  <<< @/../src/types/commands.ts#Command
+<<< @/../src/types/commands.ts#Command
 
-  Types `ChatInputApplicationCommandData` and `ChatInputCommandInteraction` are imported from `discord.js`.
+Types `ChatInputApplicationCommandData` and `ChatInputCommandInteraction` are imported from `discord.js`.
 
-  By default all commands expect the `run` method to return a Promise with a boolean that indicates whether the command has been executed successfully.
+By default all commands expect the `run` method to return a Promise with a boolean that indicates whether the command has been executed successfully.
 
 - **Example**
 
-  ```ts
-  import { PlayerManager, Command } from "discord-player-plus";
+```ts
+import { PlayerManager, Command } from "discord-player-plus";
+import { MessageFlags } from "discord.js";
 
-  const playerManager = new PlayerManager();
+const playerManager = new PlayerManager();
 
-  const pauseCommand: Command = {
-    name: "pause",
-    description: "Pauses the player.",
-    run: async (interaction) => {
-      const player = playerManager.find(interaction.guildId);
-      if (!player) {
-        await interaction.reply({
-          content: "🤖 I am currently not playing anything.",
-          ephemeral: true,
-        });
-        return false;
-      }
-
-      const paused = player.setPause(true);
-      if (!paused) {
-        await interaction.reply({
-          content: "❌ Unable to pause current song.",
-          ephemeral: true,
-        });
-        return false;
-      }
-
+const pauseCommand: Command = {
+  name: "pause",
+  description: "Pauses the player.",
+  run: async (interaction) => {
+    const player = playerManager.find(interaction.guildId);
+    if (!player) {
       await interaction.reply({
-        content: "⏸️ Song paused.",
+        content: "🤖 I am currently not playing anything.",
+        flags: MessageFlags.Ephemeral,
       });
-      return true;
-    },
-  };
-  ```
+      return false;
+    }
 
-  ### handleSlashCommand()
+    const paused = player.setPause(true);
+    if (!paused) {
+      await interaction.reply({
+        content: "❌ Unable to pause current song.",
+        flags: MessageFlags.Ephemeral,
+      });
+      return false;
+    }
 
-  Helper function to execute slash commands for a given interaction from discord.js. Will check if command is supported, calls its `run` method and handles unexpected errors.
+    await interaction.reply({
+      content: "⏸️ Song paused.",
+    });
+    return true;
+  },
+};
+```
+
+### handleSlashCommand()
+
+Helper function to execute slash commands for a given interaction from discord.js. Will check if command is supported, calls its `run` method and handles unexpected errors.
 
 - **Type**
 
-  ```ts
-  import { Interaction } from "discord.js";
+```ts
+import { Interaction } from "discord.js";
 
-  /**
-   * @param interaction discord.js interaction received by `client.on("interactionCreate")`.
-   * @param commands All available slash commands that should be executable.
-   * @param translations Translations used for error messages (e.g. unknown command).
-   */
-  async function handleSlashCommand(
-    interaction: Interaction,
-    commands: Command[],
-    translations: Translations
-  ): Promise<void>;
-  ```
+/**
+ * @param interaction discord.js interaction received by `client.on("interactionCreate")`.
+ * @param commands All available slash commands that should be executable.
+ * @param translations Translations used for error messages (e.g. unknown command).
+ */
+async function handleSlashCommand(
+  interaction: Interaction,
+  commands: Command[],
+  translations: Translations,
+): Promise<void>;
+```
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    handleSlashCommand,
-    PlayerManager,
-  } from "discord-player-plus";
-  import { Client, GatewayIntentBits } from "discord.js";
+```ts
+import { Command, handleSlashCommand, PlayerManager } from "discord-player-plus";
+import { Client, GatewayIntentBits } from "discord.js";
 
-  const client = new Client({
-    intents: [
-      GatewayIntentBits.Guilds,
-      GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.GuildVoiceStates,
-    ],
-  });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.GuildVoiceStates,
+  ],
+});
 
-  const playerManager = new PlayerManager();
+const playerManager = new PlayerManager();
 
-  // add commands here, e.g. pre-build commands from discord-player-plus or custom commands
-  const slashCommands: Command[] = [];
+// add commands here, e.g. pre-build commands from discord-player-plus or custom commands
+const slashCommands: Command[] = [];
 
-  client.on("ready", async (client) => {
-    console.log(`Bot ready and logged in as ${client.user.tag}`);
-    await client.application.commands.set(slashCommands);
-  });
+client.on("clientReady", async (client) => {
+  console.log(`Bot ready and logged in as ${client.user.tag}`);
+  await client.application.commands.set(slashCommands);
+});
 
-  client.on("interactionCreate", async (interaction) => {
-    await handleSlashCommand(
-      interaction,
-      slashCommands,
-      playerManager.translations
-    );
-  });
-  ```
+client.on("interactionCreate", async (interaction) => {
+  await handleSlashCommand(interaction, slashCommands, playerManager.translations);
+});
+```
 
 ## pre-build commands
 
@@ -119,27 +112,20 @@ Creates a `/add` command for adding tracks to the queue.
 
 - **Type**
 
-  ```ts
-  function createAddCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createAddCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createAddCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createAddCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createAddCommand(playerManager)];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createAddCommand(playerManager)];
+```
 
 ### createClearCommand()
 
@@ -147,27 +133,20 @@ Creates a `/clear` command for clearing queued tracks.
 
 - **Type**
 
-  ```ts
-  function createClearCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createClearCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createClearCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createClearCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createClearCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createClearCommand()];
+```
 
 ### createHelpCommand()
 
@@ -175,45 +154,40 @@ Creates a `/help` command for showing all available commands and bot metadata.
 
 - **Type**
 
-  ```ts
-  function createHelpCommand(
-    playerManager: PlayerManager,
-    options?: CreateHelpCommandOptions
-  ): Command;
-  ```
+```ts
+function createHelpCommand(
+  playerManager: PlayerManager,
+  options?: CreateHelpCommandOptions,
+): Command;
+```
 
-  For available options see [CreateHelpCommandOptions](#createhelpcommandoptions).
+For available options see [CreateHelpCommandOptions](#createhelpcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createHelpCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createHelpCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
+const playerManager = new PlayerManager();
 
-  // other commands
-  const slashCommands: Command[] = [];
+// other commands
+const slashCommands: Command[] = [];
 
-  slashCommands.push(
-    createHelpCommand(playerManager, {
-      commands: slashCommands,
-      title: "Example bot for discord-player-plus",
-      url: "https://github.com/larsrickert/discord-player-plus",
-      description:
-        "This an example help command to show you all available commands.",
-      author: {
-        name: "Lars Rickert",
-        url: "https://lars-rickert.de",
-        iconUrl: "https://avatars.githubusercontent.com/u/67898185?v=4",
-      },
-      footerText: "Thanks for using discord-player-plus",
-    })
-  );
-  ```
+slashCommands.push(
+  createHelpCommand(playerManager, {
+    commands: slashCommands,
+    title: "Example bot for discord-player-plus",
+    url: "https://github.com/larsrickert/discord-player-plus",
+    description: "This an example help command to show you all available commands.",
+    author: {
+      name: "Lars Rickert",
+      url: "https://lars-rickert.de",
+      iconUrl: "https://avatars.githubusercontent.com/u/67898185?v=4",
+    },
+    footerText: "Thanks for using discord-player-plus",
+  }),
+);
+```
 
 ### createInsertCommand()
 
@@ -222,27 +196,20 @@ If the user query searches a playlist instead of a single track, only the first 
 
 - **Type**
 
-  ```ts
-  function createInsertCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createInsertCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createInsertCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createInsertCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createInsertCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createInsertCommand()];
+```
 
 ### createJumpCommand()
 
@@ -250,27 +217,20 @@ Creates a `/jump` command for jumping to a specific track inside the queue (will
 
 - **Type**
 
-  ```ts
-  function createJumpCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createJumpCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createJumpCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createJumpCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createJumpCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createJumpCommand()];
+```
 
 ### createPauseCommand()
 
@@ -278,27 +238,20 @@ Creates a `/pause` command for pausing the current track.
 
 - **Type**
 
-  ```ts
-  function createPauseCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createPauseCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createPauseCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createPauseCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createPauseCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createPauseCommand()];
+```
 
 ### createPlayCommand()
 
@@ -306,27 +259,20 @@ Creates a `/play` command for immediately searching and playing a track. If quer
 
 - **Type**
 
-  ```ts
-  function createPlayCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createPlayCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createPlayCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createPlayCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createPlayCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createPlayCommand()];
+```
 
 ### createQueueCommand()
 
@@ -334,27 +280,20 @@ Creates a `/queue` command for displaying queued tracks.
 
 - **Type**
 
-  ```ts
-  function createQueueCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createQueueCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createQueueCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createQueueCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createQueueCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createQueueCommand()];
+```
 
 ### createRemoveCommand()
 
@@ -362,27 +301,20 @@ Creates a `/remove` command for removing tracks from the queue.
 
 - **Type**
 
-  ```ts
-  function createRemoveCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createRemoveCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createRemoveCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createRemoveCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createRemoveCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createRemoveCommand()];
+```
 
 ### createResumeCommand()
 
@@ -390,27 +322,20 @@ Creates a `/resume` command for resuming the currently paused track.
 
 - **Type**
 
-  ```ts
-  function createResumeCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createResumeCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createResumeCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createResumeCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createResumeCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createResumeCommand()];
+```
 
 ### createShuffleCommand()
 
@@ -418,27 +343,23 @@ Creates a `/shuffle` command for shuffling the queue.
 
 - **Type**
 
-  ```ts
-  function createShuffleCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createShuffleCommand(
+  playerManager: PlayerManager,
+  options?: CreateCommandOptions,
+): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createShuffleCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createShuffleCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createShuffleCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createShuffleCommand()];
+```
 
 ### createSkipCommand()
 
@@ -446,27 +367,20 @@ Creates a `/skip` command for skipping the current track.
 
 - **Type**
 
-  ```ts
-  function createSkipCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createSkipCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createSkipCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createSkipCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createSkipCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createSkipCommand()];
+```
 
 ### createSongCommand()
 
@@ -474,27 +388,20 @@ Creates a `/song` command for getting information about the currently played tra
 
 - **Type**
 
-  ```ts
-  function createSongCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createSongCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createSongCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createSongCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createSongCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createSongCommand()];
+```
 
 ### createStopCommand()
 
@@ -502,27 +409,20 @@ Creates a `/stop` command for stopping the playback and leaving the voice channe
 
 - **Type**
 
-  ```ts
-  function createStopCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createStopCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createStopCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createStopCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createStopCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createStopCommand()];
+```
 
 ### createSetVolumeCommand()
 
@@ -530,27 +430,23 @@ Creates a `/setvolume` command for setting the player volume between 0 and 200.
 
 - **Type**
 
-  ```ts
-  function createSetVolumeCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createSetVolumeCommand(
+  playerManager: PlayerManager,
+  options?: CreateCommandOptions,
+): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createSetVolumeCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createSetVolumeCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createSetVolumeCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createSetVolumeCommand()];
+```
 
 ### createRepeatCommand()
 
@@ -558,27 +454,20 @@ Creates a `/repeat` command for setting the repeat mode.
 
 - **Type**
 
-  ```ts
-  function createRepeatCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createRepeatCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createRepeatCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createRepeatCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createRepeatCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createRepeatCommand()];
+```
 
 ### createSeekCommand()
 
@@ -586,27 +475,20 @@ Creates a `/seek` command for seeking the current track to a specific duration.
 
 - **Type**
 
-  ```ts
-  function createSeekCommand(
-    playerManager: PlayerManager,
-    options?: CreateCommandOptions
-  ): Command;
-  ```
+```ts
+function createSeekCommand(playerManager: PlayerManager, options?: CreateCommandOptions): Command;
+```
 
-  For available options see [CreateCommandOptions](#createcommandoptions).
+For available options see [CreateCommandOptions](#createcommandoptions).
 
-  - **Example**
+- **Example**
 
-  ```ts
-  import {
-    Command,
-    createSeekCommand,
-    PlayerManager,
-  } from "discord-player-plus";
+```ts
+import { Command, createSeekCommand, PlayerManager } from "discord-player-plus";
 
-  const playerManager = new PlayerManager();
-  const slashCommands: Command[] = [createSeekCommand()];
-  ```
+const playerManager = new PlayerManager();
+const slashCommands: Command[] = [createSeekCommand()];
+```
 
 ## Interfaces
 

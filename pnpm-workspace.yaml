@@ -1,0 +1,7 @@
+allowBuilds:
+  "@discordjs/opus": true
+  esbuild: true
+  ffmpeg-static: true
+  simple-git-hooks: true
+overrides:
+  tar@<=7.5.20: ^7.5.21

@@ -1,14 +1,28 @@
-import playDl, { YouTubePlayList, YouTubeStream, YouTubeVideo } from "play-dl";
+import { Readable } from "node:stream";
+import { VideoSummary } from "@distube/ytdl-core";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { mock, mockClear } from "vitest-mock-extended";
-import { Playlist, Track } from "../..";
-import { youtubeEngine } from "../../engines/youtube";
+import { youtubeEngine } from "../../engines/youtube.js";
+import { Playlist, Track } from "../../index.js";
+
+const ytdlMock = vi.hoisted(() => ({
+  search: vi.fn(),
+  getPlaylist: vi.fn(),
+  download: vi.fn(),
+}));
+
+vi.mock("@distube/ytdl-core", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@distube/ytdl-core")>()),
+  Ytdl: vi.fn(function () {
+    return ytdlMock;
+  }),
+}));
 
 describe.concurrent("youtube engine", () => {
-  const mockVideo = mock<YouTubeVideo>({
+  const mockVideo = mock<VideoSummary>({
     title: "testTitle",
-    durationInSec: 123,
-    channel: { name: "testArtist" },
+    lengthSeconds: 123,
+    author: { name: "testArtist" },
     url: "testUrl",
     thumbnails: [{ url: "testThumbnail" }],
   });
@@ -40,9 +54,7 @@ describe.concurrent("youtube engine", () => {
     let isResponsible = youtubeEngine.isResponsible(query);
     expect(isResponsible).toBe(true);
 
-    isResponsible = youtubeEngine.isResponsible(
-      query.replace("https://", "http://"),
-    );
+    isResponsible = youtubeEngine.isResponsible(query.replace("https://", "http://"));
     expect(isResponsible).toBe(true);
   });
 
@@ -52,14 +64,15 @@ describe.concurrent("youtube engine", () => {
   });
 
   test("should return search results for video query", async () => {
-    const searchSpy = vi.spyOn(playDl, "search").mockResolvedValue([mockVideo]);
+    ytdlMock.search.mockResolvedValue([mockVideo]);
 
-    const query = "https://www.youtube.com/watch?v=testVideoId";
+    const query = "never gonna give you up";
 
     const result = await youtubeEngine.search(query, {}, {});
 
-    expect(searchSpy).toHaveBeenCalledWith(query, {
-      source: { youtube: "video" },
+    expect(ytdlMock.search).toHaveBeenCalledWith(query, {
+      type: "video",
+      limit: undefined,
     });
     expect(result).toStrictEqual({
       source: "youtube",
@@ -68,20 +81,14 @@ describe.concurrent("youtube engine", () => {
   });
 
   test("should return search results for playlist query", async () => {
-    const playlistInfoSpy = vi.spyOn(playDl, "playlist_info").mockResolvedValue(
-      mock<YouTubePlayList>({
-        all_videos: vi.fn(() => Promise.resolve([mockVideo])),
-        title: "testPlaylistTitle",
-        url: "testPlaylistUrl",
-        thumbnail: { url: "testPlaylistThumbnail" },
-      }),
-    );
+    ytdlMock.getPlaylist.mockResolvedValue({
+      title: "testPlaylistTitle",
+      url: "testPlaylistUrl",
+      thumbnails: [{ url: "testPlaylistThumbnail" }],
+      videos: [mockVideo],
+    });
 
-    const validateSpy = vi
-      .spyOn(playDl, "yt_validate")
-      .mockReturnValue("playlist");
-
-    const query = "https://www.youtube.com/playlist?list=testPlaylistId";
+    const query = "https://www.youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMHjMZOz59Ff6a4Ufc";
 
     const result = await youtubeEngine.search(query, {}, {});
 
@@ -91,8 +98,9 @@ describe.concurrent("youtube engine", () => {
       thumbnailUrl: "testPlaylistThumbnail",
     };
 
-    expect(validateSpy).toHaveBeenCalledWith(query);
-    expect(playlistInfoSpy).toHaveBeenCalledWith(query, { incomplete: true });
+    expect(ytdlMock.getPlaylist).toHaveBeenCalledWith(query, {
+      limit: undefined,
+    });
 
     expect(result).toStrictEqual({
       source: "youtube",
@@ -102,56 +110,48 @@ describe.concurrent("youtube engine", () => {
   });
 
   test("searches tracks with limit", async () => {
-    const searchSpy = vi.spyOn(playDl, "search").mockResolvedValue([mockVideo]);
-    vi.spyOn(playDl, "yt_validate").mockReturnValue("video");
+    ytdlMock.search.mockResolvedValue([mockVideo]);
 
     const limit = 4;
-    await youtubeEngine.search(expectedTrack.url, {}, { limit });
+    await youtubeEngine.search(expectedTrack.title, {}, { limit });
 
-    expect(searchSpy).toHaveBeenCalledWith(expectedTrack.url, {
-      source: { youtube: "video" },
+    expect(ytdlMock.search).toHaveBeenCalledWith(expectedTrack.title, {
+      type: "video",
       limit,
     });
   });
 
   test("searches playlist with limit", async () => {
-    const mockPlaylist = mock<YouTubePlayList>({
-      all_videos: vi.fn().mockResolvedValue([mockVideo]),
-      page: vi.fn().mockReturnValue([mockVideo]),
-      next: vi.fn().mockResolvedValue([mockVideo]),
+    ytdlMock.getPlaylist.mockResolvedValue({
       title: "testPlaylistTitle",
       url: "testPlaylistUrl",
-      thumbnail: { url: "testPlaylistThumbnail" },
+      thumbnails: [{ url: "testPlaylistThumbnail" }],
+      videos: [mockVideo],
     });
 
-    vi.spyOn(playDl, "playlist_info").mockResolvedValue(mockPlaylist);
-    vi.spyOn(playDl, "yt_validate").mockReturnValue("playlist");
+    const query = "https://www.youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMHjMZOz59Ff6a4Ufc";
 
-    const query = "https://www.youtube.com/playlist?list=somePlaylistId";
-
-    // limit < 100
     await youtubeEngine.search(query, {}, { limit: 42 });
-    expect(mockPlaylist.page).toHaveBeenCalledWith(1);
-    expect(mockPlaylist.all_videos).not.toHaveBeenCalled();
+    expect(ytdlMock.getPlaylist).toHaveBeenLastCalledWith(query, { limit: 42 });
 
-    // limit > 100
-    mockClear(mockPlaylist);
-    await youtubeEngine.search(query, {}, { limit: 128 });
-    expect(mockPlaylist.next).toHaveBeenCalledWith(28);
-    expect(mockPlaylist.all_videos).not.toHaveBeenCalled();
+    await youtubeEngine.search(query, {}, {});
+    expect(ytdlMock.getPlaylist).toHaveBeenLastCalledWith(query, {
+      limit: undefined,
+    });
   });
 
   test("gets stream", async () => {
-    const mockStream = mock<YouTubeStream>();
-    const streamSpy = vi.spyOn(playDl, "stream").mockResolvedValue(mockStream);
+    const mockStream = new Readable();
+    ytdlMock.download.mockReturnValue(mockStream);
 
     const stream = await youtubeEngine.getStream(expectedTrack, {
       quality: "high",
     });
-    expect(streamSpy).toHaveBeenCalledWith(expectedTrack.url, {
-      quality: 2,
-      seek: undefined,
+    expect(ytdlMock.download).toHaveBeenCalledWith(expectedTrack.url, {
+      quality: "highestaudio",
+      filter: { hasAudio: true, hasVideo: false },
+      startTimeMs: undefined,
     });
-    expect(stream).toStrictEqual(mockStream);
+    expect(stream).toStrictEqual({ stream: mockStream, type: "arbitrary" });
   });
 });

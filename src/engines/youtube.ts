@@ -1,8 +1,18 @@
-import playDl, { YouTubeVideo } from "play-dl";
-import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
+import { StreamType } from "@discordjs/voice";
+import {
+  PlaylistInfo,
+  Quality,
+  SearchType,
+  VideoSummary,
+  Ytdl,
+  parsePlaylistId,
+  parseVideoId,
+} from "@distube/ytdl-core";
+import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines.js";
 
-const responsibleRegex =
-  /^https?:\/\/((www\.|music\.)?youtube\.com|youtu\.be)\//;
+const responsibleRegex = /^https?:\/\/((www\.|music\.)?youtube\.com|youtu\.be)\//;
+
+const ytdl = new Ytdl();
 
 /**
  * Player engine to search/stream tracks from YouTube.
@@ -16,12 +26,21 @@ export const youtubeEngine = {
     query = query.trim();
     if (!query) return null;
 
-    if (playDl.yt_validate(query) === "playlist") {
+    if (parsePlaylistId(query)) {
       return await searchPlaylist(query, searchOptions?.limit);
     }
 
-    const videos = await playDl.search(query, {
-      source: { youtube: "video" },
+    const videoId = parseVideoId(query);
+    if (videoId) {
+      const { videoDetails } = await ytdl.getInfo(videoId);
+      return {
+        tracks: [mapVideoToTrack(videoDetails)],
+        source: this.source,
+      };
+    }
+
+    const videos = await ytdl.search(query, {
+      type: SearchType.Video,
       limit: searchOptions?.limit,
     });
 
@@ -31,60 +50,49 @@ export const youtubeEngine = {
     };
   },
   async getStream(track, playerOptions) {
-    return await playDl.stream(track.url, {
-      quality:
-        playerOptions.quality === "low"
-          ? 0
-          : playerOptions.quality === "medium"
-            ? 1
-            : 2,
-      seek: track?.seek ? track.seek / 1000 : undefined,
+    const stream = ytdl.download(track.url, {
+      quality: playerOptions.quality === "low" ? Quality.LowestAudio : Quality.HighestAudio,
+      filter: { hasAudio: true, hasVideo: false },
+      startTimeMs: track.seek,
     });
+
+    return { stream, type: StreamType.Arbitrary };
   },
 } as const satisfies PlayerEngine;
 
-const searchPlaylist = async (
-  query: string,
-  limit?: number,
-): Promise<SearchResult> => {
-  const playlistInfo = await playDl.playlist_info(query, { incomplete: true });
-  let playlistVideos: YouTubeVideo[] = playlistInfo.page(1);
-
-  // limit/fetch more videos (playlist will only include first 100 songs by default)
-  if (!limit || limit < 0) {
-    playlistVideos = await playlistInfo.all_videos();
-  } else if (limit <= 100) {
-    playlistVideos = playlistVideos.slice(0, limit);
-  } else {
-    const remainingVideos = await playlistInfo.next(limit - 100);
-    playlistVideos = playlistVideos.concat(remainingVideos);
-  }
+const searchPlaylist = async (query: string, limit?: number): Promise<SearchResult> => {
+  const playlistInfo: PlaylistInfo = await ytdl.getPlaylist(query, {
+    limit: limit && limit > 0 ? limit : undefined,
+  });
 
   const playlist: Playlist | undefined = playlistInfo.url
     ? {
         title: playlistInfo.title ?? "",
-        url: playlistInfo.url ?? "",
-        thumbnailUrl: playlistInfo.thumbnail?.url,
+        url: playlistInfo.url,
+        thumbnailUrl: playlistInfo.thumbnails.at(-1)?.url,
       }
     : undefined;
 
   return {
-    tracks: playlistVideos.map<Track>((video) => ({
-      ...mapVideoToTrack(video),
-      playlist,
-    })),
+    tracks: playlistInfo.videos.map<Track>((video) =>
+      Object.assign(mapVideoToTrack(video), { playlist }),
+    ),
     playlist,
     source: youtubeEngine.source,
   };
 };
 
-const mapVideoToTrack = (video: YouTubeVideo): Track => {
+const mapVideoToTrack = (
+  video: Pick<VideoSummary, "title" | "url" | "thumbnails" | "lengthSeconds"> & {
+    author: Pick<VideoSummary["author"], "name">;
+  },
+): Track => {
   return {
-    title: video.title ?? "",
+    title: video.title,
     url: video.url,
-    thumbnailUrl: video.thumbnails[0]?.url,
-    duration: video.durationInSec,
-    artist: video.channel?.name,
+    thumbnailUrl: video.thumbnails.at(-1)?.url,
+    duration: video.lengthSeconds ?? 0,
+    artist: video.author.name,
     source: youtubeEngine.source,
   };
 };

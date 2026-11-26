@@ -1,7 +1,7 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { playTracks } from ".";
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown, urlToMarkdown } from "../utils/player";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown, urlToMarkdown } from "../utils/player.js";
+import { playTracks } from "./index.js";
 
 /**
  * Creates a `/add` command for adding tracks to the queue.
@@ -19,23 +19,14 @@ export const createAddCommand: CreateCommandFunc = (playerManager, options) => {
       },
     ],
     run: async (interaction) => {
-      const searchResult = await playTracks(
-        interaction,
-        playerManager,
-        false,
-        options,
-      );
+      const searchResult = await playTracks(interaction, playerManager, false, options);
       if (!searchResult) return false;
 
       if (searchResult.playlist) {
         await interaction.followUp({
           content: playerManager.translations.add.successPlaylist.replace(
             "{playlist}",
-            urlToMarkdown(
-              searchResult.playlist.title,
-              searchResult.playlist.url,
-              true,
-            ),
+            urlToMarkdown(searchResult.playlist.title, searchResult.playlist.url, true),
           ),
         });
         return true;

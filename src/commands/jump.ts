@@ -1,14 +1,11 @@
-import { ApplicationCommandOptionType } from "discord.js";
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown } from "../utils/player";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown } from "../utils/player.js";
 
 /**
  * Creates a `/jump` command for jumping to a specific track inside the queue (will skip all songs before the given track).
  */
-export const createJumpCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createJumpCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "jump",
     description: playerManager.translations.jump.description,
@@ -26,12 +23,14 @@ export const createJumpCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
 
-      await interaction.deferReply({ ephemeral: options?.ephemeral });
+      await interaction.deferReply({
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
+      });
 
       const trackPosition = interaction.options.getInteger("position", true);
 

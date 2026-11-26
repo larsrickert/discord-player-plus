@@ -1,13 +1,10 @@
-import { ApplicationCommandOptionType } from "discord.js";
-import { CreateCommandFunc } from "../types/commands";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/setvolume` command for setting the player volume between 0 and 200.
  */
-export const createSetVolumeCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createSetVolumeCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "setvolume",
     description: playerManager.translations.setvolume.description,
@@ -26,7 +23,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -36,7 +33,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (
       if (!success) {
         await interaction.reply({
           content: playerManager.translations.setvolume.failure,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -46,7 +43,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (
           "{volume}",
           volume.toString(),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

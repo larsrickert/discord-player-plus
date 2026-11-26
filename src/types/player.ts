@@ -1,6 +1,6 @@
 import { VoiceBasedChannel } from "discord.js";
-import { Translations } from "./commands";
-import { PlayerEngine, Track } from "./engines";
+import { Translations } from "./commands.js";
+import { PlayerEngine, Track } from "./engines.js";
 
 // #region PlayerEvents
 export interface PlayerEvents {
@@ -48,7 +48,7 @@ export interface PlayerOptions {
    *
    * @default "high"
    */
-  quality?: "low" | "medium" | "high";
+  quality?: "low" | "high";
   /**
    * Setting to `true` will enable the player to change the volume of the played tracks.
    * Set to `false` for slightly better performance.

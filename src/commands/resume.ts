@@ -1,12 +1,10 @@
-import { CreateCommandFunc } from "../types/commands";
+import { MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/resume` command for resuming the currently paused track.
  */
-export const createResumeCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createResumeCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "resume",
     description: playerManager.translations.resume.description,
@@ -15,7 +13,7 @@ export const createResumeCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -24,14 +22,14 @@ export const createResumeCommand: CreateCommandFunc = (
       if (!paused) {
         await interaction.reply({
           content: playerManager.translations.resume.failure,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
 
       await interaction.reply({
         content: playerManager.translations.resume.success,
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

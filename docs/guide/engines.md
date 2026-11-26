@@ -46,12 +46,12 @@ For security reasons you have to set `fileRoot` of the player options. Only loca
 :::
 
 ```ts
+import path from "node:path";
 import { PlayerManager } from "discord-player-plus";
-import path from "path";
 
 const playerManager = new PlayerManager({
   playerDefaults: {
-    fileRoot: path.join(__dirname, "../path/to/my/folder"),
+    fileRoot: path.join(import.meta.dirname, "../path/to/my/folder"),
   },
 });
 ```

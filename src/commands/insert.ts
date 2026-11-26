@@ -1,15 +1,12 @@
-import { ApplicationCommandOptionType } from "discord.js";
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown } from "../utils/player";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown } from "../utils/player.js";
 
 /**
  * Creates a `/insert` command for adding a track to a specific position in the queue.
  * If the user query searches a playlist instead of a single track, only the first track will be inserted.
  */
-export const createInsertCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createInsertCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "insert",
     description: playerManager.translations.jump.description,
@@ -35,12 +32,14 @@ export const createInsertCommand: CreateCommandFunc = (
       if (!player || !voiceChannel) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
 
-      await interaction.deferReply({ ephemeral: options?.ephemeral });
+      await interaction.deferReply({
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
+      });
 
       const query = interaction.options.getString("query", true);
       const trackIndex = interaction.options.getInteger("position", true) - 1;
@@ -50,10 +49,7 @@ export const createInsertCommand: CreateCommandFunc = (
 
       if (!searchResult?.tracks.length) {
         await interaction.followUp({
-          content: playerManager.translations.play.noTracksFound.replace(
-            "{query}",
-            query,
-          ),
+          content: playerManager.translations.play.noTracksFound.replace("{query}", query),
         });
         return false;
       }
@@ -64,8 +60,7 @@ export const createInsertCommand: CreateCommandFunc = (
       player.insert(track, trackIndex);
 
       // human friendly track position
-      const insertedPosition =
-        trackIndex >= queue.length ? queue.length + 1 : trackIndex + 1;
+      const insertedPosition = trackIndex >= queue.length ? queue.length + 1 : trackIndex + 1;
 
       await interaction.followUp({
         content: playerManager.translations.insert.success

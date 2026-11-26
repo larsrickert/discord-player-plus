@@ -1,14 +1,11 @@
-import { ApplicationCommandOptionType } from "discord.js";
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown } from "../utils/player";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown } from "../utils/player.js";
 
 /**
  * Creates a `/remove` command for removing tracks from the queue.
  */
-export const createRemoveCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createRemoveCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "remove",
     description: playerManager.translations.remove.description,
@@ -26,7 +23,7 @@ export const createRemoveCommand: CreateCommandFunc = (
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -37,7 +34,7 @@ export const createRemoveCommand: CreateCommandFunc = (
       if (!removedTrack) {
         await interaction.reply({
           content: playerManager.translations.remove.failure,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -47,7 +44,7 @@ export const createRemoveCommand: CreateCommandFunc = (
           "{track}",
           trackToMarkdown(removedTrack, true),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },
