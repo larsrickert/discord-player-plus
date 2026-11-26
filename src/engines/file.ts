@@ -1,15 +1,15 @@
+import { stat } from "node:fs/promises";
+import path from "node:path";
 import { StreamType } from "@discordjs/voice";
-import { stat } from "fs/promises";
 import { IAudioMetadata, parseFile } from "music-metadata";
-import path from "path";
-import { PlayerEngine, Track } from "../types/engines";
-import { isSubPath } from "../utils/fs";
+import { PlayerEngine, Track } from "../types/engines.js";
+import { isSubPath } from "../utils/fs.js";
 
-async function isFile(path: string): Promise<boolean> {
+async function isFile(filePath: string): Promise<boolean> {
   try {
-    const stats = await stat(path);
+    const stats = await stat(filePath);
     return stats.isFile();
-  } catch (e) {
+  } catch {
     return false;
   }
 }
@@ -31,7 +31,7 @@ export const fileEngine = {
     let metadata: IAudioMetadata;
     try {
       metadata = await parseFile(query, { skipCovers: true });
-    } catch (e) {
+    } catch {
       return null;
     }
 

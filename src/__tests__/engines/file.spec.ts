@@ -1,17 +1,18 @@
+import path from "node:path";
 import { IAudioMetadata, parseFile } from "music-metadata";
-import path from "path";
 import { Mock, afterEach, describe, expect, it, test, vi } from "vitest";
-import { fileEngine } from "../../engines/file";
-import { Track } from "../../types/engines";
+import { fileEngine } from "../../engines/file.js";
+import { Track } from "../../types/engines.js";
 
 const mockMetadataWithoutData: IAudioMetadata = {
   common: {
     disk: { no: null, of: null },
-    movementIndex: {},
+    movementIndex: { no: null, of: null },
     track: { no: null, of: null },
   },
-  format: { trackInfo: [] },
+  format: { tagTypes: [], trackInfo: [] },
   native: {},
+  nativeTyped: {},
   quality: {
     warnings: [],
   },
@@ -30,7 +31,7 @@ const mockMetadataWithData: IAudioMetadata = {
   },
 };
 
-vi.mock("fs/promises", async () => {
+vi.mock("node:fs/promises", async () => {
   const stat = vi.fn().mockImplementation(() => {
     return {
       isFile: vi.fn().mockImplementation(() => true),
@@ -40,8 +41,8 @@ vi.mock("fs/promises", async () => {
 });
 
 vi.mock("music-metadata", async () => {
-  const parseFile = vi.fn().mockImplementation(() => mockMetadataWithData);
-  return { parseFile };
+  const parseFileMock = vi.fn().mockImplementation(() => mockMetadataWithData);
+  return { parseFile: parseFileMock };
 });
 
 afterEach(() => {
@@ -93,7 +94,7 @@ describe("file engine", () => {
   it("searches track without metadata", async () => {
     (parseFile as Mock).mockImplementation(() => mockMetadataWithoutData);
 
-    const expectedTrack: Track = {
+    const expectedFileTrack: Track = {
       // from file metadata
       url: path.join(fileRoot, "example.mp3"),
       title: "example.mp3",
@@ -101,12 +102,12 @@ describe("file engine", () => {
       source: "file",
     };
 
-    let searchResult = await fileEngine.search(expectedTrack.url, {
+    let searchResult = await fileEngine.search(expectedFileTrack.url, {
       fileRoot,
     });
     expect(searchResult).toEqual({
       source: "file",
-      tracks: [expectedTrack],
+      tracks: [expectedFileTrack],
     });
 
     // handles metadata error

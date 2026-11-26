@@ -1,12 +1,9 @@
-import { CreateCommandFunc } from "../types/commands";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/resume` command for resuming the currently paused track.
  */
-export const createResumeCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createResumeCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "resume",
     description: playerManager.translations.resume.description,

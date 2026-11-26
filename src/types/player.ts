@@ -1,6 +1,6 @@
 import { VoiceBasedChannel } from "discord.js";
-import { Translations } from "./commands";
-import { PlayerEngine, Track } from "./engines";
+import { Translations } from "./commands.js";
+import { PlayerEngine, Track } from "./engines.js";
 
 // #region PlayerEvents
 export interface PlayerEvents {

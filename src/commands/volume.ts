@@ -1,13 +1,10 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { CreateCommandFunc } from "../types/commands";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/setvolume` command for setting the player volume between 0 and 200.
  */
-export const createSetVolumeCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createSetVolumeCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "setvolume",
     description: playerManager.translations.setvolume.description,

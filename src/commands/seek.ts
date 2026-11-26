@@ -1,14 +1,11 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { CreateCommandFunc } from "../types/commands";
-import { formatDuration } from "../utils/player";
+import { CreateCommandFunc } from "../types/commands.js";
+import { formatDuration } from "../utils/player.js";
 
 /**
  * Creates a `/seek` command for seeking the current track to a specific duration.
  */
-export const createSeekCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createSeekCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "seek",
     description: playerManager.translations.seek.description,

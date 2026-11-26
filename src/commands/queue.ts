@@ -1,13 +1,10 @@
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown } from "../utils/player";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown } from "../utils/player.js";
 
 /**
  * Creates a `/queue` command for displaying queued tracks.
  */
-export const createQueueCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createQueueCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "queue",
     description: playerManager.translations.queue.description,

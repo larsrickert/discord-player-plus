@@ -1,12 +1,9 @@
-import { CreateCommandFunc } from "../types/commands";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/clear` command for clearing queued tracks.
  */
-export const createClearCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createClearCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "clear",
     description: playerManager.translations.clear.description,
@@ -22,10 +19,7 @@ export const createClearCommand: CreateCommandFunc = (
 
       const count = player.clear();
       await interaction.reply({
-        content: playerManager.translations.clear.success.replace(
-          "{count}",
-          count.toString(),
-        ),
+        content: playerManager.translations.clear.success.replace("{count}", count.toString()),
         ephemeral: options?.ephemeral,
       });
       return true;

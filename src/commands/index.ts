@@ -5,10 +5,10 @@ import {
   InteractionReplyOptions,
   InteractionType,
 } from "discord.js";
-import { PlayerManager } from "../player-manager";
-import { Command, CreateCommandOptions, Translations } from "../types/commands";
-import { SearchResult } from "../types/engines";
-import { PlayOptions } from "../types/player";
+import { PlayerManager } from "../player-manager.js";
+import { Command, CreateCommandOptions, Translations } from "../types/commands.js";
+import { SearchResult } from "../types/engines.js";
+import { PlayOptions } from "../types/player.js";
 
 /**
  * Helper function to execute slash commands for a given interaction from discord.js. Will check if command is supported, calls its `run` method and handles unexpected errors.
@@ -32,10 +32,7 @@ export async function handleSlashCommand(
   const slashCommand = commands.find((c) => c.name === interaction.commandName);
   if (!slashCommand) {
     return void (await interaction.reply({
-      content: translations.global.unsupportedCommand.replace(
-        "{command}",
-        interaction.commandName,
-      ),
+      content: translations.global.unsupportedCommand.replace("{command}", interaction.commandName),
       ephemeral: true,
     }));
   }
@@ -88,11 +85,10 @@ export async function playTracks(
 
     if (!permissions.has(["Connect", "Speak"])) {
       await interaction.reply({
-        content:
-          playerManager.translations.play.insufficientVoiceChannelPermissions.replace(
-            "{channel}",
-            interaction.member.voice.channel.name,
-          ),
+        content: playerManager.translations.play.insufficientVoiceChannelPermissions.replace(
+          "{channel}",
+          interaction.member.voice.channel.name,
+        ),
         ephemeral: options?.ephemeralError ?? true,
       });
       return null;
@@ -108,19 +104,14 @@ export async function playTracks(
 
   if (!searchResult?.tracks.length) {
     await interaction.followUp({
-      content: playerManager.translations.play.noTracksFound.replace(
-        "{query}",
-        query,
-      ),
+      content: playerManager.translations.play.noTracksFound.replace("{query}", query),
     });
     return null;
   }
 
   // play track(s)
   const playOptions: PlayOptions = {
-    tracks: searchResult.playlist
-      ? searchResult.tracks
-      : searchResult.tracks.slice(0, 1),
+    tracks: searchResult.playlist ? searchResult.tracks : searchResult.tracks.slice(0, 1),
     channel: interaction.member.voice.channel,
   };
 

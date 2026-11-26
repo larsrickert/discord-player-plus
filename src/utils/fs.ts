@@ -1,4 +1,4 @@
-import path from "path";
+import path from "node:path";
 
 export function isSubPath(root: string, subpath: string): boolean {
   const relative = path.relative(root, subpath);

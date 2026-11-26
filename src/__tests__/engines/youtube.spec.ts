@@ -1,8 +1,8 @@
 import playDl, { YouTubePlayList, YouTubeStream, YouTubeVideo } from "play-dl";
 import { beforeEach, describe, expect, test, vi } from "vitest";
 import { mock, mockClear } from "vitest-mock-extended";
-import { Playlist, Track } from "../..";
-import { youtubeEngine } from "../../engines/youtube";
+import { youtubeEngine } from "../../engines/youtube.js";
+import { Playlist, Track } from "../../index.js";
 
 describe.concurrent("youtube engine", () => {
   const mockVideo = mock<YouTubeVideo>({
@@ -40,9 +40,7 @@ describe.concurrent("youtube engine", () => {
     let isResponsible = youtubeEngine.isResponsible(query);
     expect(isResponsible).toBe(true);
 
-    isResponsible = youtubeEngine.isResponsible(
-      query.replace("https://", "http://"),
-    );
+    isResponsible = youtubeEngine.isResponsible(query.replace("https://", "http://"));
     expect(isResponsible).toBe(true);
   });
 
@@ -77,9 +75,7 @@ describe.concurrent("youtube engine", () => {
       }),
     );
 
-    const validateSpy = vi
-      .spyOn(playDl, "yt_validate")
-      .mockReturnValue("playlist");
+    const validateSpy = vi.spyOn(playDl, "yt_validate").mockReturnValue("playlist");
 
     const query = "https://www.youtube.com/playlist?list=testPlaylistId";
 

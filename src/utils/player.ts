@@ -1,4 +1,4 @@
-import { Track } from "../types/engines";
+import { Track } from "../types/engines.js";
 
 /**
  * Checks whether the volume is between 0 and 200 and therefore accepted by a player.
@@ -27,11 +27,7 @@ export function trackToMarkdown(track: Track, escapeUrl = false): string {
  * @param url URL.
  * @param escape Whether to escape the markdown url. Discord will not show a track/url preview then.
  */
-export function urlToMarkdown(
-  title: string,
-  url: string,
-  escape = false,
-): string {
+export function urlToMarkdown(title: string, url: string, escape = false): string {
   return escape ? `[${title}](<${url}>)` : `[${title}](${url})`;
 }
 
@@ -49,7 +45,5 @@ export function formatDuration(durationInSecs: number): string {
       .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   }
 
-  return `${minutes.toString().padStart(2, "0")}:${seconds
-    .toString()
-    .padStart(2, "0")}`;
+  return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 }

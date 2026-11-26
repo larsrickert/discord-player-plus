@@ -68,17 +68,13 @@ slashCommands.push(
 );
 
 client
-  .on("clientReady", async (client) => {
-    console.log(`Bot ready and logged in as ${client.user.tag}`);
-    await client.application.commands.set(slashCommands);
-    client.user.setActivity({ name: "/help", type: ActivityType.Listening });
+  .on("clientReady", async (readyClient) => {
+    console.log(`Bot ready and logged in as ${readyClient.user.tag}`);
+    await readyClient.application.commands.set(slashCommands);
+    readyClient.user.setActivity({ name: "/help", type: ActivityType.Listening });
   })
   .on("interactionCreate", async (interaction) => {
-    await handleSlashCommand(
-      interaction,
-      slashCommands,
-      playerManager.translations,
-    );
+    await handleSlashCommand(interaction, slashCommands, playerManager.translations);
   });
 
 client.login(config.app.clientToken);

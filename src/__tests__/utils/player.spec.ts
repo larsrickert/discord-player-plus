@@ -1,11 +1,11 @@
 import { describe, expect, it, test } from "vitest";
-import { Track } from "../../types/engines";
+import { Track } from "../../types/engines.js";
 import {
   formatDuration,
   trackToMarkdown,
   urlToMarkdown,
   validateVolume,
-} from "../../utils/player";
+} from "../../utils/player.js";
 
 describe.concurrent("player util", () => {
   test.each([
@@ -26,17 +26,13 @@ describe.concurrent("player util", () => {
       url: "https://example.com",
     };
 
-    expect(trackToMarkdown(track)).toBe(
-      "[Example track](https://example.com) (01:01)",
-    );
+    expect(trackToMarkdown(track)).toBe("[Example track](https://example.com) (01:01)");
 
     expect(trackToMarkdown({ ...track, artist: "Test artist" })).toBe(
       "[Example track](https://example.com) (01:01), Test artist",
     );
 
-    expect(trackToMarkdown(track, true)).toBe(
-      "[Example track](<https://example.com>) (01:01)",
-    );
+    expect(trackToMarkdown(track, true)).toBe("[Example track](<https://example.com>) (01:01)");
 
     expect(trackToMarkdown({ ...track, artist: "Test artist" }, true)).toBe(
       "[Example track](<https://example.com>) (01:01), Test artist",

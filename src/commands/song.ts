@@ -1,13 +1,10 @@
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown } from "../utils/player";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown } from "../utils/player.js";
 
 /**
  * Creates a `/song` command for getting information about the currently played track.
  */
-export const createSongCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createSongCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "song",
     description: playerManager.translations.song.description,

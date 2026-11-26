@@ -2,9 +2,9 @@ import { YouTubeStream } from "play-dl";
 import spotify, { Tracks } from "spotify-url-info";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
-import { SpotifyPlaylist, spotifyEngine } from "../../engines/spotify";
-import { youtubeEngine } from "../../engines/youtube";
-import { Playlist, Track } from "../../types/engines";
+import { SpotifyPlaylist, spotifyEngine } from "../../engines/spotify.js";
+import { youtubeEngine } from "../../engines/youtube.js";
+import { Playlist, Track } from "../../types/engines.js";
 
 const expectedTrack = {
   url: "testUrl",
@@ -44,7 +44,7 @@ vi.mock("spotify-url-info", async (importOriginal) => {
               coverArt: { sources: [{ url: expectedPlaylist.thumbnailUrl }] },
               name: expectedPlaylist.title,
               type: "playlist",
-              trackList: new Array(100).fill("").map(() => ({
+              trackList: Array.from({ length: 100 }, () => ({
                 ...mock<Tracks>({
                   name: expectedTrack.title,
                   duration: expectedTrack.duration * 1000,
@@ -74,10 +74,7 @@ describe.concurrent("spotify engine", () => {
     let isResponsible = spotifyEngine.isResponsible(query, {});
     expect(isResponsible).toBe(true);
 
-    isResponsible = spotifyEngine.isResponsible(
-      query.replace("https://", "http://"),
-      {},
-    );
+    isResponsible = spotifyEngine.isResponsible(query.replace("https://", "http://"), {});
     expect(isResponsible).toBe(true);
   });
 
@@ -90,11 +87,7 @@ describe.concurrent("spotify engine", () => {
   });
 
   it("searches playlist", async () => {
-    const searchResult = await spotifyEngine.search(
-      expectedPlaylist.url,
-      {},
-      {},
-    );
+    const searchResult = await spotifyEngine.search(expectedPlaylist.url, {}, {});
 
     expect(searchResult).not.toBeNull();
     expect(searchResult?.source).toBe("spotify");
@@ -119,12 +112,10 @@ describe.concurrent("spotify engine", () => {
   });
 
   it("gets stream", async () => {
-    const youtubeSearchSpy = vi
-      .spyOn(youtubeEngine, "search")
-      .mockResolvedValue({
-        source: youtubeEngine.source,
-        tracks: [expectedTrack],
-      });
+    const youtubeSearchSpy = vi.spyOn(youtubeEngine, "search").mockResolvedValue({
+      source: youtubeEngine.source,
+      tracks: [expectedTrack],
+    });
     const youtubeStreamSpy = vi
       .spyOn(youtubeEngine, "getStream")
       .mockResolvedValue(mock<YouTubeStream>());

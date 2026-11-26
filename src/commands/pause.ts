@@ -1,12 +1,9 @@
-import { CreateCommandFunc } from "../types/commands";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/pause` command for pausing the current track.
  */
-export const createPauseCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createPauseCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "pause",
     description: playerManager.translations.pause.description,

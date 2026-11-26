@@ -1,14 +1,9 @@
 import { deepmerge } from "deepmerge-ts";
 import { TypedEmitter } from "tiny-typed-emitter";
-
-import en from "./languages/en.json";
-import { Player } from "./player";
-import { Translations } from "./types/commands";
-import {
-  PlayerManagerEvents,
-  PlayerManagerOptions,
-  PlayerOptions,
-} from "./types/player";
+import en from "./languages/en.json" with { type: "json" };
+import { Player } from "./player.js";
+import { Translations } from "./types/commands.js";
+import { PlayerManagerEvents, PlayerManagerOptions, PlayerOptions } from "./types/player.js";
 
 export class PlayerManager extends TypedEmitter<PlayerManagerEvents> {
   private players: Player[] = [];
@@ -64,6 +59,6 @@ export class PlayerManager extends TypedEmitter<PlayerManagerEvents> {
     const player = this.find(guildId);
     if (!player) return;
     player.stop();
-    this.players = this.players.filter((player) => player.guildId !== guildId);
+    this.players = this.players.filter((p) => p.guildId !== guildId);
   }
 }

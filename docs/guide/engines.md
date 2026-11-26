@@ -46,8 +46,8 @@ For security reasons you have to set `fileRoot` of the player options. Only loca
 :::
 
 ```ts
+import path from "node:path";
 import { PlayerManager } from "discord-player-plus";
-import path from "path";
 
 const playerManager = new PlayerManager({
   playerDefaults: {

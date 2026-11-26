@@ -1,8 +1,7 @@
 import playDl, { YouTubeVideo } from "play-dl";
-import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines";
+import { PlayerEngine, Playlist, SearchResult, Track } from "../types/engines.js";
 
-const responsibleRegex =
-  /^https?:\/\/((www\.|music\.)?youtube\.com|youtu\.be)\//;
+const responsibleRegex = /^https?:\/\/((www\.|music\.)?youtube\.com|youtu\.be)\//;
 
 /**
  * Player engine to search/stream tracks from YouTube.
@@ -32,21 +31,13 @@ export const youtubeEngine = {
   },
   async getStream(track, playerOptions) {
     return await playDl.stream(track.url, {
-      quality:
-        playerOptions.quality === "low"
-          ? 0
-          : playerOptions.quality === "medium"
-            ? 1
-            : 2,
+      quality: playerOptions.quality === "low" ? 0 : playerOptions.quality === "medium" ? 1 : 2,
       seek: track?.seek ? track.seek / 1000 : undefined,
     });
   },
 } as const satisfies PlayerEngine;
 
-const searchPlaylist = async (
-  query: string,
-  limit?: number,
-): Promise<SearchResult> => {
+const searchPlaylist = async (query: string, limit?: number): Promise<SearchResult> => {
   const playlistInfo = await playDl.playlist_info(query, { incomplete: true });
   let playlistVideos: YouTubeVideo[] = playlistInfo.page(1);
 
@@ -69,10 +60,9 @@ const searchPlaylist = async (
     : undefined;
 
   return {
-    tracks: playlistVideos.map<Track>((video) => ({
-      ...mapVideoToTrack(video),
-      playlist,
-    })),
+    tracks: playlistVideos.map<Track>((video) =>
+      Object.assign(mapVideoToTrack(video), { playlist }),
+    ),
     playlist,
     source: youtubeEngine.source,
   };

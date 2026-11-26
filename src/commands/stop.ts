@@ -1,12 +1,9 @@
-import { CreateCommandFunc } from "../types/commands";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/stop` command for stopping the playback and leaving the voice channel.
  */
-export const createStopCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createStopCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "stop",
     description: playerManager.translations.stop.description,

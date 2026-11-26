@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { isSubPath } from "../../utils/fs";
+import { isSubPath } from "../../utils/fs.js";
 
 describe.concurrent("fs util", () => {
   test.each([

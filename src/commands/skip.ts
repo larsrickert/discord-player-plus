@@ -1,13 +1,10 @@
-import { CreateCommandFunc } from "../types/commands";
-import { trackToMarkdown } from "../utils/player";
+import { CreateCommandFunc } from "../types/commands.js";
+import { trackToMarkdown } from "../utils/player.js";
 
 /**
  * Creates a `/skip` command for skipping the current track.
  */
-export const createSkipCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createSkipCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "skip",
     description: playerManager.translations.skip.description,

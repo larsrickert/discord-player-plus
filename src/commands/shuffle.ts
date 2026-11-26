@@ -1,12 +1,9 @@
-import { CreateCommandFunc } from "../types/commands";
+import { CreateCommandFunc } from "../types/commands.js";
 
 /**
  * Creates a `/shuffle` command for shuffling the queue.
  */
-export const createShuffleCommand: CreateCommandFunc = (
-  playerManager,
-  options,
-) => {
+export const createShuffleCommand: CreateCommandFunc = (playerManager, options) => {
   return {
     name: "shuffle",
     description: playerManager.translations.shuffle.description,

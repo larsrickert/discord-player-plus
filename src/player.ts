@@ -11,8 +11,8 @@ import {
 } from "@discordjs/voice";
 import { VoiceBasedChannel } from "discord.js";
 import { TypedEmitter } from "tiny-typed-emitter";
-import { playerEngines } from "./engines";
-import { PlayerEngine, SearchOptions, Track } from "./types/engines";
+import { playerEngines } from "./engines/index.js";
+import { PlayerEngine, SearchOptions, Track } from "./types/engines.js";
 import {
   PlayerError,
   PlayerErrorCode,
@@ -20,13 +20,20 @@ import {
   PlayerOptions,
   PlayerRepeatMode,
   PlayOptions,
-} from "./types/player";
-import { validateVolume } from "./utils/player";
+} from "./types/player.js";
+import { validateVolume } from "./utils/player.js";
 
 interface AudioPlayerMetadata {
   channel: VoiceBasedChannel;
   track: Track;
 }
+
+// temp fix for issue that bot stops playing after around 60 seconds
+// see: https://github.com/discordjs/discord.js/issues/9185#issuecomment-1452514375
+const networkStateChangeListener = (oldNetworkState: object, newNetworkState: object) => {
+  const newUdp = Reflect.get(newNetworkState, "udp");
+  clearInterval(newUdp?.keepAliveInterval);
+};
 
 export class Player extends TypedEmitter<PlayerEvents> {
   private readonly audioPlayer = createAudioPlayer();
@@ -45,13 +52,11 @@ export class Player extends TypedEmitter<PlayerEvents> {
       // the following player events are based on discord voice life cycle, see: https://discordjs.guide/voice/audio-player.html#life-cycle
       const oldTrack =
         oldState.status !== AudioPlayerStatus.Idle
-          ? (oldState.resource as NonNullable<typeof this.audioResource>)
-              .metadata.track
+          ? (oldState.resource as NonNullable<typeof this.audioResource>).metadata.track
           : undefined;
       const newTrack =
         newState.status !== AudioPlayerStatus.Idle
-          ? (newState.resource as NonNullable<typeof this.audioResource>)
-              .metadata.track
+          ? (newState.resource as NonNullable<typeof this.audioResource>).metadata.track
           : undefined;
 
       // check if new track has started (will also be emitted when current track has been seeked)
@@ -66,9 +71,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
       // check if track has ended (will NOT be emitted when player was destroyed while playing)
       const playingTrackEnded =
         oldState.status === AudioPlayerStatus.Playing &&
-        ![AudioPlayerStatus.Paused, AudioPlayerStatus.AutoPaused].includes(
-          newState.status,
-        );
+        ![AudioPlayerStatus.Paused, AudioPlayerStatus.AutoPaused].includes(newState.status);
       const pausedTrackEnded =
         oldState.status === AudioPlayerStatus.Paused &&
         newState.status === AudioPlayerStatus.Buffering;
@@ -85,9 +88,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
         const nextTrack = await this.getNextTrack();
 
         if (nextTrack) {
-          const voiceChannel = (
-            oldState.resource as AudioResource<AudioPlayerMetadata>
-          ).metadata.channel;
+          const voiceChannel = (oldState.resource as AudioResource<AudioPlayerMetadata>).metadata
+            .channel;
 
           await this.play({
             channel: voiceChannel,
@@ -126,10 +128,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
     // check if player is allowed to switch channels when already playing in another voice channel
     if (!(this.options.allowSwitchChannels ?? true)) {
       const currentConnection = getVoiceConnection(channel.guildId);
-      if (
-        currentConnection &&
-        currentConnection.joinConfig.channelId !== channel.id
-      ) {
+      if (currentConnection && currentConnection.joinConfig.channelId !== channel.id) {
         const error = new PlayerError(
           PlayerErrorCode.REFUSED_TO_SWITCH_VOICE_CHANNEL,
           `Refused to join voice channel ${channel.id} because player is already connected to voice channel ${currentConnection.joinConfig.channelId}`,
@@ -157,7 +156,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
             entersState(connection, VoiceConnectionStatus.Connecting, 5_000),
           ]);
           // seems to be reconnecting to a new channel - ignore disconnect
-        } catch (error) {
+        } catch {
           // seems to be a real disconnect
           connection.destroy();
         }
@@ -171,14 +170,6 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
     // temp fix for issue that bot stops playing after around 60 seconds
     // see: https://github.com/discordjs/discord.js/issues/9185#issuecomment-1452514375
-    const networkStateChangeListener = (
-      oldNetworkState: object,
-      newNetworkState: object,
-    ) => {
-      const newUdp = Reflect.get(newNetworkState, "udp");
-      clearInterval(newUdp?.keepAliveInterval);
-    };
-
     connection.on("stateChange", (oldState, newState) => {
       const oldNetworking = Reflect.get(oldState, "networking");
       const newNetworking = Reflect.get(newState, "networking");
@@ -205,9 +196,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
    * @throws PlayerError if unexpected error occurred while trying to play tracks.
    */
   async play(options: PlayOptions): Promise<void> {
-    const track: Track | undefined = options.tracks.length
-      ? options.tracks[0]
-      : this.queue.shift();
+    const track: Track | undefined = options.tracks.length ? options.tracks[0] : this.queue.shift();
     if (!track) return;
 
     const inlineVolume = this.options.inlineVolume ?? true;
@@ -242,10 +231,10 @@ export class Player extends TypedEmitter<PlayerEvents> {
     let skippedTrack: Track | undefined;
 
     if (options.addSkippedTrackToQueue) {
-      const track = this.getCurrentTrack();
-      if (track) {
-        track.seek = this.getPlaybackDuration();
-        skippedTrack = track;
+      const currentTrack = this.getCurrentTrack();
+      if (currentTrack) {
+        currentTrack.seek = this.getPlaybackDuration();
+        skippedTrack = currentTrack;
       }
     }
 
@@ -263,9 +252,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
 
           const error = new PlayerError(
             PlayerErrorCode.INITIAL_VOLUME_FUNCTION_ERROR,
-            `Unexpected error for custom initial volume function: ${
-              (e as Error).message
-            }`,
+            `Unexpected error for custom initial volume function: ${(e as Error).message}`,
           );
           this.emit("error", error);
         }
@@ -340,9 +327,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
     if (shouldPause && this.isPaused()) return true;
     if (!shouldPause && this.isPlaying()) return true;
 
-    return shouldPause
-      ? this.audioPlayer.pause(true)
-      : this.audioPlayer.unpause();
+    return shouldPause ? this.audioPlayer.pause(true) : this.audioPlayer.unpause();
   }
 
   /**
@@ -426,6 +411,7 @@ export class Player extends TypedEmitter<PlayerEvents> {
     );
 
     for (const [source, engine] of entries) {
+      // oxlint-disable-next-line no-await-in-loop -- sequential on purpose: first match wins
       if (await engine.isResponsible(query, this.options)) {
         return source;
       }
@@ -439,12 +425,8 @@ export class Player extends TypedEmitter<PlayerEvents> {
    *
    * @returns Search result.
    */
-  async search(
-    query: string,
-    options?: SearchOptions,
-  ): ReturnType<PlayerEngine["search"]> {
-    const trackSource =
-      options?.source || (await this.detectTrackSource(query));
+  async search(query: string, options?: SearchOptions): ReturnType<PlayerEngine["search"]> {
+    const trackSource = options?.source || (await this.detectTrackSource(query));
     const playerEngine = this.getEngine(trackSource);
     if (!playerEngine) return null;
     return await playerEngine.search(query, this.options, options);
