@@ -1,5 +1,5 @@
-import { PlayerOptions } from "discord-player-plus";
 import path from "node:path";
+import { PlayerOptions } from "discord-player-plus";
 
 export const config = {
   app: {

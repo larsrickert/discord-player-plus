@@ -391,9 +391,7 @@ Gets the playback duration (already played time) of the current track in millise
 
   ```ts
   const duration = player.getPlaybackDuration();
-  console.log(
-    `Current track is playing for ${Math.round(duration / 1000)} seconds`
-  );
+  console.log(`Current track is playing for ${Math.round(duration / 1000)} seconds`);
   ```
 
 ### search()
@@ -415,9 +413,7 @@ Searches tracks for the given query.
   if (!searchResult?.tracks.length) {
     console.log("No search results found for Despacito");
   } else {
-    console.log(
-      `Found ${searchResult.tracks.length} matching tracks for Despacito`
-    );
+    console.log(`Found ${searchResult.tracks.length} matching tracks for Despacito`);
   }
   ```
 
