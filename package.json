@@ -25,18 +25,17 @@
     "CHANGELOG.md"
   ],
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
       "import": "./dist/index.js"
     }
   },
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean --tsconfig tsconfig.app.json",
+    "build": "tsup src/index.ts --format esm --dts --clean --tsconfig tsconfig.app.json",
     "watch": "pnpm run build --watch src",
     "test": "vitest --coverage",
     "lint": "oxlint",
