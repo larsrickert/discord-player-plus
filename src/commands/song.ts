@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 import { trackToMarkdown } from "../utils/player.js";
 
@@ -15,7 +16,7 @@ export const createSongCommand: CreateCommandFunc = (playerManager, options) => 
       if (!player || !currentTrack) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -25,7 +26,7 @@ export const createSongCommand: CreateCommandFunc = (playerManager, options) => 
           "{track}",
           trackToMarkdown(currentTrack),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

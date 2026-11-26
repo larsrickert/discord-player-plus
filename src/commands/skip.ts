@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 import { trackToMarkdown } from "../utils/player.js";
 
@@ -13,7 +14,7 @@ export const createSkipCommand: CreateCommandFunc = (playerManager, options) => 
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -23,7 +24,7 @@ export const createSkipCommand: CreateCommandFunc = (playerManager, options) => 
       if (!track) {
         await interaction.reply({
           content: playerManager.translations.skip.failure,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -33,7 +34,7 @@ export const createSkipCommand: CreateCommandFunc = (playerManager, options) => 
           "{song}",
           trackToMarkdown(track, true),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

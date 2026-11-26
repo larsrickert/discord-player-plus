@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 import { trackToMarkdown } from "../utils/player.js";
 
@@ -23,7 +23,7 @@ export const createRemoveCommand: CreateCommandFunc = (playerManager, options) =
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -34,7 +34,7 @@ export const createRemoveCommand: CreateCommandFunc = (playerManager, options) =
       if (!removedTrack) {
         await interaction.reply({
           content: playerManager.translations.remove.failure,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -44,7 +44,7 @@ export const createRemoveCommand: CreateCommandFunc = (playerManager, options) =
           "{track}",
           trackToMarkdown(removedTrack, true),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

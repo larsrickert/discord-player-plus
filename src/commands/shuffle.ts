@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 
 /**
@@ -12,7 +13,7 @@ export const createShuffleCommand: CreateCommandFunc = (playerManager, options) 
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -21,7 +22,7 @@ export const createShuffleCommand: CreateCommandFunc = (playerManager, options) 
 
       await interaction.reply({
         content: playerManager.translations.shuffle.success,
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

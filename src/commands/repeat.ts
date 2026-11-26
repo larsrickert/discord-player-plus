@@ -1,4 +1,8 @@
-import { ApplicationCommandOptionChoiceData, ApplicationCommandOptionType } from "discord.js";
+import {
+  ApplicationCommandOptionChoiceData,
+  ApplicationCommandOptionType,
+  MessageFlags,
+} from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 import { PlayerRepeatMode } from "../types/player.js";
 
@@ -36,7 +40,7 @@ export const createRepeatCommand: CreateCommandFunc = (playerManager, options) =
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -51,7 +55,7 @@ export const createRepeatCommand: CreateCommandFunc = (playerManager, options) =
             PlayerRepeatMode[mode].toString().toLowerCase()
           ] ?? "",
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

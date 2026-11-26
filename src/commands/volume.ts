@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 
 /**
@@ -23,7 +23,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (playerManager, options
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -33,7 +33,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (playerManager, options
       if (!success) {
         await interaction.reply({
           content: playerManager.translations.setvolume.failure,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -43,7 +43,7 @@ export const createSetVolumeCommand: CreateCommandFunc = (playerManager, options
           "{volume}",
           volume.toString(),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

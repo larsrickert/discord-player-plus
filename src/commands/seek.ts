@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 import { formatDuration } from "../utils/player.js";
 
@@ -23,12 +23,14 @@ export const createSeekCommand: CreateCommandFunc = (playerManager, options) => 
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
 
-      await interaction.deferReply({ ephemeral: options?.ephemeral });
+      await interaction.deferReply({
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
+      });
 
       const time = interaction.options.getNumber("time", true);
 
@@ -45,7 +47,7 @@ export const createSeekCommand: CreateCommandFunc = (playerManager, options) => 
           "{duration}",
           formatDuration(time),
         ),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },

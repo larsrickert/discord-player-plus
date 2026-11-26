@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType } from "discord.js";
+import { ApplicationCommandOptionType, MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 import { trackToMarkdown } from "../utils/player.js";
 
@@ -32,12 +32,14 @@ export const createInsertCommand: CreateCommandFunc = (playerManager, options) =
       if (!player || !voiceChannel) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
 
-      await interaction.deferReply({ ephemeral: options?.ephemeral });
+      await interaction.deferReply({
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
+      });
 
       const query = interaction.options.getString("query", true);
       const trackIndex = interaction.options.getInteger("position", true) - 1;

@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 import { trackToMarkdown } from "../utils/player.js";
 
@@ -13,7 +14,7 @@ export const createQueueCommand: CreateCommandFunc = (playerManager, options) =>
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -24,7 +25,7 @@ export const createQueueCommand: CreateCommandFunc = (playerManager, options) =>
       if (!currentTrack || !tracks.length) {
         await interaction.reply({
           content: playerManager.translations.queue.empty,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -48,7 +49,10 @@ export const createQueueCommand: CreateCommandFunc = (playerManager, options) =>
         break;
       }
 
-      await interaction.reply({ content, ephemeral: options?.ephemeral });
+      await interaction.reply({
+        content,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
+      });
       return true;
     },
   };

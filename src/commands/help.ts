@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { PlayerManager } from "../player-manager.js";
 import { Command, CreateHelpCommandOptions } from "../types/commands.js";
 
@@ -41,7 +42,7 @@ export const createHelpCommand = (
               : undefined,
           },
         ],
-        ephemeral: true,
+        flags: MessageFlags.Ephemeral,
       });
       return true;
     },

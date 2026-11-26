@@ -4,6 +4,7 @@ import {
   Interaction,
   InteractionReplyOptions,
   InteractionType,
+  MessageFlags,
 } from "discord.js";
 import { PlayerManager } from "../player-manager.js";
 import { Command, CreateCommandOptions, Translations } from "../types/commands.js";
@@ -33,14 +34,14 @@ export async function handleSlashCommand(
   if (!slashCommand) {
     return void (await interaction.reply({
       content: translations.global.unsupportedCommand.replace("{command}", interaction.commandName),
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     }));
   }
 
   if (!interaction.inCachedGuild()) {
     return void (await interaction.reply({
       content: translations.global.unknownGuild,
-      ephemeral: true,
+      flags: MessageFlags.Ephemeral,
     }));
   }
 
@@ -72,7 +73,7 @@ export async function playTracks(
   if (!interaction.member.voice.channel) {
     await interaction.reply({
       content: playerManager.translations.play.userNotInVoiceChannel,
-      ephemeral: options?.ephemeralError ?? true,
+      flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
     });
     return null;
   }
@@ -89,7 +90,7 @@ export async function playTracks(
           "{channel}",
           interaction.member.voice.channel.name,
         ),
-        ephemeral: options?.ephemeralError ?? true,
+        flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
       });
       return null;
     }
@@ -97,7 +98,7 @@ export async function playTracks(
 
   const player = playerManager.get(interaction.guildId);
   const query = interaction.options.getString("query", true);
-  await interaction.deferReply({ ephemeral: options?.ephemeral });
+  await interaction.deferReply({ flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined });
 
   // search tracks
   const searchResult = await player.search(query);

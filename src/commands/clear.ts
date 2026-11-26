@@ -1,3 +1,4 @@
+import { MessageFlags } from "discord.js";
 import { CreateCommandFunc } from "../types/commands.js";
 
 /**
@@ -12,7 +13,7 @@ export const createClearCommand: CreateCommandFunc = (playerManager, options) =>
       if (!player) {
         await interaction.reply({
           content: playerManager.translations.global.noGuildPlayer,
-          ephemeral: options?.ephemeralError ?? true,
+          flags: (options?.ephemeralError ?? true) ? MessageFlags.Ephemeral : undefined,
         });
         return false;
       }
@@ -20,7 +21,7 @@ export const createClearCommand: CreateCommandFunc = (playerManager, options) =>
       const count = player.clear();
       await interaction.reply({
         content: playerManager.translations.clear.success.replace("{count}", count.toString()),
-        ephemeral: options?.ephemeral,
+        flags: options?.ephemeral ? MessageFlags.Ephemeral : undefined,
       });
       return true;
     },
