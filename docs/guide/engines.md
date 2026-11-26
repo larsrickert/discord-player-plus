@@ -51,7 +51,7 @@ import { PlayerManager } from "discord-player-plus";
 
 const playerManager = new PlayerManager({
   playerDefaults: {
-    fileRoot: path.join(__dirname, "../path/to/my/folder"),
+    fileRoot: path.join(import.meta.dirname, "../path/to/my/folder"),
   },
 });
 ```

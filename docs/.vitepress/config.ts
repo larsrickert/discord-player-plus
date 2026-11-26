@@ -1,5 +1,5 @@
 import { defineConfig } from "vitepress";
-import pkg from "../../package.json";
+import pkg from "../../package.json" with { type: "json" };
 
 export default defineConfig({
   lang: "en-US",
@@ -9,7 +9,7 @@ export default defineConfig({
 
   themeConfig: {
     logo: "/logo.png",
-    externalLinkIcon:true,
+    externalLinkIcon: true,
     socialLinks: [
       {
         icon: "github",
@@ -25,7 +25,7 @@ export default defineConfig({
     },
     footer: {
       message: `Released under the ${pkg.license} License.`,
-      copyright: `Copyright © 2022-present ${pkg.author.name}`,
+      copyright: `Copyright © ${new Date().getFullYear()} ${pkg.author.name}`,
     },
     search: {
       provider: "local",
