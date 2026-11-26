@@ -1,12 +1,12 @@
 # build stage
-FROM node:20 as build
+FROM node:26 AS build
 WORKDIR /app
 
-COPY pnpm-lock.yaml package.json ./
+COPY pnpm-lock.yaml package.json pnpm-workspace.yaml ./
 
 # install pnpm as defined in package.json
-RUN npm i -g $(node -p "require('./package.json').packageManager")
-
+RUN npm install -g corepack
+RUN corepack enable
 RUN pnpm install --frozen-lockfile
 
 COPY . ./

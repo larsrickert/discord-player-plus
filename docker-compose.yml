@@ -1,10 +1,8 @@
-version: "3"
-
 services:
   docs:
     build: .
     image: larsrickert/nginx-proxy-docs
-    restart: always
+    restart: unless-stopped
     environment:
       VIRTUAL_HOST: discordplayerplus.lars-rickert.de
       LETSENCRYPT_HOST: discordplayerplus.lars-rickert.de
