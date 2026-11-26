@@ -10,6 +10,7 @@ const external = [
 
 export default defineConfig({
   input: "src/index.ts",
+  tsconfig: "tsconfig.app.json",
   output: {
     cleanDir: true,
   },
