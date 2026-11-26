@@ -48,7 +48,7 @@ export interface PlayerOptions {
    *
    * @default "high"
    */
-  quality?: "low" | "medium" | "high";
+  quality?: "low" | "high";
   /**
    * Setting to `true` will enable the player to change the volume of the played tracks.
    * Set to `false` for slightly better performance.

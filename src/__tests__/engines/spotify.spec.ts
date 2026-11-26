@@ -1,4 +1,5 @@
-import { YouTubeStream } from "play-dl";
+import { Readable } from "node:stream";
+import { StreamType } from "@discordjs/voice";
 import spotify, { Tracks } from "spotify-url-info";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { mock } from "vitest-mock-extended";
@@ -118,7 +119,7 @@ describe.concurrent("spotify engine", () => {
     });
     const youtubeStreamSpy = vi
       .spyOn(youtubeEngine, "getStream")
-      .mockResolvedValue(mock<YouTubeStream>());
+      .mockResolvedValue({ stream: new Readable(), type: StreamType.Arbitrary });
 
     await spotifyEngine.getStream(expectedTrack, {});
     expect(youtubeSearchSpy).toHaveBeenCalledOnce();

@@ -49,12 +49,12 @@
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
+    "@distube/ytdl-core": "^5.2.1",
     "deepmerge-ts": "^8.0.2",
     "discord-api-types": "~0.38.60",
     "isomorphic-unfetch": "^4.0.2",
     "libsodium-wrappers": "~0.8.4",
     "music-metadata": "^12.8.1",
-    "play-dl": "^1.9.7",
     "spotify-url-info": "^3.3.3",
     "tiny-typed-emitter": "^2.1.0"
   },
