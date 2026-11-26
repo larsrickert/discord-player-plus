@@ -1,11 +1,11 @@
 {
   "name": "discord-bot-example",
-  "description": "Example Discord bot for playing music and sounds written in TypeScript.",
   "version": "0.0.1",
-  "type": "module",
-  "license": "MIT",
-  "main": "./dist/index.js",
   "private": true,
+  "description": "Example Discord bot for playing music and sounds written in TypeScript.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "rimraf dist && tsc",
     "start": "node --env-file=.env ."

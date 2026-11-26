@@ -66,7 +66,7 @@ slashCommands.push(
       url: "https://lars-rickert.de",
       iconUrl: "https://avatars.githubusercontent.com/u/67898185?v=4",
     },
-  })
+  }),
 );
 ```
 
@@ -100,8 +100,7 @@ import { PlayerManager, en, Translations } from "discord-player-plus";
 const customTranslations: Translations = en;
 
 // change a specific message
-customTranslations.global.unsupportedCommand =
-  '❌ I dont know your requested command "{command}"!';
+customTranslations.global.unsupportedCommand = '❌ I dont know your requested command "{command}"!';
 
 const playerManager = new PlayerManager({
   translations: customTranslations,
